@@ -1,10 +1,10 @@
 declare module '@capacitor/core' {
   interface PluginRegistry {
-    DatetimePlugin: DatetimeProtocol;
+    DatepickPlugin: DatepickProtocol;
   }
 }
 
-export interface DatetimeProtocol {
+export interface DatepickProtocol {
   present(options: any): Promise<{ value: string }>;
   darkMode(): Promise<any>;
   lightMode(): Promise<any>;

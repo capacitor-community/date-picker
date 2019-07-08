@@ -9,8 +9,8 @@ import UIKit
  * Created by Stewan Silva on 07/07/2019
  */
 
-@objc(DatetimePlugin)
-public class DatetimePlugin: CAPPlugin {
+@objc(DatepickPlugin)
+public class DatepickPlugin: CAPPlugin {
   
   private var datePicker = DatepickerController()
   

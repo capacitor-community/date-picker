@@ -1,4 +1,4 @@
-package io.stewan.capacitor.datetime;
+package io.stewan.capacitor.datepick;
 
 import com.getcapacitor.JSObject;
 import com.getcapacitor.NativePlugin;
@@ -7,7 +7,7 @@ import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 
 @NativePlugin()
-public class DatetimePlugin extends Plugin {
+public class DatepickPlugin extends Plugin {
 
     @PluginMethod()
     public void echo(PluginCall call) {

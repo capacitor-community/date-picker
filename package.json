@@ -1,7 +1,7 @@
 {
-  "name": "capacitor-datetime",
+  "name": "capacitor-datepick",
   "version": "0.0.1",
-  "description": "Native Datetime Plugin for Capacitor Apps",
+  "description": "Native Datetime Picker Plugin for Capacitor Apps",
   "main": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
   "scripts": {
@@ -24,7 +24,7 @@
     "dist/",
     "ios/",
     "android/",
-    "CapacitorDatetime.podspec"
+    "CapacitorPick.podspec"
   ],
   "keywords": [
     "capacitor",
@@ -41,9 +41,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/stewwan/capacitor-datetime"
+    "url": "https://github.com/stewwan/capacitor-datepick"
   },
   "bugs": {
-    "url": "https://github.com/stewwan/capacitor-datetime/issues"
+    "url": "https://github.com/stewwan/capacitor-datepick/issues"
   }
 }

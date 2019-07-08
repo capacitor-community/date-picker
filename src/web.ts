@@ -1,10 +1,10 @@
 // import { WebPlugin } from '@capacitor/core';
-// import { DatetimePluginPlugin } from './definitions';
+// import { DatepickPluginPlugin } from './definitions';
 
-// export class DatetimePluginWeb extends WebPlugin implements DatetimePluginPlugin {
+// export class DatepickPluginWeb extends WebPlugin implements DatepickPluginPlugin {
 //   constructor() {
 //     super({
-//       name: 'DatetimePlugin',
+//       name: 'DatepickPlugin',
 //       platforms: ['web']
 //     });
 //   }
@@ -15,9 +15,9 @@
 //   }
 // }
 
-// const DatetimePlugin = new DatetimePluginWeb();
+// const DatepickPlugin = new DatepickPluginWeb();
 
-// export { DatetimePlugin };
+// export { DatepickPlugin };
 
 // import { registerWebPlugin } from '@capacitor/core';
-// registerWebPlugin(DatetimePlugin);
+// registerWebPlugin(DatepickPlugin);
