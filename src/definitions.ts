@@ -5,5 +5,7 @@ declare module '@capacitor/core' {
 }
 
 export interface DatetimeProtocol {
-  echo(options: any): Promise<any>;
+  present(options: any): Promise<{ value: string }>;
+  darkMode(): Promise<any>;
+  lightMode(): Promise<any>;
 }
