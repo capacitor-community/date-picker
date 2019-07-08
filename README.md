@@ -10,24 +10,24 @@ Native Datetime Picker Plugin for Capacitor Apps
 
 ### ios
 
-[x] present
-[x] dark mode
-[x] light mode
-[ ] TBA
+- [x] present
+- [x] dark mode
+- [x] light mode
+- [ ] TBA
 
 ### android
 
-[ ] present
-[ ] dark mode
-[ ] light mode
-[ ] TBA
+- [ ] present
+- [ ] dark mode
+- [ ] light mode
+- [ ] TBA
 
 ### web
 
-[ ] present
-[ ] dark mode
-[ ] light mode
-[ ] TBA
+- [ ] present
+- [ ] dark mode
+- [ ] light mode
+- [ ] TBA
 
 ## API
 
