@@ -58,8 +58,8 @@ These options can be used through the `present` method and/or within `capacitor.
 | format  | `string` | `MM/dd/yyyy hh:mm a` |                                        |
 | locale  | `string` | `en_US`              |                                        |
 | current | `string` | `Date()`             |                                        |
-| mode    | `string` | `dateAndTime`        | `time|date|dateAndTime|countDownTimer` |
-| theme   | `string` | `light`              | `light|dark`                           |
+| mode    | `string` | `dateAndTime`        | `time/date/dateAndTime/countDownTimer` |
+| theme   | `string` | `light`              | `light/dark`                           |
 
 ## Usage
 
