@@ -11,67 +11,68 @@ Native Datetime Picker Plugin for Capacitor Apps
 ### ios
 
 - [x] present
-- [x] dark mode
-- [x] light mode
 - [x] config
   - [x] format
   - [x] locale
   - [x] mode
   - [x] theme
+  - [x] background
 
 ### android
 
 - [ ] present
-- [ ] dark mode
-- [ ] light mode
 - [ ] config
   - [ ] format
   - [ ] locale
   - [ ] mode
   - [ ] theme
+  - [ ] background
 
 ### web
 
 - [ ] present
-- [ ] dark mode
-- [ ] light mode
 - [ ] config
   - [ ] format
   - [ ] locale
   - [ ] mode
   - [ ] theme
+  - [ ] background
 
 ## API
 
 - `present(DatepickOptions): Promise<{ value:string }>`
-- `darkMode(): Promise<void>`
-- `lightMode(): Promise<>`
-
-> For more information check the [`definitions`](/src/definitions.ts) file
 
 ### Config (`DatepickOptions`)
 
 These options can be used through the `present` method and/or within `capacitor.config.json`
 
-| name    | type     | default              | options                                |
-| ------- | -------- | -------------------- | -------------------------------------- |
-| format  | `string` | `MM/dd/yyyy hh:mm a` |                                        |
-| locale  | `string` | `en_US`              |                                        |
-| current | `string` | `Date()`             |                                        |
-| mode    | `string` | `dateAndTime`        | `time/date/dateAndTime/countDownTimer` |
-| theme   | `string` | `light`              | `light/dark`                           |
+| name       | type     | default              | options                                |
+| ---------- | -------- | -------------------- | -------------------------------------- |
+| format     | `string` | `MM/dd/yyyy hh:mm a` |                                        |
+| locale     | `string` | `en_US`              |                                        |
+| date       | `string` | `Date()`             |                                        |
+| mode       | `string` | `dateAndTime`        | `time/date/dateAndTime/countDownTimer` |
+| background | `string` | `transparent`        |                                        |
+| theme      | `string` | `light`              | `light/dark`                           |
+
+> For more information check the [`definitions`](/src/definitions.ts) file
 
 ## Usage
 
 ```js
 import { Datepick } from 'capacitor-datepick';
+
 const datepick = new Datepick();
+const selectedTheme = 'light';
+
 datepick
   .present({
     mode: 'date',
     locale: 'pt_BR',
-    current: '13/07/2019',
-    format: 'dd/MM/yyyy'
+    format: 'dd/MM/yyyy',
+    date: '13/07/2019',
+    theme: selectedTheme,
+    background: selectedTheme === 'dark' ? '#333333' : '#ffffff'
   })
   .then(date => alert(date.value));
 ```

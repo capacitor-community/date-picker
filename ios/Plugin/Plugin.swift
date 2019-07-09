@@ -12,7 +12,7 @@ import UIKit
 @objc(DatepickPlugin)
 public class DatepickPlugin: CAPPlugin {
   
-  private var instance = DatepickerController()
+  private var instance = Datepicker()
   
   private var view:UIView?
   private var viewHeight:CGFloat = 0.0
@@ -33,17 +33,12 @@ public class DatepickPlugin: CAPPlugin {
     let locale = getConfigValue("locale") as? String ?? defaultLocale
     let theme = getConfigValue("theme") as? String ?? defaultTheme
     let mode = getConfigValue("mode") as? String ?? defaultMode
-    let current = getConfigValue("current") as? String ?? nil
-   
-    view = self.bridge.viewController.view
-    viewHeight = instance.view.frame.size.height
-    viewWidth = instance.view.frame.size.width
+    let date = getConfigValue("date") as? String ?? nil
+    let bg = getConfigValue("background") as? String ?? nil
     
-    cancelButton = UIButton(frame: CGRect(x: viewWidth/2, y: viewHeight - 200 - 50, width: viewWidth/2, height: 50))
-    cancelButton?.contentHorizontalAlignment = .right
-    cancelButton?.contentEdgeInsets = UIEdgeInsets(top: 0,left: 0,bottom: 0,right: 15)
-    cancelButton?.setTitle("Cancel", for: .normal)
-    cancelButton?.addTarget(self, action: #selector(self.dismiss), for: .touchUpInside)
+    view = self.bridge.viewController.view
+    viewHeight = instance.view.bounds.size.height
+    viewWidth = instance.view.bounds.size.width
     
     doneButton = UIButton(frame: CGRect(x: 0, y: viewHeight - 200 - 50, width: viewWidth/2, height: 50))
     doneButton?.contentHorizontalAlignment = .left
@@ -51,7 +46,44 @@ public class DatepickPlugin: CAPPlugin {
     doneButton?.setTitle("Done", for: .normal)
     doneButton?.addTarget(self, action: #selector(self.done), for: .touchUpInside)
     
-    instance.load(theme, format, locale, mode, current)
+    cancelButton = UIButton(frame: CGRect(x: viewWidth/2, y: viewHeight - 200 - 50, width: viewWidth/2, height: 50))
+    cancelButton?.contentHorizontalAlignment = .right
+    cancelButton?.contentEdgeInsets = UIEdgeInsets(top: 0,left: 0,bottom: 0,right: 15)
+    cancelButton?.setTitle("Cancel", for: .normal)
+    cancelButton?.addTarget(self, action: #selector(self.dismiss), for: .touchUpInside)
+    
+    
+    if (bg != nil) {
+      doneButton?.backgroundColor = UIColor(fromHex: bg!)
+      cancelButton?.backgroundColor = UIColor(fromHex: bg!)
+    }
+    
+    instance.load(mode, locale, format,theme,date, bg)
+    
+    NotificationCenter.default.addObserver(self, selector: #selector(deviceRotated), name: UIDevice.orientationDidChangeNotification, object: nil)
+  }
+  
+  @objc func deviceRotated(){
+    if UIDevice.current.orientation.isLandscape {
+      CAPLog.print("Landscape")
+      
+      self.doneButton!.frame.origin.y = viewHeight - 460 - 50
+      self.cancelButton!.frame.origin.y = viewHeight - 460 - 50
+      
+      setPosition()
+      
+      self.cancelButton!.frame.size = CGSize(width: view!.frame.width/2+view!.frame.width/4.6, height: 50)
+      
+    } else {
+      CAPLog.print("Portrait")
+      
+      self.doneButton!.frame.origin.y = viewHeight - 200 - 50
+      self.cancelButton!.frame.origin.y = viewHeight - 200 - 50
+      
+      setPosition()
+      
+      self.cancelButton!.frame.size = CGSize(width: view!.frame.width/2, height: 50)
+    }
   }
   
   @objc func present(_ call: CAPPluginCall) {
@@ -63,7 +95,8 @@ public class DatepickPlugin: CAPPlugin {
       let locale = call.getString("locale")
       let theme = call.getString("theme")
       let mode = call.getString("mode")
-      let current = call.getString("current")
+      let date = call.getString("date")
+      let bg = call.getString("background")
       
       //
       // apply options
@@ -72,14 +105,11 @@ public class DatepickPlugin: CAPPlugin {
       }
       
       if (locale != nil) {
-        self.instance.dateLocale = locale
-        self.instance.setLocale()
+        self.instance.setLocale(locale!)
       }
       
       if (theme != nil) {
         let themeChanged = self.instance.translateTheme(theme!)
-        self.instance.dateTheme = themeChanged
-        self.instance.setTheme()
         if (themeChanged == UIDatePicker.Theme.light) {
           self.lightMode()
         }
@@ -88,15 +118,23 @@ public class DatepickPlugin: CAPPlugin {
         }
       }
       
-      if (mode != nil) {
-        self.instance.dateMode = self.instance.translateMode(mode!)
-        self.instance.setMode()
+      if (bg != nil) {
+        self.instance.setBg(bg)
+        self.doneButton?.backgroundColor = UIColor(fromHex: bg!)
+        self.cancelButton?.backgroundColor = UIColor(fromHex: bg!)
       }
       
-      if (current != nil) {
-        self.instance.dateCurrent = current
-        self.instance.setDate()
+      if (mode != nil) {
+        self.instance.setMode(mode!)
       }
+      
+      if (date != nil) {
+        self.instance.setDate(date)
+      }
+      
+      //
+      // positioning
+      self.setPosition()
       
       //
       // mount view
@@ -146,4 +184,13 @@ public class DatepickPlugin: CAPPlugin {
     }
   }
   
+  func setPosition() {
+    let picker:UIDatePicker? = instance.picker()
+    
+    CAPLog.print("view dimension", view!.frame.width, view!.frame.height)
+    
+    picker!.frame.origin.y = view!.frame.size.height-200
+    picker!.frame.size.width = view!.frame.width
+    
+  }
 }
