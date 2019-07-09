@@ -20,9 +20,7 @@ class Datepicker: UIViewController {
   public var dateResponse:String?
   public var dateCurrent:String?
   public var dateFormat:String?
-  public var dateLocale:String?
-  public var dateBg:String?
-  
+
   override func didReceiveMemoryWarning() {
     super.didReceiveMemoryWarning()
     //
@@ -119,9 +117,9 @@ class Datepicker: UIViewController {
     }
   }
   
-  func setBg(_ dateBg:String?) {
-    if (dateBg != nil) {
-      instance?.backgroundColor = UIColor(fromHex: dateBg!)
+  func setBg(_ bg:String?) {
+    if (bg != nil) {
+      instance?.backgroundColor = UIColor(fromHex: bg!)
     }
   }
   
