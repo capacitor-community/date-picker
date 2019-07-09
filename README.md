@@ -4,7 +4,7 @@ Native Datetime Picker Plugin for Capacitor Apps
 
 > work in progress
 
-![Native Datetime Picker Plugin for Capacitor Apps](https://im2.ezgif.com/tmp/ezgif-2-c2fb59edc7fb.gif)
+![Native Datetime Picker Plugin for Capacitor Apps](https://i.imgur.com/sRlCJp0.gif)
 
 ## Roadmap
 
@@ -13,37 +13,83 @@ Native Datetime Picker Plugin for Capacitor Apps
 - [x] present
 - [x] dark mode
 - [x] light mode
-- [ ] TBA
+- [x] config
+  - [x] format
+  - [x] locale
+  - [x] mode
+  - [x] theme
 
 ### android
 
 - [ ] present
 - [ ] dark mode
 - [ ] light mode
-- [ ] TBA
+- [ ] config
+  - [ ] format
+  - [ ] locale
+  - [ ] mode
+  - [ ] theme
 
 ### web
 
 - [ ] present
 - [ ] dark mode
 - [ ] light mode
-- [ ] TBA
+- [ ] config
+  - [ ] format
+  - [ ] locale
+  - [ ] mode
+  - [ ] theme
 
 ## API
 
-- `present(): Promise<{ value:string }>`
+- `present(DatepickOptions): Promise<{ value:string }>`
 - `darkMode(): Promise<void>`
 - `lightMode(): Promise<>`
 
 > For more information check the [`definitions`](/src/definitions.ts) file
+
+### Config (`DatepickOptions`)
+
+These options can be used through the `present` method and/or within `capacitor.config.json`
+
+| name    | type     | default              | options                                |
+| ------- | -------- | -------------------- | -------------------------------------- |
+| format  | `string` | `MM/dd/yyyy hh:mm a` |                                        |
+| locale  | `string` | `en_US`              |                                        |
+| current | `string` | `Date()`             |                                        |
+| mode    | `string` | `dateAndTime`        | `time|date|dateAndTime|countDownTimer` |
+| theme   | `string` | `light`              | `light|dark`                           |
 
 ## Usage
 
 ```js
 import { Datepick } from 'capacitor-datepick';
 const datepick = new Datepick();
+datepick
+  .present({
+    mode: 'date',
+    locale: 'pt_BR',
+    current: '13/07/2019',
+    format: 'dd/MM/yyyy'
+  })
+  .then(date => alert(date.value));
+```
 
-datepick.present().then(date => alert(date.value));
+### Capacitor Config
+
+```json
+{
+  //...
+  "plugins": {
+    "DatepickPlugin": {
+      "mode": "date",
+      "locale": "pt_BR",
+      "current": "13/07/2019",
+      "format": "dd/MM/yyyy"
+    }
+  }
+}
 ```
 
 ## iOS setup

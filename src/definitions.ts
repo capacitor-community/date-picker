@@ -4,8 +4,15 @@ declare module '@capacitor/core' {
   }
 }
 
+export interface DatepickOptions {
+  format?: string; // default: MM/dd/yyyy hh:mm a
+  locale?: string; // default: en_EN
+  current?: string; // default: Date()
+  mode?: 'time' | 'date' | 'dateAndTime' | 'countDownTimer'; // default: dateAndTime
+  theme?: 'light' | 'dark'; // default: light
+}
 export interface DatepickProtocol {
-  present(options: any): Promise<{ value: string }>;
-  darkMode(): Promise<any>;
-  lightMode(): Promise<any>;
+  present(options: DatepickOptions): Promise<{ value: string }>;
+  darkMode(): Promise<void>;
+  lightMode(): Promise<void>;
 }
