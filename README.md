@@ -17,16 +17,28 @@ Native Datetime Picker Plugin for Capacitor Apps
   - [x] mode
   - [x] theme
   - [x] background
+  - [ ] min
+  - [ ] max
+  - [ ] doneText
+  - [ ] cancelText
+  - [ ] timezone
+  - [ ] title
 
 ### android
 
-- [ ] present
-- [ ] config
-  - [ ] format
+- [x] present
+- [x] config
+  - [x] format
   - [ ] locale
-  - [ ] mode
-  - [ ] theme
-  - [ ] background
+  - [x] mode
+  - [x] theme
+  - [x] background
+  - [x] min
+  - [x] max
+  - [x] doneText
+  - [x] cancelText
+  - [x] timezone
+  - [x] title
 
 ### web
 
@@ -37,6 +49,12 @@ Native Datetime Picker Plugin for Capacitor Apps
   - [ ] mode
   - [ ] theme
   - [ ] background
+  - [ ] min
+  - [ ] max
+  - [ ] doneText
+  - [ ] cancelText
+  - [ ] timezone
+  - [ ] title
 
 ## API
 
@@ -54,6 +72,25 @@ These options can be used through the `present` method and/or within `capacitor.
 | mode       | `string` | `dateAndTime`        | `time/date/dateAndTime/countDownTimer` |
 | background | `string` | **_`transparent`_**  | **_`any #hexadecimal value`_**         |
 | theme      | `string` | `light`              | `light/dark`                           |
+
+### Config for Android (`DatepickOptions`)
+
+These options can be used through the `present` method and/or within `capacitor.config.json`
+
+| name       | type      | default              | options                           |
+| ---------- | --------- | -------------------- | --------------------------------- |
+| format     | `string`  | `MM/dd/yyyy hh:mm a` |                                   |
+| date       | `string`  | **_`current date`_** | **_`any date in string format`_** |
+| min        | `string`  | `none`               | **_`any date in string format`_** |
+| max        | `string`  | `none`               | **_`any date in string format`_** |
+| mode       | `string`  | `date`               | `date/time`                       |
+| type       | `string`  | `spinner`            | `spinner/calendar`                |
+| theme      | `string`  | `light`              | `light/dark`                      |
+| timezone   | `string`  | `UTC`                |                                   |
+| doneText   | `string`  | `Done`               |                                   |
+| cancelText | `string`  | `Cancel`             |                                   |
+| title      | `string`  | `none`               |                                   |
+| is24h      | `boolean` | `true`               | **_`for time mode`_**             |
 
 > For more information check the [`definitions`](/src/definitions.ts) file
 

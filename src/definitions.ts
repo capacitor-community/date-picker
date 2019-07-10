@@ -4,15 +4,26 @@ declare module '@capacitor/core' {
   }
 }
 
+export type DatepickMode = 'time' | 'date' | 'dateAndTime' | 'countDownTimer';
+export type DatepickTheme = 'light' | 'dark';
+export type DatepickType = 'spinner' | 'calendar';
+
 export interface DatepickOptions {
   format?: string; // default: MM/dd/yyyy hh:mm a
-  locale?: string; // default: en_EN
-  current?: string; // default: Date()
-  mode?: 'time' | 'date' | 'dateAndTime' | 'countDownTimer'; // default: dateAndTime
-  theme?: 'light' | 'dark'; // default: light
+  locale?: string; // default: en_EN (only ios)
+  date?: string; // default: Date()
+  mode?: DatepickMode; // default: dateAndTime
+  theme?: DatepickTheme; // default: light
+  background?: string; // default: transparent (only ios)
+  type?: DatepickType; // default: spinner (only android)
+  timezone?: string; // default: UTC (only android)
+  title?: string;
+  min?: string;
+  max?: string;
+  doneText?: string;
+  cancelText?: string;
+  is24h?: boolean; // only android
 }
 export interface DatepickProtocol {
   present(options: DatepickOptions): Promise<{ value: string }>;
-  darkMode(): Promise<void>;
-  lightMode(): Promise<void>;
 }
