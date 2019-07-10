@@ -50,9 +50,9 @@ These options can be used through the `present` method and/or within `capacitor.
 | ---------- | -------- | -------------------- | -------------------------------------- |
 | format     | `string` | `MM/dd/yyyy hh:mm a` |                                        |
 | locale     | `string` | `en_US`              |                                        |
-| date       | `string` | `current date`       | `any date in string format`            |
+| date       | `string` | **_`current date`_** | **_`any date in string format`_**      |
 | mode       | `string` | `dateAndTime`        | `time/date/dateAndTime/countDownTimer` |
-| background | `string` | `transparent`        | `any #hexadecimal value`               |
+| background | `string` | **_`transparent`_**  | **_`any #hexadecimal value`_**         |
 | theme      | `string` | `light`              | `light/dark`                           |
 
 > For more information check the [`definitions`](/src/definitions.ts) file
