@@ -42,7 +42,7 @@ Native Datetime Picker Plugin for Capacitor Apps
 
 - `present(DatepickOptions): Promise<{ value:string }>`
 
-### Config (`DatepickOptions`)
+### Config for iOS (`DatepickOptions`)
 
 These options can be used through the `present` method and/or within `capacitor.config.json`
 
@@ -50,9 +50,9 @@ These options can be used through the `present` method and/or within `capacitor.
 | ---------- | -------- | -------------------- | -------------------------------------- |
 | format     | `string` | `MM/dd/yyyy hh:mm a` |                                        |
 | locale     | `string` | `en_US`              |                                        |
-| date       | `string` | `Date()`             |                                        |
+| date       | `string` | `current date`       | `any date in string format`            |
 | mode       | `string` | `dateAndTime`        | `time/date/dateAndTime/countDownTimer` |
-| background | `string` | `transparent`        |                                        |
+| background | `string` | `transparent`        | `any #hexadecimal value`               |
 | theme      | `string` | `light`              | `light/dark`                           |
 
 > For more information check the [`definitions`](/src/definitions.ts) file
