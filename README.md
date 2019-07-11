@@ -174,6 +174,7 @@ https://github.com/stewwan/capacitor-datepick-demo
 
 - [capacitor-fcm](https://github.com/stewwan/capacitor-fcm)
 - [capacitor-analytics](https://github.com/stewwan/capacitor-analytics)
+- [capacitor-crashlytics](https://github.com/stewwan/capacitor-crashlytics)
 - [capacitor-media](https://github.com/stewwan/capacitor-media)
 - [capacitor-intercom](https://github.com/stewwan/capacitor-intercom)
 - [capacitor-twitter](https://github.com/stewwan/capacitor-twitter)
