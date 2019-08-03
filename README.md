@@ -4,8 +4,6 @@ Native Datetime Picker Plugin for Capacitor Apps
 
 > work in progress
 
-![Native Datetime Picker Plugin for Capacitor Apps](https://i.imgur.com/sRlCJp0.gif)
-
 ## Roadmap
 
 ### ios
