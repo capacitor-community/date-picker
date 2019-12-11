@@ -28,7 +28,7 @@
     "dist/",
     "ios/",
     "android/",
-    "CapacitorPick.podspec"
+    "CapacitorDatepick.podspec"
   ],
   "keywords": [
     "capacitor",
