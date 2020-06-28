@@ -1,4 +1,50 @@
-# capacitor-datepick [![npm version](https://badge.fury.io/js/capacitor-datepick.svg)](https://badge.fury.io/js/capacitor-datepick)
+<p align="center"><br><img src="https://user-images.githubusercontent.com/236501/85893648-1c92e880-b7a8-11ea-926d-95355b8175c7.png" width="128" height="128" /></p>
+<h3 align="center">Capacitor Date Picker</h3>
+<p align="center"><strong><code>@capacitor-community/date-picker</code></strong></p>
+<p align="center">
+  Capacitor community plugin for native Date Picker
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/maintenance/yes/2020?style=flat-square" />
+  <a href="https://www.npmjs.com/package/@capacitor-community/date-picker"><img src="https://img.shields.io/npm/l/@capacitor-community/date-picker?style=flat-square" /></a>
+<br>
+  <a href="https://www.npmjs.com/package/@capacitor-community/date-picker"><img src="https://img.shields.io/npm/dw/@capacitor-community/date-picker?style=flat-square" /></a>
+  <a href="https://www.npmjs.com/package/@capacitor-community/date-picker"><img src="https://img.shields.io/npm/v/@capacitor-community/date-picker?style=flat-square" /></a>
+  <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+<a href="#contributors"><img src="https://img.shields.io/badge/all%20contributors-4-orange?style=flat-square" /></a>
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
+</p>
+
+## Maintainers
+
+| Maintainer   | GitHub                                | Social                                          |
+| ------------ | ------------------------------------- | ----------------------------------------------- |
+| Stewan Silva | [stewwan](https://github.com/stewwan) | [@StewanSilva](https://twitter.com/StewanSilva) |
+
+## Notice 🚀
+
+We're starting fresh under an official org. If you were using the previous npm package `capacitor-datepick`, please update your package.json to `@capacitor-community/date-picker`. Check out [changelog](/CHANGELOG.md) for more info.
+
+## Installation
+
+Using npm:
+
+```bash
+npm install @capacitor-community/date-picker
+```
+
+Using yarn:
+
+```bash
+yarn add @capacitor-community/date-picker
+```
+
+Sync native files:
+
+```bash
+npx cap sync
+```
 
 Native Datetime Picker Plugin for Capacitor Apps
 
@@ -97,21 +143,21 @@ These options can be used through the `present` method and/or within `capacitor.
 ## Usage
 
 ```js
-import { Datepick } from 'capacitor-datepick';
+import { DatePicker } from "@capacitor-community/date-picker";
 
-const datepick = new Datepick();
-const selectedTheme = 'light';
+const datepick = new DatePicker();
+const selectedTheme = "light";
 
 datepick
   .present({
-    mode: 'date',
-    locale: 'pt_BR',
-    format: 'dd/MM/yyyy',
-    date: '13/07/2019',
+    mode: "date",
+    locale: "pt_BR",
+    format: "dd/MM/yyyy",
+    date: "13/07/2019",
     theme: selectedTheme,
-    background: selectedTheme === 'dark' ? '#333333' : '#ffffff'
+    background: selectedTheme === "dark" ? "#333333" : "#ffffff",
   })
-  .then(date => alert(date.value));
+  .then((date) => alert(date.value));
 ```
 
 ### Capacitor Config
@@ -134,7 +180,7 @@ datepick
 
 - `ionic start my-cap-app --capacitor`
 - `cd my-cap-app`
-- `npm install --save capacitor-datepick`
+- `npm install --save @capacitor-community/date-picker`
 - `mkdir www && touch www/index.html`
 - `sudo gem install cocoapods` (only once)
 - `npx cap add ios`
@@ -147,7 +193,7 @@ datepick
 
 - `ionic start my-cap-app --capacitor`
 - `cd my-cap-app`
-- `npm install --save capacitor-datepick`
+- `npm install --save @capacitor-community/date-picker`
 - `mkdir www && touch www/index.html`
 - `npx cap add android`
 - `npx cap sync android` (every time you run `npm install`)
@@ -170,19 +216,29 @@ For existing projects you can upgrade all capacitor related packages (including 
 
 https://github.com/stewwan/capacitor-datepick-demo
 
-## You may also like
-
-- [capacitor-fcm](https://github.com/stewwan/capacitor-fcm)
-- [capacitor-analytics](https://github.com/stewwan/capacitor-analytics)
-- [capacitor-crashlytics](https://github.com/stewwan/capacitor-crashlytics)
-- [capacitor-media](https://github.com/stewwan/capacitor-media)
-- [capacitor-intercom](https://github.com/stewwan/capacitor-intercom)
-- [capacitor-twitter](https://github.com/stewwan/capacitor-twitter)
-
-Cheers 🍻
-
-Follow me [@Twitter](https://twitter.com/StewanSilva)
-
 ## License
 
 MIT
+
+## Contributors ✨
+
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tr>
+    <td align="center"><a href="https://twitter.com/StewanSilva"><img src="https://avatars1.githubusercontent.com/u/719763?v=4" width="75px;" alt=""/><br /><sub><b>Stew</b></sub></a><br /><a href="https://github.com/capacitor-community/intercom/commits?author=stewwan" title="Code">💻</a> <a href="https://github.com/capacitor-community/intercom/commits?author=stewwan" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://davidseek.com/"><img src="https://avatars2.githubusercontent.com/u/17073950?v=4" width="75px;" alt=""/><br /><sub><b>David Seek</b></sub></a><br /><a href="https://github.com/capacitor-community/intercom/commits?author=davidseek" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/rnikitin"><img src="https://avatars3.githubusercontent.com/u/1829318?v=4" width="75px;" alt=""/><br /><sub><b>Roman Nikitin</b></sub></a><br /><a href="https://github.com/capacitor-community/intercom/commits?author=rnikitin" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/atomassoni"><img src="https://avatars1.githubusercontent.com/u/17362459?v=4" width="75px;" alt=""/><br /><sub><b>Anne Tomassoni</b></sub></a><br /><a href="https://github.com/capacitor-community/intercom/commits?author=atomassoni" title="Code">💻</a> <a href="https://github.com/capacitor-community/intercom/pulls?q=is%3Apr+reviewed-by%3Aatomassoni" title="Reviewed Pull Requests">👀</a></td>
+  </tr>
+</table>
+
+<!-- markdownlint-enable -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!

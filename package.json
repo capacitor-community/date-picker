@@ -1,7 +1,7 @@
 {
-  "name": "capacitor-datepick",
-  "version": "0.0.4",
-  "description": "Native Datetime Picker Plugin for Capacitor Apps",
+  "name": "@capacitor-community/date-picker",
+  "version": "0.0.1",
+  "description": "Native DateTime Picker Plugin for Capacitor Apps",
   "main": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
   "scripts": {
@@ -9,10 +9,11 @@
     "clean": "rm -rf ./dist",
     "watch": "tsc --watch",
     "prepublishOnly": "npm run build",
-    "release:custom": "standard-version release --release-as x.x.x",
     "release:patch": "standard-version release --release-as patch",
     "release:minor": "standard-version release --release-as minor",
-    "release:major": "standard-version release --release-as major"
+    "release:major": "standard-version release --release-as major",
+    "contributors:add": "all-contributors add",
+    "contributors:gen": "all-contributors generate"
   },
   "author": "Stewan Silva",
   "license": "MIT",
@@ -20,15 +21,14 @@
     "@capacitor/core": "latest"
   },
   "devDependencies": {
-    "typescript": "^3.2.4",
-    "@capacitor/ios": "latest",
-    "@capacitor/android": "latest"
+    "all-contributors-cli": "^6.16.0",
+    "typescript": "^3.2.4"
   },
   "files": [
     "dist/",
     "ios/",
     "android/",
-    "CapacitorPick.podspec"
+    "CapacitorCommunityDatePicker.podspec"
   ],
   "keywords": [
     "capacitor",
@@ -45,9 +45,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/stewwan/capacitor-datepick"
+    "url": "https://github.com/capacitor-community/date-picker"
   },
   "bugs": {
-    "url": "https://github.com/stewwan/capacitor-datepick/issues"
+    "url": "https://github.com/capacitor-community/date-picker/issues"
   }
 }
