@@ -143,9 +143,9 @@ These options can be used through the `present` method and/or within `capacitor.
 ## Usage
 
 ```js
-import { DatePicker } from "@capacitor-community/date-picker";
+import { Datepick } from "@capacitor-community/date-picker";
 
-const datepick = new DatePicker();
+const datepick = new Datepick();
 const selectedTheme = "light";
 
 datepick
