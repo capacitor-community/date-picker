@@ -69,25 +69,26 @@ public class DatePickerPlugin extends Plugin {
         }
     }
 
+    // @todo Refactoring this method for better the strategy to get default values
     private void loadOptions() throws ParseException {
         final Calendar calendar = Calendar.getInstance();
 
         if (call != null) {
-            pickerLocale = call.getString("locale", pickerLocale != defaultLocale ? pickerLocale : defaultLocale); // @todo
-            pickerFormat = call.getString("format", pickerFormat != defaultFormat ? pickerFormat : defaultFormat);
-            pickerTheme = call.getString("theme", pickerTheme != defaultTheme ? pickerTheme : defaultTheme);
-            pickerMode = call.getString("mode", pickerMode != defaultMode ? pickerMode : defaultMode);
-            pickerType = call.getString("type", pickerType != defaultType ? pickerType : defaultType);
-            pickerTimezone = call.getString("timezone", pickerTimezone != defaultTimezone ? pickerTimezone : defaultTimezone);
+            pickerLocale = call.getString("locale", pickerLocale);
+            pickerFormat = call.getString("format", pickerFormat);
+            pickerTheme = call.getString("theme", pickerTheme);
+            pickerMode = call.getString("mode", pickerMode);
+            pickerType = call.getString("type", pickerType);
+            pickerTimezone = call.getString("timezone", pickerTimezone);
             pickerDate = call.getString("date");
             pickerMinDate = call.getString("min");
             pickerMaxDate = call.getString("max");
             pickerTitle = call.getString("title");
-            pickerCancelText = call.getString("cancelText", pickerCancelText != defaultCancelText ? pickerCancelText : defaultCancelText);
-            pickerDoneText = call.getString("doneText", pickerDoneText != defaultDoneText ? pickerDoneText : defaultDoneText);
-            picker24h = call.getBoolean("is24h", picker24h != default24h ? picker24h : default24h);
+            pickerCancelText = call.getString("cancelText", pickerCancelText);
+            pickerDoneText = call.getString("doneText", pickerDoneText);
+            picker24h = call.getBoolean("is24h", picker24h);
         } else {
-            pickerLocale = config.getString(CONFIG_KEY_PREFIX + "locale", defaultLocale); // @todo
+            pickerLocale = config.getString(CONFIG_KEY_PREFIX + "locale", defaultLocale);
             pickerFormat = config.getString(CONFIG_KEY_PREFIX + "format", defaultFormat);
             pickerTheme = config.getString(CONFIG_KEY_PREFIX + "theme", defaultTheme);
             pickerMode = config.getString(CONFIG_KEY_PREFIX + "mode", defaultMode);
