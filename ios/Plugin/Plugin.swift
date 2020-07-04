@@ -9,10 +9,10 @@ import UIKit
  * Created by Stewan Silva on 07/07/2019
  */
 
-@objc(DatepickPlugin)
-public class DatepickPlugin: CAPPlugin {
-  
-  private var instance = Datepicker()
+@objc(DatePickerPlugin)
+public class DatePickerPlugin: CAPPlugin {
+
+  private var instance = DatePicker()
   
   private var view:UIView?
   private var viewHeight:CGFloat = 0.0
@@ -54,8 +54,8 @@ public class DatepickPlugin: CAPPlugin {
     
     
     if (bg != nil) {
-      doneButton?.backgroundColor = UIColor(fromHex: bg!)
-      cancelButton?.backgroundColor = UIColor(fromHex: bg!)
+        doneButton?.backgroundColor = UIColor(named: bg!)
+        cancelButton?.backgroundColor = UIColor(named: bg!)
     }
     
     instance.load(mode, locale, format,theme,date, bg)
@@ -120,8 +120,8 @@ public class DatepickPlugin: CAPPlugin {
       
       if (bg != nil) {
         self.instance.setBg(bg)
-        self.doneButton?.backgroundColor = UIColor(fromHex: bg!)
-        self.cancelButton?.backgroundColor = UIColor(fromHex: bg!)
+        self.doneButton?.backgroundColor = UIColor(named: bg!)
+        self.cancelButton?.backgroundColor = UIColor(named: bg!)
       }
       
       if (mode != nil) {

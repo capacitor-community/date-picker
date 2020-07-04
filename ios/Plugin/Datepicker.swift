@@ -11,7 +11,7 @@ extension UIDatePicker {
   }
 }
 
-class Datepicker: UIViewController {
+class DatePicker: UIViewController {
   private var instance:UIDatePicker?
   
   public var dateMode:UIDatePicker.Mode?
@@ -59,7 +59,7 @@ class Datepicker: UIViewController {
     
     //
     // required event to call onDidChangeDate function when value is changed
-    instance?.addTarget(self, action: #selector(Datepicker.instanceValueChanged(_:)), for: .valueChanged)
+    instance?.addTarget(self, action: #selector(DatePicker.instanceValueChanged(_:)), for: .valueChanged)
     
     //
     // push picker to the view
@@ -119,7 +119,7 @@ class Datepicker: UIViewController {
   
   func setBg(_ bg:String?) {
     if (bg != nil) {
-      instance?.backgroundColor = UIColor(fromHex: bg!)
+        instance?.backgroundColor = UIColor(named: bg!)
     }
   }
   

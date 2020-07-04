@@ -1,4 +1,4 @@
-package io.stewan.capacitor.datepick;
+package com.getcapacitor.community.datepicker;
 
 import com.getcapacitor.JSObject;
 import com.getcapacitor.NativePlugin;
@@ -22,24 +22,16 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
-// import android.util.Log;
-
-/**
- * Please read the Capacitor Android Plugin Development Guide
- * here: https://capacitor.ionicframework.com/docs/plugins/android
- * Created by Stewan Silva on 07/10/2019
- */
-
 @NativePlugin()
-public class DatepickPlugin extends Plugin {
-    public static final String CONFIG_KEY_PREFIX = "plugins.DatepickPlugin.android-";
+public class DatePickerPlugin extends Plugin {
+    public static final String CONFIG_KEY_PREFIX = "plugins.DatePickerPlugin.android-";
 
     PluginCall call;
 
     private String defaultTheme = "light";
     private String defaultMode = "dateAndTime";
     private String defaultFormat = "MM/dd/yyyy hh:mm a";
-    private String defaultLocale = "en_US"; //
+    private String defaultLocale = "en_US";
     private String defaultType = "spinner";
     private String defaultTimezone = "UTC";
     private String defaultCancelText = "Cancel";
@@ -64,8 +56,7 @@ public class DatepickPlugin extends Plugin {
     private String doneButtonColor;
     private String cancelButtonColor;
 
-    public DatepickPlugin() {
-    }
+    public DatePickerPlugin() { }
 
     public void load() {
         try {
@@ -92,7 +83,6 @@ public class DatepickPlugin extends Plugin {
             pickerCancelText = call.getString("cancelText", pickerCancelText != defaultCancelText ? pickerCancelText : defaultCancelText);
             pickerDoneText = call.getString("doneText", pickerDoneText != defaultDoneText ? pickerDoneText : defaultDoneText);
             picker24h = call.getBoolean("is24h", picker24h != default24h ? picker24h : default24h);
-
         } else {
             pickerLocale = Config.getString(CONFIG_KEY_PREFIX + "locale", defaultLocale); // @todo
             pickerFormat = Config.getString(CONFIG_KEY_PREFIX + "format", defaultFormat);
@@ -107,15 +97,9 @@ public class DatepickPlugin extends Plugin {
             pickerCancelText = Config.getString(CONFIG_KEY_PREFIX + "cancelText", defaultCancelText);
             pickerDoneText = Config.getString(CONFIG_KEY_PREFIX + "doneText", defaultDoneText);
             picker24h = Config.getBoolean(CONFIG_KEY_PREFIX + "is24h", default24h);
-
         }
-
-
         doneButtonColor = pickerTheme == "dark" ? "#ffffff" : "#333333";
         cancelButtonColor = pickerTheme == "dark" ? "#ffffff" : "#333333";
-
-
-
     }
 
     private String parseDateFromObject(Date date) {

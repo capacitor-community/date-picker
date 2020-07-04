@@ -2,7 +2,7 @@
   Pod::Spec.new do |s|
     s.name = 'CapacitorCommunityDatePicker'
     s.version = '0.0.3'
-    s.summary = 'Native Datetime Picker Plugin for Capacitor Apps'
+    s.summary = 'Native DateTime Picker Plugin for Capacitor Apps'
     s.license = 'MIT'
     s.homepage = 'https://github.com/capacitor-community/date-picker'
     s.author = 'Stewan Silva'
