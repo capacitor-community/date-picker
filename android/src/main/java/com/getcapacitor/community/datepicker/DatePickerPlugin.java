@@ -1,11 +1,11 @@
 package com.getcapacitor.community.datepicker;
 
+import com.getcapacitor.CapConfig;
 import com.getcapacitor.JSObject;
 import com.getcapacitor.NativePlugin;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
-import com.getcapacitor.Config;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -25,6 +25,7 @@ import java.util.TimeZone;
 @NativePlugin()
 public class DatePickerPlugin extends Plugin {
     public static final String CONFIG_KEY_PREFIX = "plugins.DatePickerPlugin.android-";
+    public CapConfig config;
 
     PluginCall call;
 
@@ -56,7 +57,9 @@ public class DatePickerPlugin extends Plugin {
     private String doneButtonColor;
     private String cancelButtonColor;
 
-    public DatePickerPlugin() { }
+    public DatePickerPlugin() {
+        config = getBridge().getConfig();
+    }
 
     public void load() {
         try {
@@ -84,19 +87,19 @@ public class DatePickerPlugin extends Plugin {
             pickerDoneText = call.getString("doneText", pickerDoneText != defaultDoneText ? pickerDoneText : defaultDoneText);
             picker24h = call.getBoolean("is24h", picker24h != default24h ? picker24h : default24h);
         } else {
-            pickerLocale = Config.getString(CONFIG_KEY_PREFIX + "locale", defaultLocale); // @todo
-            pickerFormat = Config.getString(CONFIG_KEY_PREFIX + "format", defaultFormat);
-            pickerTheme = Config.getString(CONFIG_KEY_PREFIX + "theme", defaultTheme);
-            pickerMode = Config.getString(CONFIG_KEY_PREFIX + "mode", defaultMode);
-            pickerType = Config.getString(CONFIG_KEY_PREFIX + "type", defaultType);
-            pickerTimezone = Config.getString(CONFIG_KEY_PREFIX + "timezone", defaultTimezone);
-            pickerDate = Config.getString(CONFIG_KEY_PREFIX + "date");
-            pickerMinDate = Config.getString(CONFIG_KEY_PREFIX + "min");
-            pickerMaxDate = Config.getString(CONFIG_KEY_PREFIX + "max");
-            pickerTitle = Config.getString(CONFIG_KEY_PREFIX + "title");
-            pickerCancelText = Config.getString(CONFIG_KEY_PREFIX + "cancelText", defaultCancelText);
-            pickerDoneText = Config.getString(CONFIG_KEY_PREFIX + "doneText", defaultDoneText);
-            picker24h = Config.getBoolean(CONFIG_KEY_PREFIX + "is24h", default24h);
+            pickerLocale = config.getString(CONFIG_KEY_PREFIX + "locale", defaultLocale); // @todo
+            pickerFormat = config.getString(CONFIG_KEY_PREFIX + "format", defaultFormat);
+            pickerTheme = config.getString(CONFIG_KEY_PREFIX + "theme", defaultTheme);
+            pickerMode = config.getString(CONFIG_KEY_PREFIX + "mode", defaultMode);
+            pickerType = config.getString(CONFIG_KEY_PREFIX + "type", defaultType);
+            pickerTimezone = config.getString(CONFIG_KEY_PREFIX + "timezone", defaultTimezone);
+            pickerDate = config.getString(CONFIG_KEY_PREFIX + "date");
+            pickerMinDate = config.getString(CONFIG_KEY_PREFIX + "min");
+            pickerMaxDate = config.getString(CONFIG_KEY_PREFIX + "max");
+            pickerTitle = config.getString(CONFIG_KEY_PREFIX + "title");
+            pickerCancelText = config.getString(CONFIG_KEY_PREFIX + "cancelText", defaultCancelText);
+            pickerDoneText = config.getString(CONFIG_KEY_PREFIX + "doneText", defaultDoneText);
+            picker24h = config.getBoolean(CONFIG_KEY_PREFIX + "is24h", default24h);
         }
         doneButtonColor = pickerTheme == "dark" ? "#ffffff" : "#333333";
         cancelButtonColor = pickerTheme == "dark" ? "#ffffff" : "#333333";
