@@ -6,15 +6,39 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding">
+  <ion-item class="ion-no-padding">
+    <ion-label position="floating">Theme</ion-label>
+    <ion-select [(ngModel)]="theme">
+      <ion-select-option *ngFor="let option of themeList" [value]="option.value">{{ option.label }}</ion-select-option>
+    </ion-select>
+  </ion-item>
+  <ion-item class="ion-no-padding">
+    <ion-label position="floating">Mode</ion-label>
+    <ion-select [(ngModel)]="mode">
+      <ion-select-option *ngFor="let option of modesList" [value]="option.value">{{ option.label }}</ion-select-option>
+    </ion-select>
+  </ion-item>
+  <ion-item class="ion-no-padding">
+    <ion-label position="floating">Min</ion-label>
+    <ion-input [(ngModel)]="min" (ionFocus)="minFocus()" readonly></ion-input>
+  </ion-item>
+  <ion-item class="ion-no-padding">
+    <ion-label position="floating">Max</ion-label>
+    <ion-input [(ngModel)]="max" (ionFocus)="maxFocus()" readonly></ion-input>
+  </ion-item>
+  <ion-item class="ion-no-padding">
+    <ion-label position="floating">Locale</ion-label>
+    <ion-input [(ngModel)]="locale"></ion-input>
+  </ion-item>
+  <ion-item class="ion-no-padding">
+    <ion-label position="floating">Done Button</ion-label>
+    <ion-input [(ngModel)]="doneText"></ion-input>
+  </ion-item>
+  <ion-item class="ion-no-padding">
+    <ion-label position="floating">Cancel Button</ion-label>
+    <ion-input [(ngModel)]="cancelText"></ion-input>
+  </ion-item>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+  <ion-button expand="block" (click)="openPicker()">Open Picker</ion-button>
 </ion-content>
