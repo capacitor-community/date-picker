@@ -6,11 +6,12 @@ import com.getcapacitor.NativePlugin;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
+import com.getcapacitor.community.datepicker.datepicker.R;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
-import android.graphics.Color;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -20,6 +21,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import java.util.TimeZone;
 
 @NativePlugin()
@@ -29,21 +31,10 @@ public class DatePickerPlugin extends Plugin {
 
     PluginCall call;
 
-    private String defaultTheme = "light";
-    private String defaultMode = "dateAndTime";
-    private String defaultFormat = "MM/dd/yyyy hh:mm a";
-    private String defaultLocale = "en_US";
-    private String defaultType = "spinner";
-    private String defaultTimezone = "UTC";
-    private String defaultCancelText = "Cancel";
-    private String defaultDoneText = "Done";
-    private Boolean default24h = true;
-
     private String pickerTheme;
     private String pickerMode;
     private String pickerFormat;
     private String pickerLocale;
-    private String pickerType;
     private String pickerDate;
     private String pickerMinDate;
     private String pickerMaxDate;
@@ -54,11 +45,9 @@ public class DatePickerPlugin extends Plugin {
     private String pickerDoneText;
     private String pickerCancelText;
 
-    private String doneButtonColor;
-    private String cancelButtonColor;
+    private Calendar calendar;
 
     public DatePickerPlugin() {
-        config = getBridge().getConfig();
     }
 
     public void load() {
@@ -69,99 +58,108 @@ public class DatePickerPlugin extends Plugin {
         }
     }
 
-    // @todo Refactoring this method for better the strategy to get default values
     private void loadOptions() throws ParseException {
-        final Calendar calendar = Calendar.getInstance();
+        if (config == null) {
+            config = getBridge().getConfig();
+        }
+
+        //
+        // Default values plugin
+        pickerTheme = config.getString(CONFIG_KEY_PREFIX + "theme", "light");
+        pickerMode = config.getString(CONFIG_KEY_PREFIX + "mode", "dateAndTime");
+        pickerFormat = config.getString(CONFIG_KEY_PREFIX + "format", "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        pickerTimezone = config.getString(CONFIG_KEY_PREFIX + "timezone", null);
+        pickerLocale = config.getString(CONFIG_KEY_PREFIX + "locale",null);
+        pickerCancelText = config.getString(CONFIG_KEY_PREFIX + "cancelText", null);
+        pickerDoneText = config.getString(CONFIG_KEY_PREFIX + "doneText",null);
+        picker24h = config.getBoolean(CONFIG_KEY_PREFIX + "is24h", true);
+        pickerDate = null;
+        pickerMinDate = null;
+        pickerMaxDate = null;
+        pickerTitle = null;
+
+        calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
 
         if (call != null) {
             pickerLocale = call.getString("locale", pickerLocale);
             pickerFormat = call.getString("format", pickerFormat);
             pickerTheme = call.getString("theme", pickerTheme);
             pickerMode = call.getString("mode", pickerMode);
-            pickerType = call.getString("type", pickerType);
             pickerTimezone = call.getString("timezone", pickerTimezone);
-            pickerDate = call.getString("date");
-            pickerMinDate = call.getString("min");
-            pickerMaxDate = call.getString("max");
-            pickerTitle = call.getString("title");
+            pickerDate = call.getString("date", pickerDate);
+            pickerMinDate = call.getString("min", pickerMinDate);
+            pickerMaxDate = call.getString("max", pickerMaxDate);
+            pickerTitle = call.getString("title", pickerTitle);
             pickerCancelText = call.getString("cancelText", pickerCancelText);
             pickerDoneText = call.getString("doneText", pickerDoneText);
             picker24h = call.getBoolean("is24h", picker24h);
-        } else {
-            pickerLocale = config.getString(CONFIG_KEY_PREFIX + "locale", defaultLocale);
-            pickerFormat = config.getString(CONFIG_KEY_PREFIX + "format", defaultFormat);
-            pickerTheme = config.getString(CONFIG_KEY_PREFIX + "theme", defaultTheme);
-            pickerMode = config.getString(CONFIG_KEY_PREFIX + "mode", defaultMode);
-            pickerType = config.getString(CONFIG_KEY_PREFIX + "type", defaultType);
-            pickerTimezone = config.getString(CONFIG_KEY_PREFIX + "timezone", defaultTimezone);
-            pickerDate = config.getString(CONFIG_KEY_PREFIX + "date");
-            pickerMinDate = config.getString(CONFIG_KEY_PREFIX + "min");
-            pickerMaxDate = config.getString(CONFIG_KEY_PREFIX + "max");
-            pickerTitle = config.getString(CONFIG_KEY_PREFIX + "title");
-            pickerCancelText = config.getString(CONFIG_KEY_PREFIX + "cancelText", defaultCancelText);
-            pickerDoneText = config.getString(CONFIG_KEY_PREFIX + "doneText", defaultDoneText);
-            picker24h = config.getBoolean(CONFIG_KEY_PREFIX + "is24h", default24h);
         }
-        doneButtonColor = pickerTheme == "dark" ? "#ffffff" : "#333333";
-        cancelButtonColor = pickerTheme == "dark" ? "#ffffff" : "#333333";
+
+        if (pickerLocale != null) {
+            Locale locale = new Locale(pickerLocale);
+            Locale.setDefault(locale);
+        }
     }
 
     private String parseDateFromObject(Date date) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat(pickerFormat);
-        TimeZone tz = TimeZone.getTimeZone(pickerTimezone);
-        dateFormat.setTimeZone(tz);
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat(pickerFormat);
+        if (pickerTimezone != null) {
+            TimeZone tz = TimeZone.getTimeZone(pickerTimezone);
+            dateFormat.setTimeZone(tz);
+        }
         return dateFormat.format(date);
     }
 
 
     private Date parseDateFromString(String date) throws ParseException {
-        SimpleDateFormat dateFormat = new SimpleDateFormat(pickerFormat);
-        TimeZone tz = TimeZone.getTimeZone(pickerTimezone);
-        dateFormat.setTimeZone(tz);
-
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat(pickerFormat);
+        if (pickerTimezone != null) {
+            TimeZone tz = TimeZone.getTimeZone(pickerTimezone);
+            dateFormat.setTimeZone(tz);
+        }
         return dateFormat.parse(date);
     }
 
 
-    private int getType(String typeString) {
-        // 0 - default from os
-        // 1 - spinner unstyled
-        // 2 - spinner dark
-        // 3 - spinner light
-        // 4 - calendar dark
-        // 5 - calendar light
+    private int getTheme() {
 
-        int themeType = 0;
+        Integer result = getContext().getResources().getIdentifier(pickerTheme, "style", getContext().getPackageName());
 
-        switch (typeString) {
-            case "spinner":
-                themeType = pickerTheme.equals(defaultTheme) ? 3 : 2;
-                break;
-
-            case "calendar":
-                themeType = pickerTheme.equals(defaultTheme) ? 5 : 4;
-                break;
-
-            case "unstyled":
-                themeType = 1;
-                break;
-
+        if (result != 0) {
+            return result;
         }
 
-        return themeType;
+        switch (pickerTheme) {
+            case "dark":
+                result = R.style.MateriaDarklTheme;
+                break;
+            case "light":
+                result = R.style.MaterialLightTheme;
+                break;
+            case "legacyDark":
+                result = R.style.SpinnerDarkTheme;
+                break;
+            case "legacyLight":
+                result = R.style.SpinnerLightTheme;
+                break;
+            default:
+                result = R.style.MaterialLightTheme;
+                break;
+        }
+
+        return result;
     }
 
     private void launchTime() throws ParseException {
         final JSObject response = new JSObject();
-        final Calendar calendar = Calendar.getInstance();
         if (pickerDate != null) {
             calendar.setTime(parseDateFromString(pickerDate));
         }
 
-        final TimePickerDialog timePicker = new TimePickerDialog(getContext(), getType(pickerType), new TimePickerDialog.OnTimeSetListener() {
+        final TimePickerDialog timePicker = new TimePickerDialog(getContext(), getTheme(), new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                calendar.setTime(new Date());
                 calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), hourOfDay, minute);
                 response.put("value", parseDateFromObject(calendar.getTime()));
                 call.resolve(response);
@@ -191,10 +189,6 @@ public class DatePickerPlugin extends Plugin {
             cancelButton.setText(pickerCancelText);
         }
 
-        if (cancelButtonColor != null) {
-            cancelButton.setTextColor(Color.parseColor(cancelButtonColor));
-        }
-
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -208,21 +202,26 @@ public class DatePickerPlugin extends Plugin {
     }
 
     private void launchDate() throws ParseException {
-        final Calendar calendar = Calendar.getInstance();
         final JSObject response = new JSObject();
 
         if (pickerDate != null) {
             calendar.setTime(parseDateFromString(pickerDate));
         }
 
-        final DatePickerDialog datePicker = new
-                DatePickerDialog(getContext(), getType(pickerType), new DatePickerDialog.OnDateSetListener() {
+        final DatePickerDialog datePicker = new DatePickerDialog(getContext(), getTheme(), new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                calendar.setTime(new Date());
                 calendar.set(year, month, dayOfMonth);
-                response.put("value", parseDateFromObject(calendar.getTime()));
-                call.resolve(response);
+                if (pickerMode.equals("dateAndTime")) {
+                    try {
+                        launchTime();
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    response.put("value", parseDateFromObject(calendar.getTime()));
+                    call.resolve(response);
+                }
             }
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
 
@@ -250,16 +249,8 @@ public class DatePickerPlugin extends Plugin {
             doneButton.setText(pickerDoneText);
         }
 
-        if (doneButtonColor != null) {
-            doneButton.setTextColor(Color.parseColor(doneButtonColor));
-        }
-
         if (pickerCancelText != null) {
             cancelButton.setText(pickerCancelText);
-        }
-
-        if (cancelButtonColor != null) {
-            cancelButton.setTextColor(Color.parseColor(cancelButtonColor));
         }
 
         cancelButton.setOnClickListener(new View.OnClickListener() {
@@ -278,6 +269,7 @@ public class DatePickerPlugin extends Plugin {
     @PluginMethod()
     public void present(final PluginCall call_) throws ParseException {
         call = call_;
+
         loadOptions();
         if (pickerMode.equals("time")) {
             launchTime();
