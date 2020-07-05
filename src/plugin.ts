@@ -1,7 +1,7 @@
 import { Plugins } from '@capacitor/core';
 import { DatePickerPluginInterface } from './definitions';
 
-const _DatePickerPlugin: DatePickerPluginInterface = Plugins.DatePickerPlugin;
+const _DatePickerPlugin: DatePickerPluginInterface = Plugins.DatePickerPlugin as any;
 
 export class DatePicker implements DatePickerPluginInterface {
   present(options: any): Promise<{ value: string }> {
