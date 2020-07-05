@@ -6,3 +6,5 @@ Pods
 Build
 *.iml
 .idea
+.gradle
+local.properties
