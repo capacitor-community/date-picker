@@ -72,7 +72,7 @@ public class DatePickerPlugin extends Plugin {
         pickerLocale = config.getString(CONFIG_KEY_PREFIX + "locale",null);
         pickerCancelText = config.getString(CONFIG_KEY_PREFIX + "cancelText", null);
         pickerDoneText = config.getString(CONFIG_KEY_PREFIX + "doneText",null);
-        picker24h = config.getBoolean(CONFIG_KEY_PREFIX + "is24h", true);
+        picker24h = config.getBoolean(CONFIG_KEY_PREFIX + "is24h", false);
         pickerDate = null;
         pickerMinDate = null;
         pickerMaxDate = null;
