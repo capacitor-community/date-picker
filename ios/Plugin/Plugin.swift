@@ -40,7 +40,13 @@ public class DatePickerPlugin: CAPPlugin {
     
     //
     // colors
-    private var defaultColor = UIColor(red:0.16, green:0.38, blue:1.00, alpha:1.0)
+    private var pickerTitleFontColor: String = "#ffffff"
+    private var pickerTitleBgColor: String = "#2861ff"
+    private var pickerBgColor: String = "#ffffff"
+    private var pickerFontColor: String = "#000000"
+    private var pickerButtonBgColor: String = "#ffffff"
+    private var pickerButtonFontColor: String =  "#2861ff"
+    
     
     private func loadOptions() {
         self.pickerTheme = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "pickerLocale") ?? "light"
@@ -55,6 +61,12 @@ public class DatePickerPlugin: CAPPlugin {
         self.pickerMinDate = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "pickerCancelText") ?? nil
         self.pickerMaxDate = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "pickerDoneText") ?? nil
         self.pickerTitle = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "title") ?? nil
+        self.pickerTitleFontColor = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "titleFontColor") ?? self.pickerTitleFontColor
+        self.pickerTitleBgColor = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "titleBgColor") ?? self.pickerTitleBgColor
+        self.pickerBgColor = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "bgColor") ?? self.pickerBgColor
+        self.pickerFontColor = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "fontColor") ?? self.pickerFontColor
+        self.pickerButtonBgColor = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "buttonBgColor") ?? self.pickerButtonBgColor
+        self.pickerButtonFontColor = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "buttonFontColor") ?? self.pickerButtonFontColor
         
         if (self.call != nil) {
             self.pickerLocale = self.call?.getString("locale") ?? self.pickerLocale
@@ -69,6 +81,12 @@ public class DatePickerPlugin: CAPPlugin {
             self.pickerCancelText = self.call?.getString("cancelText") ?? self.pickerCancelText
             self.pickerDoneText = self.call?.getString("doneText") ?? self.pickerDoneText
             self.picker24h = self.call?.getBool("is24h") ?? self.picker24h
+            self.pickerTitleFontColor = self.call?.getString("titleFontColor") ?? self.pickerTitleFontColor
+            self.pickerTitleBgColor = self.call?.getString("titleBgColor") ?? self.pickerTitleBgColor
+            self.pickerBgColor = self.call?.getString("bgColor") ?? self.pickerBgColor
+            self.pickerFontColor = self.call?.getString("fontColor") ?? self.pickerFontColor
+            self.pickerButtonBgColor = self.call?.getString("buttonBgColor") ?? self.pickerButtonBgColor
+            self.pickerButtonFontColor = self.call?.getString("buttonFontColor") ?? self.pickerButtonFontColor
         }
         
         self.alertSize = CGSize(width: self.bridge.viewController.view.bounds.size.width, height: 250 + self.defaultButtonHeight)
@@ -91,7 +109,7 @@ public class DatePickerPlugin: CAPPlugin {
         }
         return dateFormatter.string(from: date)
     }
-
+    
     private func parseDateFromString(date: String) -> Date {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = pickerFormat
@@ -105,15 +123,15 @@ public class DatePickerPlugin: CAPPlugin {
     private func getMode() -> UIDatePicker.Mode {
         let result: UIDatePicker.Mode
         switch self.pickerMode {
-            case "time":
-                result = UIDatePicker.Mode.time
-                break
-            case "date":
-                result = UIDatePicker.Mode.date
-                break;
-            default:
-                result = UIDatePicker.Mode.dateAndTime
-                break
+        case "time":
+            result = UIDatePicker.Mode.time
+            break
+        case "date":
+            result = UIDatePicker.Mode.date
+            break;
+        default:
+            result = UIDatePicker.Mode.dateAndTime
+            break
         }
         
         return result
@@ -123,8 +141,8 @@ public class DatePickerPlugin: CAPPlugin {
         let titleView = UILabel(frame: CGRect(x: 0, y: 0, width: self.alertSize.width, height: self.defaultTitleHeight))
         titleView.textAlignment = .center
         titleView.text = self.titleChange(self.parseDateFromString(date: self.pickerDate!))
-        titleView.textColor = UIColor.white
-        titleView.backgroundColor = self.defaultColor
+        titleView.textColor = UIColor(hexString: self.pickerTitleFontColor)
+        titleView.backgroundColor = UIColor(hexString: self.pickerTitleBgColor)
         
         return titleView
     }
@@ -134,8 +152,8 @@ public class DatePickerPlugin: CAPPlugin {
         let button = UIButton(type: .custom)
         button.frame = CGRect(x: buttonWidth, y: self.alertSize.height - self.defaultButtonHeight, width: buttonWidth, height: self.defaultButtonHeight)
         button.setTitle(self.pickerDoneText != nil ? self.pickerDoneText! : "Ok", for: .normal)
-        button.setTitleColor(self.defaultColor, for: .normal)
-        button.setTitleColor(self.defaultColor, for: .highlighted)
+        button.setTitleColor(UIColor(hexString: self.pickerButtonFontColor), for: .normal)
+        button.backgroundColor = UIColor(hexString: self.pickerButtonBgColor)
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.ok))
         button.addGestureRecognizer(tap)
         
@@ -146,8 +164,8 @@ public class DatePickerPlugin: CAPPlugin {
         let buttonWidth =  self.alertSize.width / 2
         let button = UIButton(frame: CGRect(x: 0, y: self.alertSize.height - self.defaultButtonHeight, width: buttonWidth, height: self.defaultButtonHeight))
         button.setTitle(self.pickerCancelText != nil ? self.pickerCancelText! : "Cancel", for: .normal)
-        button.setTitleColor(self.defaultColor, for: .normal)
-        button.setTitleColor(self.defaultColor, for: .highlighted)
+        button.setTitleColor(UIColor(hexString: self.pickerButtonFontColor), for: .normal)
+        button.backgroundColor = UIColor(hexString: self.pickerButtonBgColor)
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.cancel))
         button.addGestureRecognizer(tap)
         
@@ -156,6 +174,8 @@ public class DatePickerPlugin: CAPPlugin {
     
     private func createDatePicker() -> UIDatePicker {
         let picker = UIDatePicker(frame: CGRect(x: 0, y: self.defaultTitleHeight, width: 0, height: 0))
+        
+        picker.setValue(UIColor(hexString: self.pickerFontColor), forKey: "textColor")
         picker.addTarget(self, action: #selector(self.datePickerChanged(picker:)), for: .valueChanged)
         picker.setDate(self.parseDateFromString(date: self.pickerDate!), animated: false)
         if (self.pickerDate != nil) {
@@ -168,7 +188,7 @@ public class DatePickerPlugin: CAPPlugin {
             picker.minimumDate = self.parseDateFromString(date: self.pickerMinDate!)
         }
         picker.datePickerMode = self.getMode()
-
+        
         return picker
     }
     
@@ -188,7 +208,7 @@ public class DatePickerPlugin: CAPPlugin {
         alertView.frame.origin.y = height - 300
         alertView.frame.size.width = width
         alertView.frame.size.height = 300
-        alertView.backgroundColor = UIColor.white
+        alertView.backgroundColor = UIColor(hexString: self.pickerBgColor)
         
         alertView.addSubview(okButton)
         alertView.addSubview(cancelButton)
@@ -229,7 +249,7 @@ public class DatePickerPlugin: CAPPlugin {
         }
         self.dismiss()
     }
-
+    
     @objc func ok(sender: UIButton) {
         if (self.call != nil) {
             var obj:[String:Any] = [:]
@@ -248,12 +268,12 @@ public class DatePickerPlugin: CAPPlugin {
             if (self.alertView != nil) {
                 self.alertView?.removeFromSuperview()
             }
-
+            
             self.titleView = self.createTitleView()
             self.picker = self.createDatePicker()
             
             self.alertView = self.createPickerView()
-
+            
             self.alertView?.addSubview(self.titleView!);
             self.alertView?.addSubview(self.picker!)
             
@@ -274,38 +294,27 @@ public class DatePickerPlugin: CAPPlugin {
 extension UIColor {
     public convenience init?(hexString: String) {
         let r, g, b, a: CGFloat
-
+        
         if hexString.hasPrefix("#") {
             let start = hexString.index(hexString.startIndex, offsetBy: 1)
-            let hexColor = String(hexString[start...])
-            if hexColor.count == 8 {
-                let scanner = Scanner(string: hexColor)
-                var hexNumber: UInt64 = 0
-
-                if scanner.scanHexInt64(&hexNumber) {
-                    r = CGFloat((hexNumber & 0xff000000) >> 24) / 255
-                    g = CGFloat((hexNumber & 0x00ff0000) >> 16) / 255
-                    b = CGFloat((hexNumber & 0x0000ff00) >> 8) / 255
-                    a = CGFloat(hexNumber & 0x000000ff) / 255
-
-                    self.init(red: r, green: g, blue: b, alpha: a)
-                    return
-                }
-            } else if hexColor.count == 6 {
-                let scanner = Scanner(string: hexColor)
-                var hexNumber: UInt64 = 0
-
-                if scanner.scanHexInt64(&hexNumber) {
-                    r = CGFloat((hexNumber & 0xff000000) >> 24) / 255
-                    g = CGFloat((hexNumber & 0x00ff0000) >> 16) / 255
-                    b = CGFloat((hexNumber & 0x0000ff00) >> 8) / 255
-
-                    self.init(red: r, green: g, blue: b, alpha: 1.0)
-                    return
-                }
+            var hexColor = String(hexString[start...])
+            if (hexColor.count == 6) {
+                hexColor = "\(hexColor)ff"
+            }
+            let scanner = Scanner(string: hexColor)
+            var hexNumber: UInt64 = 0
+            
+            if scanner.scanHexInt64(&hexNumber) {
+                r = CGFloat((hexNumber & 0xff000000) >> 24) / 255
+                g = CGFloat((hexNumber & 0x00ff0000) >> 16) / 255
+                b = CGFloat((hexNumber & 0x0000ff00) >> 8) / 255
+                a = CGFloat(hexNumber & 0x000000ff) / 255
+                
+                self.init(red: r, green: g, blue: b, alpha: a)
+                return
             }
         }
-
+        
         return nil
     }
 }

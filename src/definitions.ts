@@ -84,7 +84,55 @@ export interface DatePickerOptions {
    * 
    * @description If null, empty or undefined, will be "false".
    */
-  is24h?: boolean; // only android
+  is24h?: boolean;
+  /**
+   * @type {string}
+   * @default null
+   * 
+   * @description: hex string for title font color
+   * @note Only IOS
+   */
+  titleFontColor?: string;
+  /**
+   * @type {string}
+   * @default null
+   * 
+   * @description: hex string for title background color
+   * @note Only IOS
+   */
+  titleBgColor?: string;
+  /**
+   * @type {string}
+   * @default null
+   * 
+   * @description: hex string for picker background color
+   * @note Only IOS
+   */
+  bgColor?: string;
+  /**
+   * @type {string}
+   * @default null
+   * 
+   * @description: hex string for picker font color
+   * @note Only IOS
+   */
+  fontColor?: string;
+  /**
+   * @type {string}
+   * @default null
+   * 
+   * @description: hex string for buttons background color
+   * @note Only IOS
+   */
+  buttonBgColor?: string;
+  /**
+   * @type {string}
+   * @default null
+   * 
+   * @description: hex string for button font color
+   * @note Only IOS
+   */
+  buttonFontColor?: string;
 }
 
 export interface DatePickerPluginInterface {
