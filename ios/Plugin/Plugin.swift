@@ -108,6 +108,12 @@ public class DatePickerPlugin: CAPPlugin {
         
         
         self.alertSize = CGSize(width: self.bridge.viewController.view.bounds.size.width, height: 250 + self.defaultButtonHeight)
+        
+        if (self.pickerTheme == "dark" || self.pickerTheme == "legacyDark") {
+            self.defaultDark()
+        } else {
+            self.defaultLight()
+        }
     }
     
     public override func load() {
@@ -315,6 +321,56 @@ public class DatePickerPlugin: CAPPlugin {
             self.call = nil
         }
         self.dismiss()
+    }
+    
+    private func defaultLight() {
+        self.pickerTitleFontColor = "#000000"
+        self.pickerTitleBgColor = "#ffffff"
+        self.pickerBgColor = "#ffffff"
+        self.pickerFontColor = "#000000"
+        self.pickerButtonBgColor = "#ffffff"
+        self.pickerButtonFontColor =  "#000000"
+    }
+    
+    
+    private func defaultDark() {
+        self.pickerTitleFontColor = "#fafafa"
+        self.pickerTitleBgColor = "#121212"
+        self.pickerBgColor = "#121212"
+        self.pickerFontColor = "#fafafa"
+        self.pickerButtonBgColor = "#121212"
+        self.pickerButtonFontColor =  "#fafafa"
+    }
+    
+    
+    @objc func darkMode(_ call: CAPPluginCall) {
+        DispatchQueue.main.async {
+            let black = UIColor(hexString: "#121212")
+            let white = UIColor(hexString: "#fafafa")
+            self.alertView?.backgroundColor = black
+            self.picker?.setValue(white, forKey: "textColor")
+            self.doneButton?.setTitleColor(white, for: .normal)
+            self.doneButton?.backgroundColor = black
+            self.cancelButton?.setTitleColor(white, for: .normal)
+            self.cancelButton?.backgroundColor = black
+            self.titleView?.backgroundColor = black
+            self.titleView?.textColor = white
+        }
+    }
+    
+    @objc func lightMode(_ call: CAPPluginCall) {
+        DispatchQueue.main.async {
+            let black = UIColor(hexString: "#ffffff")
+            let white = UIColor(hexString: "#000000")
+            self.alertView?.backgroundColor = black
+            self.picker?.setValue(white, forKey: "textColor")
+            self.doneButton?.setTitleColor(white, for: .normal)
+            self.doneButton?.backgroundColor = black
+            self.cancelButton?.setTitleColor(white, for: .normal)
+            self.cancelButton?.backgroundColor = black
+            self.titleView?.backgroundColor = black
+            self.titleView?.textColor = white
+        }
     }
     
     @objc func present(_ call: CAPPluginCall) {
