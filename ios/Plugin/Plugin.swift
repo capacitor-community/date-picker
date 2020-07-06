@@ -197,9 +197,13 @@ public class DatePickerPlugin: CAPPlugin {
         }
         if (self.pickerMaxDate != nil) {
             self.picker?.maximumDate = self.parseDateFromString(date: self.pickerMaxDate!)
+        } else {
+            self.picker?.maximumDate = nil
         }
         if (self.pickerMinDate != nil) {
             self.picker?.minimumDate = self.parseDateFromString(date: self.pickerMinDate!)
+        } else {
+            self.picker?.minimumDate = nil
         }
         if (self.pickerLocale != nil) {
             self.picker?.locale = Locale(identifier: self.pickerLocale!)
