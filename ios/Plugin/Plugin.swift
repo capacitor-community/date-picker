@@ -138,101 +138,126 @@ public class DatePickerPlugin: CAPPlugin {
         return dateFormatter.date(from: date)!
     }
     
-    private func getMode() -> UIDatePicker.Mode {
-        let result: UIDatePicker.Mode
-        switch self.pickerMode {
-        case "time":
-            result = UIDatePicker.Mode.time
-            break
-        case "date":
-            result = UIDatePicker.Mode.date
-            break;
-        default:
-            result = UIDatePicker.Mode.dateAndTime
-            break
-        }
-        
-        return result
-    }
-    
     private func createTitleView() -> UILabel {
-        let titleView = UILabel(frame: CGRect(x: 0, y: 0, width: self.alertSize.width, height: self.defaultTitleHeight))
-        titleView.textAlignment = .center
-        titleView.text = self.titleChange(self.parseDateFromString(date: self.pickerDate!))
-        titleView.textColor = UIColor(hexString: self.pickerTitleFontColor)
-        titleView.backgroundColor = UIColor(hexString: self.pickerTitleBgColor)
+        if (self.titleView == nil) {
+            self.titleView = UILabel(frame: CGRect(x: 0, y: 0, width: self.alertSize.width, height: self.defaultTitleHeight))
+        }
+        self.titleView!.textAlignment = .center
+        self.titleView!.text = self.titleChange(self.parseDateFromString(date: self.pickerDate!))
+        self.titleView!.textColor = UIColor(hexString: self.pickerTitleFontColor)
+        self.titleView!.backgroundColor = UIColor(hexString: self.pickerTitleBgColor)
         
-        return titleView
+        return self.titleView!
     }
     
     private func createOkButton() -> UIButton {
         let buttonWidth =  self.alertSize.width / 2
-        let button = UIButton(type: .custom)
-        button.frame = CGRect(x: buttonWidth, y: self.alertSize.height - self.defaultButtonHeight, width: buttonWidth, height: self.defaultButtonHeight)
-        button.setTitle(self.pickerDoneText != nil ? self.pickerDoneText! : "Ok", for: .normal)
-        button.setTitleColor(UIColor(hexString: self.pickerButtonFontColor), for: .normal)
-        button.backgroundColor = UIColor(hexString: self.pickerButtonBgColor)
+        if (self.doneButton == nil) {
+            self.doneButton = UIButton(type: .custom)
+        }
+        self.doneButton?.frame = CGRect(x: buttonWidth, y: self.alertSize.height - self.defaultButtonHeight, width: buttonWidth, height: self.defaultButtonHeight)
+        self.doneButton?.setTitle(self.pickerDoneText, for: .normal)
+        self.doneButton?.setTitleColor(UIColor(hexString: self.pickerButtonFontColor), for: .normal)
+        self.doneButton?.backgroundColor = UIColor(hexString: self.pickerButtonBgColor)
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.ok))
-        button.addGestureRecognizer(tap)
+        self.doneButton?.addGestureRecognizer(tap)
         
-        return button
+        return self.doneButton!
     }
     
     private func createCancelButton() -> UIButton {
         let buttonWidth =  self.alertSize.width / 2
-        let button = UIButton(frame: CGRect(x: 0, y: self.alertSize.height - self.defaultButtonHeight, width: buttonWidth, height: self.defaultButtonHeight))
-        button.setTitle(self.pickerCancelText != nil ? self.pickerCancelText! : "Cancel", for: .normal)
-        button.setTitleColor(UIColor(hexString: self.pickerButtonFontColor), for: .normal)
-        button.backgroundColor = UIColor(hexString: self.pickerButtonBgColor)
+        if (self.cancelButton == nil) {
+            self.cancelButton = UIButton(frame: CGRect(x: 0, y: self.alertSize.height - self.defaultButtonHeight, width: buttonWidth, height: self.defaultButtonHeight))
+        }
+        self.cancelButton?.setTitle(self.pickerCancelText, for: .normal)
+        self.cancelButton?.setTitleColor(UIColor(hexString: self.pickerButtonFontColor), for: .normal)
+        self.cancelButton?.backgroundColor = UIColor(hexString: self.pickerButtonBgColor)
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.cancel))
-        button.addGestureRecognizer(tap)
+        self.cancelButton?.addGestureRecognizer(tap)
         
-        return button
+        return self.cancelButton!
     }
     
     private func createDatePicker() -> UIDatePicker {
-        let picker = UIDatePicker(frame: CGRect(x: 0, y: self.defaultTitleHeight, width: 0, height: 0))
+        if (self.picker == nil) {
+            self.picker = UIDatePicker(frame: CGRect(x: 0, y: self.defaultTitleHeight, width: 0, height: 0))
+        }
         
-        picker.setValue(UIColor(hexString: self.pickerFontColor), forKey: "textColor")
-        picker.addTarget(self, action: #selector(self.datePickerChanged(picker:)), for: .valueChanged)
-        picker.setDate(self.parseDateFromString(date: self.pickerDate!), animated: false)
+        let xPosition = (self.alertSize.width - (self.picker?.frame.width)!) / 2
+        self.picker?.frame.origin.x = xPosition
+        
+        CAPLog.print("AlertSize: \(xPosition)")
+        
+        self.picker?.setValue(UIColor(hexString: self.pickerFontColor), forKey: "textColor")
+        self.picker?.addTarget(self, action: #selector(self.datePickerChanged(picker:)), for: .valueChanged)
+        self.picker?.setDate(self.parseDateFromString(date: self.pickerDate!), animated: false)
         if (self.pickerDate != nil) {
-            picker.date = self.parseDateFromString(date: self.pickerDate!)
+            self.picker?.date = self.parseDateFromString(date: self.pickerDate!)
         }
         if (self.pickerMaxDate != nil) {
-            picker.maximumDate = self.parseDateFromString(date: self.pickerMaxDate!)
+            self.picker?.maximumDate = self.parseDateFromString(date: self.pickerMaxDate!)
         }
         if (self.pickerMinDate != nil) {
-            picker.minimumDate = self.parseDateFromString(date: self.pickerMinDate!)
+            self.picker?.minimumDate = self.parseDateFromString(date: self.pickerMinDate!)
         }
-        picker.datePickerMode = self.getMode()
+        if (self.pickerLocale != nil) {
+            self.picker?.locale = Locale(identifier: self.pickerLocale!)
+        } else {
+            self.picker?.locale = Locale(identifier: Locale.preferredLanguages.first ?? "en")
+        }
         
-        return picker
+        if (self.pickerMode == "time") {
+            self.setTimeMode()
+        } else {
+            self.picker?.datePickerMode = UIDatePicker.Mode.date
+            let xPosition = (self.alertSize.width - (self.picker?.frame.width)!) / 2
+            self.picker?.frame.origin.x = xPosition
+        }
+        
+        return self.picker!
+    }
+    
+    private func setTimeMode() {
+        DispatchQueue.main.async {
+            if (self.picker24h) {
+                self.picker?.datePickerMode = UIDatePicker.Mode.countDownTimer
+            } else {
+                self.picker?.datePickerMode = UIDatePicker.Mode.time
+            }
+            let xPosition = (self.alertSize.width - (self.picker?.frame.width)!) / 2
+            self.picker?.frame.origin.x = xPosition
+        }
     }
     
     private func createPickerView() -> UIView {
-        let okButton = self.createOkButton()
-        let cancelButton = self.createCancelButton()
+        self.createOkButton()
+        self.createCancelButton()
         
         let width = self.bridge.viewController.view.bounds.size.width
         let height = self.bridge.viewController.view.bounds.size.height
         
-        let alertView = UIView(frame: CGRect(x: 0, y: 0, width: self.alertSize.width, height: self.alertSize.height))
-        let yPosition = alertView.bounds.size.height - self.defaultButtonHeight - self.defaultSpacerHeight
-        let lineView = UIView(frame: CGRect(x: 0, y: yPosition, width: alertView.bounds.size.width, height: self.defaultSpacerHeight))
+        if (self.alertView == nil) {
+            self.alertView = UIView()
+        }
+        
+        self.alertView?.frame = CGRect(x: 0, y: 0, width: self.alertSize.width, height: self.alertSize.height)
+        
+        let yPosition = (self.alertView?.bounds.size.height)! - self.defaultButtonHeight - self.defaultSpacerHeight
+        let lineView = UIView(frame: CGRect(x: 0, y: yPosition, width: alertView!.bounds.size.width, height: self.defaultSpacerHeight))
         
         lineView.backgroundColor = UIColor(red: 198/255, green: 198/255, blue: 198/255, alpha: 1)
         
-        alertView.frame.origin.y = height - 300
-        alertView.frame.size.width = width
-        alertView.frame.size.height = 300
-        alertView.backgroundColor = UIColor(hexString: self.pickerBgColor)
+        self.alertView?.frame.origin.y = height - 300
+        self.alertView?.frame.size.width = width
+        self.alertView?.frame.size.height = 300
+        self.alertView?.backgroundColor = UIColor(hexString: self.pickerBgColor)
         
-        alertView.addSubview(okButton)
-        alertView.addSubview(cancelButton)
-        alertView.addSubview(lineView)
+        self.alertView?.addSubview(self.doneButton!)
+        self.alertView?.addSubview(self.cancelButton!)
+        self.alertView?.addSubview(lineView)
         
-        return alertView
+        return self.alertView!
     }
     
     @objc func titleChange(_ date: Date) -> String{
@@ -259,6 +284,11 @@ public class DatePickerPlugin: CAPPlugin {
     }
     
     @objc func cancel(sender: UIButton) {
+        if (self.pickerMode == "dateAndTime") {
+            DispatchQueue.main.async {
+                self.picker?.datePickerMode = UIDatePicker.Mode.time
+            }
+        }
         if (self.call != nil) {
             var obj:[String:Any] = [:]
             obj["value"] = nil
@@ -269,6 +299,11 @@ public class DatePickerPlugin: CAPPlugin {
     }
     
     @objc func ok(sender: UIButton) {
+        
+        if (self.pickerMode == "dateAndTime" && self.picker?.datePickerMode == UIDatePicker.Mode.date) {
+            self.setTimeMode()
+            return
+        }
         if (self.call != nil) {
             var obj:[String:Any] = [:]
             obj["value"] = parseDateFromObject(date: (picker?.date)!)
@@ -283,29 +318,16 @@ public class DatePickerPlugin: CAPPlugin {
             self.call = call
             self.loadCallOptions()
             
-            if (self.alertView != nil) {
-                self.alertView?.removeFromSuperview()
-            }
+            self.createTitleView()
+            self.createDatePicker()
             
-            self.titleView = self.createTitleView()
-            self.picker = self.createDatePicker()
-            
-            self.alertView = self.createPickerView()
+            self.createPickerView()
             
             self.alertView?.addSubview(self.titleView!);
             self.alertView?.addSubview(self.picker!)
             
             self.bridge.viewController.view.addSubview(self.alertView!)
         }
-    }
-    
-    func setPosition() {
-        let view = self.bridge.viewController.view
-        CAPLog.print("view dimension", view!.frame.width, view!.frame.height)
-        
-        self.picker!.frame.origin.y = view!.frame.size.height-200
-        self.picker!.frame.size.width = view!.frame.width
-        
     }
 }
 
