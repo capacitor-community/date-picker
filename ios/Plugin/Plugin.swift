@@ -216,9 +216,6 @@ public class DatePickerPlugin: CAPPlugin {
     
     private func dismiss() {
         DispatchQueue.main.async {
-            let frame = CGRect(x: 0, y: (self.alertView?.frame.height)!, width: 0, height: 0)
-            self.alertView?.frame = frame
-            self.alertView?.isHidden = true
             self.alertView?.removeFromSuperview()
         }
     }
@@ -247,6 +244,10 @@ public class DatePickerPlugin: CAPPlugin {
         DispatchQueue.main.async {
             self.call = call
             self.loadOptions()
+            
+            if (self.alertView != nil) {
+                self.alertView?.removeFromSuperview()
+            }
 
             self.titleView = self.createTitleView()
             self.picker = self.createDatePicker()
