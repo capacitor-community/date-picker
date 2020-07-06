@@ -1,7 +1,5 @@
 import Foundation
 import Capacitor
-import UIKit
-
 
 /**
  * Please read the Capacitor iOS Plugin Development Guide
@@ -11,186 +9,302 @@ import UIKit
 
 @objc(DatePickerPlugin)
 public class DatePickerPlugin: CAPPlugin {
+    public let CONFIG_KEY_PREFIX = "plugins.DatePickerPlugin.ios-"
+    
+    private var pickerTheme: String?
+    private var pickerMode: String?
+    private var pickerFormat: String?
+    private var pickerTimezone: String?
+    private var pickerLocale: String?
+    private var pickerCancelText: String?
+    private var pickerDoneText: String?
+    private var picker24h: Bool?
+    private var pickerDate: String?
+    private var pickerMinDate: String?
+    private var pickerMaxDate: String?
+    private var pickerTitle: String?
+    
+    private var call: CAPPluginCall?
+    private var picker: UIDatePicker?
+    private var titleView: UILabel?
+    private var alertView: UIView?
+    
+    
+    //
+    // sizes
+    private var defaultButtonHeight: CGFloat = 50
+    private var defaultTitleHeight: CGFloat = 50
+    private var defaultSpacerHeight: CGFloat = 1
+    
+    private var alertSize = CGSize(width: 300 , height: 300)
+    
+    //
+    // colors
+    private var defaultColor = UIColor(red:0.16, green:0.38, blue:1.00, alpha:1.0)
+    
+    private func loadOptions() {
+        self.pickerTheme = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "pickerLocale") ?? "light"
+        self.pickerMode = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "pickerFormat") ?? "dateAndTime"
+        self.pickerFormat = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "pickerTheme") ?? "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+        self.pickerTimezone = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "pickerMode") ?? nil
+        self.pickerLocale = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "pickerTimezone") ?? nil
+        self.pickerCancelText = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "pickerDate") ?? "Cancel"
+        self.pickerDoneText = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "pickerMinDate") ?? "Ok"
+        self.picker24h = self.bridge.config.getValue(self.CONFIG_KEY_PREFIX + "pickerMaxDate") as? Bool ?? false
+        self.pickerDate = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "pickerTitle") ?? self.parseDateFromObject(date: Date())
+        self.pickerMinDate = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "pickerCancelText") ?? nil
+        self.pickerMaxDate = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "pickerDoneText") ?? nil
+        self.pickerTitle = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "title") ?? nil
+        
+        if (self.call != nil) {
+            self.pickerLocale = self.call?.getString("locale") ?? self.pickerLocale
+            self.pickerFormat = self.call?.getString("format") ?? self.pickerFormat
+            self.pickerTheme = self.call?.getString("theme") ?? self.pickerTheme
+            self.pickerMode = self.call?.getString("mode") ?? self.pickerMode
+            self.pickerTimezone = self.call?.getString("timezone") ?? self.pickerTimezone
+            self.pickerDate = self.call?.getString("date") ?? self.pickerDate
+            self.pickerMinDate = self.call?.getString("min") ?? self.pickerMinDate
+            self.pickerMaxDate = self.call?.getString("max") ?? self.pickerMaxDate
+            self.pickerTitle = self.call?.getString("title") ?? self.pickerTitle
+            self.pickerCancelText = self.call?.getString("cancelText") ?? self.pickerCancelText
+            self.pickerDoneText = self.call?.getString("doneText") ?? self.pickerDoneText
+            self.picker24h = self.call?.getBool("is24h") ?? self.picker24h
+        }
+        
+        self.alertSize = CGSize(width: self.bridge.viewController.view.bounds.size.width, height: 250 + self.defaultButtonHeight)
+    }
+    
+    public override func load() {
+        loadOptions()
+    }
+    
+    private func parseDateFromObject(date: Date, format: String? = nil) -> String {
+        let dateFormatter = DateFormatter()
+        if (format != nil) {
+            dateFormatter.dateFormat = format
+        } else {
+            dateFormatter.dateFormat = pickerFormat
+        }
+        if (pickerTimezone != nil) {
+            let tz = TimeZone(identifier: pickerTimezone ?? "UTC")
+            dateFormatter.timeZone = tz;
+        }
+        return dateFormatter.string(from: date)
+    }
 
-  private var instance = DatePicker()
-  
-  private var view:UIView?
-  private var viewHeight:CGFloat = 0.0
-  private var viewWidth:CGFloat = 0.0
-  
-  private var doneButton:UIButton?
-  private var cancelButton:UIButton?
-  
-  private var call:CAPPluginCall?
-  
-  private var defaultTheme:String = "light"
-  private var defaultMode:String = "dateAndTime"
-  private var defaultFormat:String = "MM/dd/yyyy hh:mm a"
-  private var defaultLocale:String = "en_US"
-  
-  public override func load() {
-    let format = getConfigValue("format") as? String ?? defaultFormat
-    let locale = getConfigValue("locale") as? String ?? defaultLocale
-    let theme = getConfigValue("theme") as? String ?? defaultTheme
-    let mode = getConfigValue("mode") as? String ?? defaultMode
-    let date = getConfigValue("date") as? String ?? nil
-    let bg = getConfigValue("background") as? String ?? nil
-    
-    view = self.bridge.viewController.view
-    viewHeight = instance.view.bounds.size.height
-    viewWidth = instance.view.bounds.size.width
-    
-    doneButton = UIButton(frame: CGRect(x: 0, y: viewHeight - 200 - 50, width: viewWidth/2, height: 50))
-    doneButton?.contentHorizontalAlignment = .left
-    doneButton?.contentEdgeInsets = UIEdgeInsets(top: 0,left: 15,bottom: 0,right: 0)
-    doneButton?.setTitle("Done", for: .normal)
-    doneButton?.addTarget(self, action: #selector(self.done), for: .touchUpInside)
-    
-    cancelButton = UIButton(frame: CGRect(x: viewWidth/2, y: viewHeight - 200 - 50, width: viewWidth/2, height: 50))
-    cancelButton?.contentHorizontalAlignment = .right
-    cancelButton?.contentEdgeInsets = UIEdgeInsets(top: 0,left: 0,bottom: 0,right: 15)
-    cancelButton?.setTitle("Cancel", for: .normal)
-    cancelButton?.addTarget(self, action: #selector(self.dismiss), for: .touchUpInside)
-    
-    
-    if (bg != nil) {
-        doneButton?.backgroundColor = UIColor(named: bg!)
-        cancelButton?.backgroundColor = UIColor(named: bg!)
-    }
-    
-    instance.load(mode, locale, format,theme,date, bg)
-    
-    NotificationCenter.default.addObserver(self, selector: #selector(deviceRotated), name: UIDevice.orientationDidChangeNotification, object: nil)
-  }
-  
-  @objc func deviceRotated(){
-    if UIDevice.current.orientation.isLandscape {
-      CAPLog.print("Landscape")
-      
-      self.doneButton!.frame.origin.y = viewHeight - 460 - 50
-      self.cancelButton!.frame.origin.y = viewHeight - 460 - 50
-      
-      setPosition()
-      
-      self.cancelButton!.frame.size = CGSize(width: view!.frame.width/2+view!.frame.width/4.6, height: 50)
-      
-    } else {
-      CAPLog.print("Portrait")
-      
-      self.doneButton!.frame.origin.y = viewHeight - 200 - 50
-      self.cancelButton!.frame.origin.y = viewHeight - 200 - 50
-      
-      setPosition()
-      
-      self.cancelButton!.frame.size = CGSize(width: view!.frame.width/2, height: 50)
-    }
-  }
-  
-  @objc func present(_ call: CAPPluginCall) {
-    self.call = call;
-    DispatchQueue.main.async {
-      //
-      // get options
-      let format = call.getString("format")
-      let locale = call.getString("locale")
-      let theme = call.getString("theme")
-      let mode = call.getString("mode")
-      let date = call.getString("date")
-      let bg = call.getString("background")
-      
-      //
-      // apply options
-      if (format != nil) {
-        self.instance.dateFormat = format
-      }
-      
-      if (locale != nil) {
-        self.instance.setLocale(locale!)
-      }
-      
-      if (theme != nil) {
-        let themeChanged = self.instance.translateTheme(theme!)
-        if (themeChanged == UIDatePicker.Theme.light) {
-          self.lightMode()
+    private func parseDateFromString(date: String) -> Date {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = pickerFormat
+        if (pickerTimezone != nil) {
+            let tz = TimeZone(identifier: pickerTimezone ?? "UTC")
+            dateFormatter.timeZone = tz;
         }
-        if (themeChanged == UIDatePicker.Theme.dark) {
-          self.darkMode()
+        return dateFormatter.date(from: date)!
+    }
+    
+    private func getMode() -> UIDatePicker.Mode {
+        let result: UIDatePicker.Mode
+        switch self.pickerMode {
+            case "time":
+                result = UIDatePicker.Mode.time
+                break
+            case "date":
+                result = UIDatePicker.Mode.date
+                break;
+            default:
+                result = UIDatePicker.Mode.dateAndTime
+                break
         }
-      }
-      
-      if (bg != nil) {
-        self.instance.setBg(bg)
-        self.doneButton?.backgroundColor = UIColor(named: bg!)
-        self.cancelButton?.backgroundColor = UIColor(named: bg!)
-      }
-      
-      if (mode != nil) {
-        self.instance.setMode(mode!)
-      }
-      
-      if (date != nil) {
-        self.instance.setDate(date)
-      }
-      
-      //
-      // positioning
-      self.setPosition()
-      
-      //
-      // mount view
-      self.view?.addSubview(self.instance.view)
-      self.view?.addSubview(self.doneButton!)
-      self.view?.addSubview(self.cancelButton!)
+        
+        return result
     }
-  }
-  
-  @objc func dismiss() {
-    DispatchQueue.main.async {
-      self.instance.view.removeFromSuperview()
-      self.cancelButton?.removeFromSuperview()
-      self.doneButton?.removeFromSuperview()
-    }
-  }
-  
-  @objc func done() {
-    call?.resolve([
-      "value": self.instance.value()
-      ])
-    dismiss()
-    instance.reset()
-  }
-  
-  @objc func darkMode(_ call: CAPPluginCall? = nil) {
-    DispatchQueue.main.async {
-      self.doneButton?.setTitleColor(UIColor.white, for: .normal)
-      self.doneButton?.setTitleColor(UIColor.white, for: .highlighted)
-      
-      self.cancelButton?.setTitleColor(UIColor.white, for: .normal)
-      self.cancelButton?.setTitleColor(UIColor.white, for: .highlighted)
-      
-      self.instance.darkMode()
-    }
-  }
-  
-  @objc func lightMode(_ call: CAPPluginCall? = nil) {
-    DispatchQueue.main.async {
-      self.doneButton?.setTitleColor(UIColor.black, for: .normal)
-      self.doneButton?.setTitleColor(UIColor.black, for: .highlighted)
-      
-      self.cancelButton?.setTitleColor(UIColor.black, for: .normal)
-      self.cancelButton?.setTitleColor(UIColor.black, for: .highlighted)
-      
-      self.instance.lightMode()
-    }
-  }
-  
-  func setPosition() {
-    let picker:UIDatePicker? = instance.picker()
     
-    CAPLog.print("view dimension", view!.frame.width, view!.frame.height)
+    private func createTitleView() -> UILabel {
+        let titleView = UILabel(frame: CGRect(x: 0, y: 0, width: self.alertSize.width, height: self.defaultTitleHeight))
+        titleView.textAlignment = .center
+        titleView.text = self.titleChange(self.parseDateFromString(date: self.pickerDate!))
+        titleView.textColor = UIColor.white
+        titleView.backgroundColor = self.defaultColor
+        
+        return titleView
+    }
     
-    picker!.frame.origin.y = view!.frame.size.height-200
-    picker!.frame.size.width = view!.frame.width
+    private func createOkButton() -> UIButton {
+        let buttonWidth =  self.alertSize.width / 2
+        let button = UIButton(type: .custom)
+        button.frame = CGRect(x: buttonWidth, y: self.alertSize.height - self.defaultButtonHeight, width: buttonWidth, height: self.defaultButtonHeight)
+        button.setTitle(self.pickerDoneText != nil ? self.pickerDoneText! : "Ok", for: .normal)
+        button.setTitleColor(self.defaultColor, for: .normal)
+        button.setTitleColor(self.defaultColor, for: .highlighted)
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.ok))
+        button.addGestureRecognizer(tap)
+        
+        return button
+    }
     
-  }
+    private func createCancelButton() -> UIButton {
+        let buttonWidth =  self.alertSize.width / 2
+        let button = UIButton(frame: CGRect(x: 0, y: self.alertSize.height - self.defaultButtonHeight, width: buttonWidth, height: self.defaultButtonHeight))
+        button.setTitle(self.pickerCancelText != nil ? self.pickerCancelText! : "Cancel", for: .normal)
+        button.setTitleColor(self.defaultColor, for: .normal)
+        button.setTitleColor(self.defaultColor, for: .highlighted)
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.cancel))
+        button.addGestureRecognizer(tap)
+        
+        return button
+    }
+    
+    private func createDatePicker() -> UIDatePicker {
+        let picker = UIDatePicker(frame: CGRect(x: 0, y: self.defaultTitleHeight, width: 0, height: 0))
+        picker.addTarget(self, action: #selector(self.datePickerChanged(picker:)), for: .valueChanged)
+        picker.setDate(self.parseDateFromString(date: self.pickerDate!), animated: false)
+        if (self.pickerDate != nil) {
+            picker.date = self.parseDateFromString(date: self.pickerDate!)
+        }
+        if (self.pickerMaxDate != nil) {
+            picker.maximumDate = self.parseDateFromString(date: self.pickerMaxDate!)
+        }
+        if (self.pickerMinDate != nil) {
+            picker.minimumDate = self.parseDateFromString(date: self.pickerMinDate!)
+        }
+        picker.datePickerMode = self.getMode()
+
+        return picker
+    }
+    
+    private func createPickerView() -> UIView {
+        let okButton = self.createOkButton()
+        let cancelButton = self.createCancelButton()
+        
+        let width = self.bridge.viewController.view.bounds.size.width
+        let height = self.bridge.viewController.view.bounds.size.height
+        
+        let alertView = UIView(frame: CGRect(x: 0, y: 0, width: self.alertSize.width, height: self.alertSize.height))
+        let yPosition = alertView.bounds.size.height - self.defaultButtonHeight - self.defaultSpacerHeight
+        let lineView = UIView(frame: CGRect(x: 0, y: yPosition, width: alertView.bounds.size.width, height: self.defaultSpacerHeight))
+        
+        lineView.backgroundColor = UIColor(red: 198/255, green: 198/255, blue: 198/255, alpha: 1)
+        
+        alertView.frame.origin.y = height - 300
+        alertView.frame.size.width = width
+        alertView.frame.size.height = 300
+        alertView.backgroundColor = UIColor.white
+        
+        alertView.addSubview(okButton)
+        alertView.addSubview(cancelButton)
+        alertView.addSubview(lineView)
+        
+        return alertView
+    }
+    
+    @objc func titleChange(_ date: Date) -> String{
+        if (self.pickerTitle == nil) {
+            var format: String = "E, MMM d, yyyy HH:MM"
+            if (self.pickerMode == "time") {
+                format = "HH:MM a"
+            } else if (self.pickerMode == "date") {
+                format = "E, MMM d, yyyy"
+            }
+            return self.parseDateFromObject(date: date, format: format)
+        }
+        return self.pickerTitle!
+    }
+    
+    @objc func datePickerChanged(picker: UIDatePicker) {
+        self.titleView?.text = self.titleChange(picker.date)
+    }
+    
+    private func dismiss() {
+        DispatchQueue.main.async {
+            let frame = CGRect(x: 0, y: (self.alertView?.frame.height)!, width: 0, height: 0)
+            self.alertView?.frame = frame
+            self.alertView?.isHidden = true
+            self.alertView?.removeFromSuperview()
+        }
+    }
+    
+    @objc func cancel(sender: UIButton) {
+        if (self.call != nil) {
+            var obj:[String:Any] = [:]
+            obj["value"] = nil
+            self.call?.resolve(obj)
+            self.call = nil
+        }
+        self.dismiss()
+    }
+
+    @objc func ok(sender: UIButton) {
+        if (self.call != nil) {
+            var obj:[String:Any] = [:]
+            obj["value"] = parseDateFromObject(date: (picker?.date)!)
+            self.call?.resolve(obj)
+            self.call = nil
+        }
+        self.dismiss()
+    }
+    
+    @objc func present(_ call: CAPPluginCall) {
+        DispatchQueue.main.async {
+            self.call = call
+            self.loadOptions()
+
+            self.titleView = self.createTitleView()
+            self.picker = self.createDatePicker()
+            
+            self.alertView = self.createPickerView()
+
+            self.alertView?.addSubview(self.titleView!);
+            self.alertView?.addSubview(self.picker!)
+            
+            self.bridge.viewController.view.addSubview(self.alertView!)
+        }
+    }
+    
+    func setPosition() {
+        let view = self.bridge.viewController.view
+        CAPLog.print("view dimension", view!.frame.width, view!.frame.height)
+        
+        self.picker!.frame.origin.y = view!.frame.size.height-200
+        self.picker!.frame.size.width = view!.frame.width
+        
+    }
+}
+
+extension UIColor {
+    public convenience init?(hexString: String) {
+        let r, g, b, a: CGFloat
+
+        if hexString.hasPrefix("#") {
+            let start = hexString.index(hexString.startIndex, offsetBy: 1)
+            let hexColor = String(hexString[start...])
+            if hexColor.count == 8 {
+                let scanner = Scanner(string: hexColor)
+                var hexNumber: UInt64 = 0
+
+                if scanner.scanHexInt64(&hexNumber) {
+                    r = CGFloat((hexNumber & 0xff000000) >> 24) / 255
+                    g = CGFloat((hexNumber & 0x00ff0000) >> 16) / 255
+                    b = CGFloat((hexNumber & 0x0000ff00) >> 8) / 255
+                    a = CGFloat(hexNumber & 0x000000ff) / 255
+
+                    self.init(red: r, green: g, blue: b, alpha: a)
+                    return
+                }
+            } else if hexColor.count == 6 {
+                let scanner = Scanner(string: hexColor)
+                var hexNumber: UInt64 = 0
+
+                if scanner.scanHexInt64(&hexNumber) {
+                    r = CGFloat((hexNumber & 0xff000000) >> 24) / 255
+                    g = CGFloat((hexNumber & 0x00ff0000) >> 16) / 255
+                    b = CGFloat((hexNumber & 0x0000ff00) >> 8) / 255
+
+                    self.init(red: r, green: g, blue: b, alpha: 1.0)
+                    return
+                }
+            }
+        }
+
+        return nil
+    }
 }
