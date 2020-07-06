@@ -11,24 +11,44 @@ import Capacitor
 public class DatePickerPlugin: CAPPlugin {
     public let CONFIG_KEY_PREFIX = "plugins.DatePickerPlugin.ios-"
     
-    private var pickerTheme: String?
-    private var pickerMode: String?
-    private var pickerFormat: String?
-    private var pickerTimezone: String?
-    private var pickerLocale: String?
-    private var pickerCancelText: String?
-    private var pickerDoneText: String?
-    private var picker24h: Bool?
-    private var pickerDate: String?
-    private var pickerMinDate: String?
-    private var pickerMaxDate: String?
-    private var pickerTitle: String?
+    private var defaultPickerTheme: String = "light"
+    private var defaultPickerMode: String = "dateAndTime"
+    private var defaultPickerFormat: String = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+    private var defaultPickerTimezone: String? = nil
+    private var defaultPickerLocale: String? = nil
+    private var defaultPickerCancelText: String = "Cancel"
+    private var defaultPickerDoneText: String = "Ok"
+    private var defaultPicker24h: Bool =  false
+    private var defaultPickerDate: String? = nil
+    private var defaultPickerMinDate: String? = nil
+    private var defaultPickerMaxDate: String? = nil
+    private var defaultPickerTitle: String? = nil
+    private var defaultPickerTitleFontColor: String = "#000000"
+    private var defaultPickerTitleBgColor: String = "#ffffff"
+    private var defaultPickerBgColor: String = "#ffffff"
+    private var defaultPickerFontColor: String = "#000000"
+    private var defaultPickerButtonBgColor: String = "#ffffff"
+    private var defaultPickerButtonFontColor: String = "#000000"
+    
+    private var pickerTheme: String = "light"
+    private var pickerMode: String = "dateAndTime"
+    private var pickerFormat: String = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+    private var pickerTimezone: String? = nil
+    private var pickerLocale: String? = nil
+    private var pickerCancelText: String = "Cancel"
+    private var pickerDoneText: String = "Ok"
+    private var picker24h: Bool =  false
+    private var pickerDate: String? = nil
+    private var pickerMinDate: String? = nil
+    private var pickerMaxDate: String? = nil
+    private var pickerTitle: String? = nil
     
     private var call: CAPPluginCall?
     private var picker: UIDatePicker?
     private var titleView: UILabel?
     private var alertView: UIView?
-    
+    private var doneButton: UIButton?
+    private var cancelButton: UIButton?
     
     //
     // sizes
@@ -40,54 +60,52 @@ public class DatePickerPlugin: CAPPlugin {
     
     //
     // colors
-    private var pickerTitleFontColor: String = "#ffffff"
-    private var pickerTitleBgColor: String = "#2861ff"
+    private var pickerTitleFontColor: String = "#000000"
+    private var pickerTitleBgColor: String = "#ffffff"
     private var pickerBgColor: String = "#ffffff"
     private var pickerFontColor: String = "#000000"
     private var pickerButtonBgColor: String = "#ffffff"
-    private var pickerButtonFontColor: String =  "#2861ff"
+    private var pickerButtonFontColor: String =  "#000000"
     
     
     private func loadOptions() {
-        self.pickerTheme = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "pickerLocale") ?? "light"
-        self.pickerMode = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "pickerFormat") ?? "dateAndTime"
-        self.pickerFormat = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "pickerTheme") ?? "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
-        self.pickerTimezone = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "pickerMode") ?? nil
-        self.pickerLocale = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "pickerTimezone") ?? nil
-        self.pickerCancelText = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "pickerDate") ?? "Cancel"
-        self.pickerDoneText = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "pickerMinDate") ?? "Ok"
-        self.picker24h = self.bridge.config.getValue(self.CONFIG_KEY_PREFIX + "pickerMaxDate") as? Bool ?? false
-        self.pickerDate = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "pickerTitle") ?? self.parseDateFromObject(date: Date())
-        self.pickerMinDate = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "pickerCancelText") ?? nil
-        self.pickerMaxDate = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "pickerDoneText") ?? nil
-        self.pickerTitle = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "title") ?? nil
-        self.pickerTitleFontColor = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "titleFontColor") ?? self.pickerTitleFontColor
-        self.pickerTitleBgColor = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "titleBgColor") ?? self.pickerTitleBgColor
-        self.pickerBgColor = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "bgColor") ?? self.pickerBgColor
-        self.pickerFontColor = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "fontColor") ?? self.pickerFontColor
-        self.pickerButtonBgColor = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "buttonBgColor") ?? self.pickerButtonBgColor
-        self.pickerButtonFontColor = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "buttonFontColor") ?? self.pickerButtonFontColor
+        self.defaultPickerTheme = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "theme") ?? self.defaultPickerTheme
+        self.defaultPickerMode = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "mode") ?? self.defaultPickerMode
+        self.defaultPickerFormat = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "format") ?? self.defaultPickerFormat
+        self.defaultPickerTimezone = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "timezone") ?? self.defaultPickerTimezone
+        self.defaultPickerLocale = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "locale") ?? self.defaultPickerLocale
+        self.defaultPickerCancelText = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "cancelText") ?? self.defaultPickerCancelText
+        self.defaultPickerDoneText = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "doneText") ?? self.defaultPickerDoneText
+        self.defaultPicker24h = self.bridge.config.getValue(self.CONFIG_KEY_PREFIX + "is24h") as? Bool ?? self.defaultPicker24h
+        self.defaultPickerTitle = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "title") ?? self.defaultPickerTitle
+        self.defaultPickerTitleFontColor = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "titleFontColor") ?? self.defaultPickerTitleFontColor
+        self.defaultPickerTitleBgColor = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "titleBgColor") ?? self.defaultPickerTitleBgColor
+        self.defaultPickerBgColor = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "bgColor") ?? self.defaultPickerBgColor
+        self.defaultPickerFontColor = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "fontColor") ?? self.defaultPickerFontColor
+        self.defaultPickerButtonBgColor = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "buttonBgColor") ?? self.defaultPickerButtonBgColor
+        self.defaultPickerButtonFontColor = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "buttonFontColor") ?? self.defaultPickerButtonFontColor
+    }
+    
+    private func loadCallOptions() {
+        self.pickerLocale = self.call?.getString("locale") ?? self.defaultPickerLocale
+        self.pickerFormat = self.call?.getString("format") ?? self.defaultPickerFormat
+        self.pickerTheme = self.call?.getString("theme") ?? self.defaultPickerTheme
+        self.pickerMode = self.call?.getString("mode") ?? self.defaultPickerMode
+        self.pickerTimezone = self.call?.getString("timezone") ?? self.defaultPickerTimezone
+        self.pickerDate = self.call?.getString("date") ?? self.parseDateFromObject(date: Date())
+        self.pickerMinDate = self.call?.getString("min") ?? nil
+        self.pickerMaxDate = self.call?.getString("max") ?? nil
+        self.pickerTitle = self.call?.getString("title") ?? self.defaultPickerTitle
+        self.pickerCancelText = self.call?.getString("cancelText") ?? self.defaultPickerCancelText
+        self.pickerDoneText = self.call?.getString("doneText") ?? self.defaultPickerDoneText
+        self.picker24h = self.call?.getBool("is24h") ?? self.defaultPicker24h
+        self.pickerTitleFontColor = self.call?.getString("titleFontColor") ?? self.defaultPickerTitleFontColor
+        self.pickerTitleBgColor = self.call?.getString("titleBgColor") ?? self.defaultPickerTitleBgColor
+        self.pickerBgColor = self.call?.getString("bgColor") ?? self.defaultPickerBgColor
+        self.pickerFontColor = self.call?.getString("fontColor") ?? self.defaultPickerFontColor
+        self.pickerButtonBgColor = self.call?.getString("buttonBgColor") ?? self.defaultPickerButtonBgColor
+        self.pickerButtonFontColor = self.call?.getString("buttonFontColor") ?? self.defaultPickerButtonFontColor
         
-        if (self.call != nil) {
-            self.pickerLocale = self.call?.getString("locale") ?? self.pickerLocale
-            self.pickerFormat = self.call?.getString("format") ?? self.pickerFormat
-            self.pickerTheme = self.call?.getString("theme") ?? self.pickerTheme
-            self.pickerMode = self.call?.getString("mode") ?? self.pickerMode
-            self.pickerTimezone = self.call?.getString("timezone") ?? self.pickerTimezone
-            self.pickerDate = self.call?.getString("date") ?? self.pickerDate
-            self.pickerMinDate = self.call?.getString("min") ?? self.pickerMinDate
-            self.pickerMaxDate = self.call?.getString("max") ?? self.pickerMaxDate
-            self.pickerTitle = self.call?.getString("title") ?? self.pickerTitle
-            self.pickerCancelText = self.call?.getString("cancelText") ?? self.pickerCancelText
-            self.pickerDoneText = self.call?.getString("doneText") ?? self.pickerDoneText
-            self.picker24h = self.call?.getBool("is24h") ?? self.picker24h
-            self.pickerTitleFontColor = self.call?.getString("titleFontColor") ?? self.pickerTitleFontColor
-            self.pickerTitleBgColor = self.call?.getString("titleBgColor") ?? self.pickerTitleBgColor
-            self.pickerBgColor = self.call?.getString("bgColor") ?? self.pickerBgColor
-            self.pickerFontColor = self.call?.getString("fontColor") ?? self.pickerFontColor
-            self.pickerButtonBgColor = self.call?.getString("buttonBgColor") ?? self.pickerButtonBgColor
-            self.pickerButtonFontColor = self.call?.getString("buttonFontColor") ?? self.pickerButtonFontColor
-        }
         
         self.alertSize = CGSize(width: self.bridge.viewController.view.bounds.size.width, height: 250 + self.defaultButtonHeight)
     }
@@ -263,7 +281,7 @@ public class DatePickerPlugin: CAPPlugin {
     @objc func present(_ call: CAPPluginCall) {
         DispatchQueue.main.async {
             self.call = call
-            self.loadOptions()
+            self.loadCallOptions()
             
             if (self.alertView != nil) {
                 self.alertView?.removeFromSuperview()
