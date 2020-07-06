@@ -17,6 +17,7 @@ export class HomePage {
   locale: string;
   doneText: string;
   cancelText: string;
+  timeMode = false;
 
   themeList: Array<{ value: DatePickerTheme; label: string }> = [
     {
@@ -62,6 +63,7 @@ export class HomePage {
   constructor() {}
 
   async maxFocus() {
+    document.body.focus()
     this.max = null;
     const pickerResult = await this.openPicker()
     if (pickerResult?.value) {
@@ -70,6 +72,7 @@ export class HomePage {
   }
 
   async minFocus() {
+    document.body.focus()
     this.min = null;
     const pickerResult = await this.openPicker()
     if (pickerResult?.value) {
@@ -84,6 +87,9 @@ export class HomePage {
         this.max.setHours(23,59,59,999);
       }
       options.max = this.max.toISOString();
+    }
+    if (this.timeMode) {
+      options.is24h = true
     }
     if (this.min) {
       if (this.mode === 'date') {

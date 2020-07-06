@@ -20,6 +20,13 @@
     </ion-select>
   </ion-item>
   <ion-item class="ion-no-padding">
+    <ion-label position="floating">Time Mode</ion-label>
+    <ion-select [(ngModel)]="timeMode">
+      <ion-select-option [value]="false">12 h</ion-select-option>
+      <ion-select-option [value]="true">24 h</ion-select-option>
+    </ion-select>
+  </ion-item>
+  <ion-item class="ion-no-padding">
     <ion-label position="floating">Min</ion-label>
     <ion-input [(ngModel)]="min" (ionFocus)="minFocus()" readonly></ion-input>
   </ion-item>
