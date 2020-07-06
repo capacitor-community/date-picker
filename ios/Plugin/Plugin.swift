@@ -193,9 +193,8 @@ public class DatePickerPlugin: CAPPlugin {
         let xPosition = (self.alertSize.width - (self.picker?.frame.width)!) / 2
         self.picker?.frame.origin.x = xPosition
         
-        CAPLog.print("AlertSize: \(xPosition)")
-        
         self.picker?.setValue(UIColor(hexString: self.pickerFontColor), forKey: "textColor")
+        self.picker?.setValue(false, forKey: "highlightsToday")
         self.picker?.addTarget(self, action: #selector(self.datePickerChanged(picker:)), for: .valueChanged)
         self.picker?.setDate(self.parseDateFromString(date: self.pickerDate!), animated: false)
         if (self.pickerDate != nil) {
@@ -230,6 +229,7 @@ public class DatePickerPlugin: CAPPlugin {
     
     private func setTimeMode() {
         DispatchQueue.main.async {
+            let date = self.picker?.date
             if (self.picker24h) {
                 self.picker?.datePickerMode = UIDatePicker.Mode.countDownTimer
             } else {
@@ -237,6 +237,8 @@ public class DatePickerPlugin: CAPPlugin {
             }
             let xPosition = (self.alertSize.width - (self.picker?.frame.width)!) / 2
             self.picker?.frame.origin.x = xPosition
+            
+            self.picker?.setDate(date!, animated: true)
         }
     }
     
@@ -309,7 +311,6 @@ public class DatePickerPlugin: CAPPlugin {
     }
     
     @objc func ok(sender: UIButton) {
-        
         if (self.pickerMode == "dateAndTime" && self.picker?.datePickerMode == UIDatePicker.Mode.date) {
             self.setTimeMode()
             return
