@@ -17,7 +17,7 @@ export interface DatePickerOptions {
   format?: string;
   /**
    * @type {string}
-   * @defalt null
+   * @default null
    * 
    * @description If null, empty or undefined, use the device locale
    */
@@ -89,7 +89,7 @@ export interface DatePickerOptions {
    * @type {string}
    * @default null
    * 
-   * @description: hex string for title font color
+   * @description hex string for title font color
    * @note Only IOS
    */
   titleFontColor?: string;
@@ -97,7 +97,7 @@ export interface DatePickerOptions {
    * @type {string}
    * @default null
    * 
-   * @description: hex string for title background color
+   * @description hex string for title background color
    * @note Only IOS
    */
   titleBgColor?: string;
@@ -105,7 +105,7 @@ export interface DatePickerOptions {
    * @type {string}
    * @default null
    * 
-   * @description: hex string for picker background color
+   * @description hex string for picker background color
    * @note Only IOS
    */
   bgColor?: string;
@@ -113,7 +113,7 @@ export interface DatePickerOptions {
    * @type {string}
    * @default null
    * 
-   * @description: hex string for picker font color
+   * @description hex string for picker font color
    * @note Only IOS
    */
   fontColor?: string;
@@ -121,7 +121,7 @@ export interface DatePickerOptions {
    * @type {string}
    * @default null
    * 
-   * @description: hex string for buttons background color
+   * @description hex string for buttons background color
    * @note Only IOS
    */
   buttonBgColor?: string;
@@ -129,7 +129,7 @@ export interface DatePickerOptions {
    * @type {string}
    * @default null
    * 
-   * @description: hex string for button font color
+   * @description hex string for button font color
    * @note Only IOS
    */
   buttonFontColor?: string;
