@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.1.0](https://github.com/capacitor-community/date-picker/compare/v0.0.1...v0.1.0) (2020-07-11)
+
+
+### Features
+
+* add dark and light mode on ios ([122a716](https://github.com/capacitor-community/date-picker/commit/122a7165e7e23040aa391855a3e8c62872398399))
+* add manual change ios theme ([bef5df6](https://github.com/capacitor-community/date-picker/commit/bef5df6800d010c3bcb39b24d207d17595365141))
+* create a blank demo project ([82de723](https://github.com/capacitor-community/date-picker/commit/82de723407e318ab9002c8ffdce0ea2d183b32d0))
+
+
+### Bug Fixes
+
+* **package:** lock capacitor core in 2.0.0 ([886e28a](https://github.com/capacitor-community/date-picker/commit/886e28a3bf05b5b56f38e75dae07ab23d51805b9))
+* bug on change date to time ([9642f44](https://github.com/capacitor-community/date-picker/commit/9642f44001119ed22c97ac8f7a0b0bb4724d3f0e))
+* change picker24: false ([4a5b90d](https://github.com/capacitor-community/date-picker/commit/4a5b90dad0da50242b41d09128e17f8074e67916))
+* docs on plugin interface ([feaa295](https://github.com/capacitor-community/date-picker/commit/feaa295d5fdc9e6b1aa6ccf46e36f2a27c5a5dda))
+* documentation ([e2eed04](https://github.com/capacitor-community/date-picker/commit/e2eed04979899404466649396cda5db65733ca69))
+* igonore local files ([15fa5e2](https://github.com/capacitor-community/date-picker/commit/15fa5e2c611ce09371e71d7cb9e732e8079843b4))
+* instance maxDate ([b0bbd9d](https://github.com/capacitor-community/date-picker/commit/b0bbd9d6bf0c8bc4ab2eca1951d08feb821f5376))
+* set any to use interfaces ([99fa2f3](https://github.com/capacitor-community/date-picker/commit/99fa2f310c4ecabce826318c9b7a01bcf7fe668a))
+* two instances not closing ([27abf55](https://github.com/capacitor-community/date-picker/commit/27abf55b1c61a210e9ae2546696b6c20b2899615))
+
 ### 0.0.1 (2020-06-28)
 
 
