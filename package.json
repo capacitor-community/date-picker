@@ -18,7 +18,7 @@
   "author": "Stewan Silva",
   "license": "MIT",
   "dependencies": {
-    "@capacitor/core": "latest"
+    "@capacitor/core": "^2.0.0"
   },
   "devDependencies": {
     "@capacitor/android": "latest",
