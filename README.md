@@ -12,15 +12,16 @@
   <a href="https://www.npmjs.com/package/@capacitor-community/date-picker"><img src="https://img.shields.io/npm/dw/@capacitor-community/date-picker?style=flat-square" /></a>
   <a href="https://www.npmjs.com/package/@capacitor-community/date-picker"><img src="https://img.shields.io/npm/v/@capacitor-community/date-picker?style=flat-square" /></a>
   <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-<a href="#contributors"><img src="https://img.shields.io/badge/all%20contributors-1-orange?style=flat-square" /></a>
+<a href="#contributors"><img src="https://img.shields.io/badge/all%20contributors-2-orange?style=flat-square" /></a>
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 </p>
 
 ## Maintainers
 
-| Maintainer   | GitHub                                | Social                                          |
-| ------------ | ------------------------------------- | ----------------------------------------------- |
-| Stewan Silva | [stewwan](https://github.com/stewwan) | [@StewanSilva](https://twitter.com/StewanSilva) |
+| Maintainer     | GitHub                                                  | Social                                          |
+| -------------- | ------------------------------------------------------- | ----------------------------------------------- |
+| Stewan Silva   | [stewwan](https://github.com/stewwan)                   | [@StewanSilva](https://twitter.com/StewanSilva) |
+| Daniel Pereira | [danielprrazevedo](https://github.com/danielprrazevedo) | [@DandanPrr](https://twitter.com/DandanPrr)     |
 
 ## Notice 🚀
 
@@ -46,10 +47,6 @@ Sync native files:
 npx cap sync
 ```
 
-Native Datetime Picker Plugin for Capacitor Apps
-
-> work in progress
-
 ## Roadmap
 
 ### ios
@@ -58,31 +55,37 @@ Native Datetime Picker Plugin for Capacitor Apps
 - [x] config
   - [x] format
   - [x] locale
+  - [x] date
   - [x] mode
   - [x] theme
-  - [x] background
-  - [ ] min
-  - [ ] max
-  - [ ] doneText
-  - [ ] cancelText
-  - [ ] timezone
-  - [ ] title
+  - [x] timezone
+  - [x] min
+  - [x] max
+  - [x] doneText
+  - [x] cancelText
+  - [x] is24h
+  - [x] titleFontColor
+  - [x] titleBgColor
+  - [x] bgColor
+  - [x] fontColor
+  - [x] buttonBgColor
+  - [x] buttonFontColor
 
 ### android
 
 - [x] present
 - [x] config
   - [x] format
-  - [ ] locale
+  - [x] locale
+  - [x] date
   - [x] mode
   - [x] theme
-  - [x] background
+  - [x] timezone
   - [x] min
   - [x] max
   - [x] doneText
   - [x] cancelText
-  - [x] timezone
-  - [x] title
+  - [x] is24h
 
 ### web
 
@@ -108,52 +111,62 @@ Native Datetime Picker Plugin for Capacitor Apps
 
 These options can be used through the `present` method and/or within `capacitor.config.json`
 
-| name       | type     | default              | options                                |
-| ---------- | -------- | -------------------- | -------------------------------------- |
-| format     | `string` | `MM/dd/yyyy hh:mm a` |                                        |
-| locale     | `string` | `en_US`              |                                        |
-| date       | `string` | **_`current date`_** | **_`any date in string format`_**      |
-| mode       | `string` | `dateAndTime`        | `time/date/dateAndTime/countDownTimer` |
-| background | `string` | **_`transparent`_**  | **_`any #hexadecimal value`_**         |
-| theme      | `string` | `light`              | `light/dark`                           |
+| name            | type              | default                          |
+| --------------- | ----------------- | -------------------------------- |
+| format          | `string`          | `"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"` |
+| locale          | `string`          | **_`current device`_**           |
+| date            | `string`          | **_`current date`_**             |
+| mode            | `DatePickerMode`  | `"dateAndTime"`                  |
+| theme           | `DatePickerTheme` | `"light"`                        |
+| timezone        | `string`          | **_`current device`_**           |
+| min             | `string`          | `null`                           |
+| max             | `string`          | `null`                           |
+| doneText        | `string`          | `"OK"`                           |
+| cancelText      | `string`          | `"Cancel"`                       |
+| is24h           | `boolean`         | `false`                          |
+| titleFontColor  | `string`          | `null`                           |
+| titleBgColor    | `string`          | `null`                           |
+| bgColor         | `string`          | `null`                           |
+| fontColor       | `string`          | `null`                           |
+| buttonBgColor   | `string`          | `null`                           |
+| buttonFontColor | `string`          | `null`                           |
 
 ### Config for Android (`DatepickOptions`)
 
 These options can be used through the `present` method and/or within `capacitor.config.json`
 
-| name       | type      | default              | options                           |
-| ---------- | --------- | -------------------- | --------------------------------- |
-| format     | `string`  | `MM/dd/yyyy hh:mm a` |                                   |
-| date       | `string`  | **_`current date`_** | **_`any date in string format`_** |
-| min        | `string`  | `none`               | **_`any date in string format`_** |
-| max        | `string`  | `none`               | **_`any date in string format`_** |
-| mode       | `string`  | `date`               | `date/time`                       |
-| type       | `string`  | `spinner`            | `spinner/calendar`                |
-| theme      | `string`  | `light`              | `light/dark`                      |
-| timezone   | `string`  | `UTC`                |                                   |
-| doneText   | `string`  | `Done`               |                                   |
-| cancelText | `string`  | `Cancel`             |                                   |
-| title      | `string`  | `none`               |                                   |
-| is24h      | `boolean` | `true`               | **_`for time mode`_**             |
+| name       | type              | default                          |
+| ---------- | ----------------- | -------------------------------- |
+| format     | `string`          | `"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"` |
+| locale     | `string`          | **_`current device`_**           |
+| date       | `string`          | **_`current date`_**             |
+| mode       | `DatePickerMode`  | `"dateAndTime"`                  |
+| theme      | `DatePickerTheme` | `"light"`                        |
+| timezone   | `string`          | **_`current device`_**           |
+| min        | `string`          | `null`                           |
+| max        | `string`          | `null`                           |
+| doneText   | `string`          | `"OK"`                           |
+| cancelText | `string`          | `"Cancel"`                       |
+| is24h      | `boolean`         | `false`                          |
 
 > For more information check the [`definitions`](/src/definitions.ts) file
 
 ## Usage
 
 ```js
-import { Datepick } from "@capacitor-community/date-picker";
+import { Plugins } from "@capacitor/core";
+import { DatePickerPluginInterface } from "@capacitor-community/date-picker";
 
-const datepick = new Datepick();
+const DatePicker: DatePickerPluginInterface = Plugins.DatePickerPlugin as any;
 const selectedTheme = "light";
 
-datepick
+DatePicker
   .present({
     mode: "date",
     locale: "pt_BR",
     format: "dd/MM/yyyy",
     date: "13/07/2019",
     theme: selectedTheme,
-    background: selectedTheme === "dark" ? "#333333" : "#ffffff",
   })
   .then((date) => alert(date.value));
 ```
@@ -164,7 +177,7 @@ datepick
 {
   //...
   "plugins": {
-    "DatepickPlugin": {
+    "DatePickerPlugin": {
       "mode": "date",
       "locale": "pt_BR",
       "current": "13/07/2019",
@@ -198,7 +211,7 @@ datepick
 - `npx cap open android`
 - `[extra step]` in android case we need to tell Capacitor to initialise the plugin:
 
-> on your `MainActivity.java` file add `import io.stewan.capacitor.datepick.DatepickPlugin;` and then inside the init callback `add(DatepickPlugin.class);`
+> on your `MainActivity.java` file add `com.getcapacitor.community.datepicker.DatePickerPlugin;` and then inside the init callback `add(DatePickerPlugin.class);`
 
 Now you should be set to go. Try to run your client using `ionic cap run android --livereload --address=0.0.0.0`.
 
@@ -210,9 +223,9 @@ For existing projects you can upgrade all capacitor related packages (including 
 
 `npx npm-upgrade '*capacitor*' && npm install`
 
-## Sample app
+## Example
 
-https://github.com/stewwan/capacitor-datepick-demo
+https://github.com/capacitor-community/date-picker/tree/master/example
 
 ## License
 
@@ -227,7 +240,8 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- markdownlint-disable -->
 <table>
   <tr>
-    <td align="center"><a href="https://twitter.com/StewanSilva"><img src="https://avatars1.githubusercontent.com/u/719763?v=4" width="75px;" alt=""/><br /><sub><b>Stew</b></sub></a><br /><a href="https://github.com/capacitor-community/date-picker/commits?author=stewwan" title="Code">💻</a> <a href="https://github.com/capacitor-community/date-picker/commits?author=stewwan" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://twitter.com/StewanSilva"><img src="https://avatars1.githubusercontent.com/u/719763?v=4?s=75" width="75px;" alt=""/><br /><sub><b>Stew</b></sub></a><br /><a href="https://github.com/capacitor-community/date-picker/commits?author=stewwan" title="Code">💻</a> <a href="https://github.com/capacitor-community/date-picker/commits?author=stewwan" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/danielprrazevedo"><img src="https://avatars2.githubusercontent.com/u/20153661?v=4?s=75" width="75px;" alt=""/><br /><sub><b>Daniel Pereira</b></sub></a><br /><a href="https://github.com/capacitor-community/date-picker/commits?author=danielprrazevedo" title="Code">💻</a> <a href="https://github.com/capacitor-community/date-picker/commits?author=danielprrazevedo" title="Documentation">📖</a> <a href="#maintenance-danielprrazevedo" title="Maintenance">🚧</a></td>
   </tr>
 </table>
 

@@ -20,6 +20,17 @@
         "code",
         "doc"
       ]
+    },
+    {
+      "login": "danielprrazevedo",
+      "name": "Daniel Pereira",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/20153661?v=4",
+      "profile": "https://github.com/danielprrazevedo",
+      "contributions": [
+        "code",
+        "doc",
+        "maintenance"
+      ]
     }
   ],
   "contributorsPerLine": 7

@@ -6,5 +6,5 @@ Pods
 Build
 *.iml
 .idea
-
-package-lock.json
+.gradle
+local.properties

@@ -1,18 +1,18 @@
 import { Plugins } from '@capacitor/core';
-import { DatepickProtocol } from './definitions';
+import { DatePickerPluginInterface } from './definitions';
 
-const { DatepickPlugin } = Plugins;
+const _DatePickerPlugin: DatePickerPluginInterface = Plugins.DatePickerPlugin as any;
 
-export class Datepick implements DatepickProtocol {
+export class DatePicker implements DatePickerPluginInterface {
   present(options: any): Promise<{ value: string }> {
-    return DatepickPlugin.present(options);
+    return _DatePickerPlugin.present(options);
   }
 
   darkMode(): Promise<void> {
-    return DatepickPlugin.darkMode();
+    return _DatePickerPlugin.darkMode();
   }
 
   lightMode(): Promise<void> {
-    return DatepickPlugin.lightMode();
+    return _DatePickerPlugin.lightMode();
   }
 }
