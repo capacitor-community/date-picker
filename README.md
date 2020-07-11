@@ -18,9 +18,10 @@
 
 ## Maintainers
 
-| Maintainer   | GitHub                                | Social                                          |
-| ------------ | ------------------------------------- | ----------------------------------------------- |
-| Stewan Silva | [stewwan](https://github.com/stewwan) | [@StewanSilva](https://twitter.com/StewanSilva) |
+| Maintainer     | GitHub                                                  | Social                                          |
+| -------------- | ------------------------------------------------------- | ----------------------------------------------- |
+| Stewan Silva   | [stewwan](https://github.com/stewwan)                   | [@StewanSilva](https://twitter.com/StewanSilva) |
+| Daniel Pereira | [danielprrazevedo](https://github.com/danielprrazevedo) | [@DandanPrr](https://twitter.com/DandanPrr)     |
 
 ## Notice 🚀
 
@@ -45,10 +46,6 @@ Sync native files:
 ```bash
 npx cap sync
 ```
-
-Native Datetime Picker Plugin for Capacitor Apps
-
-> work in progress
 
 ## Roadmap
 
@@ -115,7 +112,7 @@ Native Datetime Picker Plugin for Capacitor Apps
 These options can be used through the `present` method and/or within `capacitor.config.json`
 
 | name            | type              | default                          |
-| ----------------| ----------------- | -------------------------------- |
+| --------------- | ----------------- | -------------------------------- |
 | format          | `string`          | `"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"` |
 | locale          | `string`          | **_`current device`_**           |
 | date            | `string`          | **_`current date`_**             |
@@ -138,19 +135,19 @@ These options can be used through the `present` method and/or within `capacitor.
 
 These options can be used through the `present` method and/or within `capacitor.config.json`
 
-| name            | type              | default                          |
-| ----------------| ----------------- | -------------------------------- |
-| format          | `string`          | `"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"` |
-| locale          | `string`          | **_`current device`_**           |
-| date            | `string`          | **_`current date`_**             |
-| mode            | `DatePickerMode`  | `"dateAndTime"`                  |
-| theme           | `DatePickerTheme` | `"light"`                        |
-| timezone        | `string`          | **_`current device`_**           |
-| min             | `string`          | `null`                           |
-| max             | `string`          | `null`                           |
-| doneText        | `string`          | `"OK"`                           |
-| cancelText      | `string`          | `"Cancel"`                       |
-| is24h           | `boolean`         | `false`                          |
+| name       | type              | default                          |
+| ---------- | ----------------- | -------------------------------- |
+| format     | `string`          | `"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"` |
+| locale     | `string`          | **_`current device`_**           |
+| date       | `string`          | **_`current date`_**             |
+| mode       | `DatePickerMode`  | `"dateAndTime"`                  |
+| theme      | `DatePickerTheme` | `"light"`                        |
+| timezone   | `string`          | **_`current device`_**           |
+| min        | `string`          | `null`                           |
+| max        | `string`          | `null`                           |
+| doneText   | `string`          | `"OK"`                           |
+| cancelText | `string`          | `"Cancel"`                       |
+| is24h      | `boolean`         | `false`                          |
 
 > For more information check the [`definitions`](/src/definitions.ts) file
 
@@ -226,9 +223,9 @@ For existing projects you can upgrade all capacitor related packages (including 
 
 `npx npm-upgrade '*capacitor*' && npm install`
 
-## Sample app
+## Example
 
-https://github.com/stewwan/capacitor-datepick-demo
+https://github.com/capacitor-community/date-picker/tree/master/example
 
 ## License
 
@@ -250,6 +247,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
+
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
