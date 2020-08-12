@@ -198,6 +198,8 @@ public class DatePickerPlugin extends Plugin {
             }
         });
 
+        timePicker.updateTime(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
+
         timePicker.show();
     }
 
