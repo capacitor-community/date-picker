@@ -274,9 +274,9 @@ public class DatePickerPlugin: CAPPlugin {
     
     @objc func titleChange(_ date: Date) -> String{
         if (self.pickerTitle == nil) {
-            var format: String = "E, MMM d, yyyy HH:MM"
+            var format: String = "E, MMM d, yyyy HH:mm"
             if (self.pickerMode == "time") {
-                format = "HH:MM a"
+                format = "HH:mm a"
             } else if (self.pickerMode == "date") {
                 format = "E, MMM d, yyyy"
             }
@@ -286,7 +286,9 @@ public class DatePickerPlugin: CAPPlugin {
     }
     
     @objc func datePickerChanged(picker: UIDatePicker) {
-        self.titleView?.text = self.titleChange(picker.date)
+        DispatchQueue.main.async {
+            self.titleView?.text = self.titleChange(picker.date)
+        }
     }
     
     private func dismiss() {
