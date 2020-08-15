@@ -49,6 +49,7 @@ public class DatePickerPlugin: CAPPlugin {
     private var picker: UIDatePicker?
     private var titleView: UILabel?
     private var alertView: UIView?
+    private var backgroundView: UIView?
     private var doneButton: UIButton?
     private var cancelButton: UIButton?
     
@@ -301,7 +302,17 @@ public class DatePickerPlugin: CAPPlugin {
     
     private func dismiss() {
         DispatchQueue.main.async {
-            self.alertView?.removeFromSuperview()
+            let height = self.alertView!.frame.size.height
+            UIView.animate(withDuration: 0.2, delay: 0, options: [.curveEaseInOut], animations: {
+                self.alertView!.center.y += height
+            }, completion: nil)
+            UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseInOut], animations: {
+                self.backgroundView!.backgroundColor = UIColor(hexString: "#00000000")
+            }, completion: { (finished: Bool) in
+                self.backgroundView!.removeFromSuperview()
+            })
+            UIView.transition(with: self.bridge.viewController.view, duration: 0.25, options: [.curveEaseIn], animations: {
+            }, completion: nil)
         }
     }
     
@@ -396,10 +407,31 @@ public class DatePickerPlugin: CAPPlugin {
             
             self.createPickerView()
             
+
+            self.backgroundView = UIView()
+            self.backgroundView!.backgroundColor = UIColor(hexString: "#00000000")
+
+            let x = self.bridge.viewController.view.bounds.size.width
+            let y = self.bridge.viewController.view.bounds.size.height
+            
+            self.backgroundView!.frame.size.width = x
+            self.backgroundView!.frame.size.height = y
+            self.backgroundView!.addSubview(self.alertView!)
+            
             self.alertView?.addSubview(self.titleView!);
             self.alertView?.addSubview(self.picker!)
+            let height = self.alertView!.frame.size.height
+            self.alertView!.center.y += height
             
-            self.bridge.viewController.view.addSubview(self.alertView!)
+            self.bridge.viewController.view.addSubview(self.backgroundView!)
+            
+            UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseInOut], animations: {
+                self.backgroundView!.backgroundColor = UIColor(hexString: "#00000088")
+            }, completion: nil)
+            
+            UIView.animate(withDuration: 0.2, delay: 0, options: [.curveEaseInOut], animations: {
+                self.alertView!.center.y -= height
+            }, completion: nil)
         }
     }
 }
