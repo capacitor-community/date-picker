@@ -27,6 +27,10 @@
     </ion-select>
   </ion-item>
   <ion-item class="ion-no-padding">
+    <ion-label>Merged Date and Time</ion-label>
+    <ion-checkbox slot="start" [(ngModel)]="mergedDateAndTime"></ion-checkbox>
+  </ion-item>
+  <ion-item class="ion-no-padding">
     <ion-label position="floating">Min</ion-label>
     <ion-input [(ngModel)]="min" (ionFocus)="minFocus()" readonly></ion-input>
   </ion-item>
