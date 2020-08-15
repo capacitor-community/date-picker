@@ -29,6 +29,7 @@ public class DatePickerPlugin: CAPPlugin {
     private var defaultPickerFontColor: String = "#000000"
     private var defaultPickerButtonBgColor: String = "#ffffff"
     private var defaultPickerButtonFontColor: String = "#000000"
+    private var defaultPickerMergedDateAndTime: Bool = false;
     
     private var pickerTheme: String = "light"
     private var pickerMode: String = "dateAndTime"
@@ -42,6 +43,7 @@ public class DatePickerPlugin: CAPPlugin {
     private var pickerMinDate: String? = nil
     private var pickerMaxDate: String? = nil
     private var pickerTitle: String? = nil
+    private var pickerMergedDateAndTime: Bool = false;
     
     private var call: CAPPluginCall?
     private var picker: UIDatePicker?
@@ -84,6 +86,7 @@ public class DatePickerPlugin: CAPPlugin {
         self.defaultPickerFontColor = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "fontColor") ?? self.defaultPickerFontColor
         self.defaultPickerButtonBgColor = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "buttonBgColor") ?? self.defaultPickerButtonBgColor
         self.defaultPickerButtonFontColor = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "buttonFontColor") ?? self.defaultPickerButtonFontColor
+        self.defaultPickerMergedDateAndTime = self.bridge.config.getValue(self.CONFIG_KEY_PREFIX + "mergedDateAndTime") as? Bool ?? self.defaultPickerMergedDateAndTime
     }
     
     private func loadCallOptions() {
@@ -105,6 +108,7 @@ public class DatePickerPlugin: CAPPlugin {
         self.pickerFontColor = self.call?.getString("fontColor") ?? self.defaultPickerFontColor
         self.pickerButtonBgColor = self.call?.getString("buttonBgColor") ?? self.defaultPickerButtonBgColor
         self.pickerButtonFontColor = self.call?.getString("buttonFontColor") ?? self.defaultPickerButtonFontColor
+        self.pickerMergedDateAndTime = self.call?.getBool("mergedDateAndTime") ?? self.defaultPickerMergedDateAndTime
         
         
         self.alertSize = CGSize(width: self.bridge.viewController.view.bounds.size.width, height: 250 + self.defaultButtonHeight)
@@ -218,6 +222,10 @@ public class DatePickerPlugin: CAPPlugin {
         
         if (self.pickerMode == "time") {
             self.setTimeMode()
+        } else if (self.pickerMergedDateAndTime) {
+            self.picker?.datePickerMode = UIDatePicker.Mode.dateAndTime
+            let xPosition = (self.alertSize.width - (self.picker?.frame.width)!) / 2
+            self.picker?.frame.origin.x = xPosition
         } else {
             self.picker?.datePickerMode = UIDatePicker.Mode.date
             let xPosition = (self.alertSize.width - (self.picker?.frame.width)!) / 2
@@ -299,8 +307,10 @@ public class DatePickerPlugin: CAPPlugin {
     
     @objc func cancel(sender: UIButton) {
         if (self.pickerMode == "dateAndTime") {
-            DispatchQueue.main.async {
-                self.picker?.datePickerMode = UIDatePicker.Mode.time
+            if (!self.pickerMergedDateAndTime) {
+                DispatchQueue.main.async {
+                    self.picker?.datePickerMode = UIDatePicker.Mode.time
+                }
             }
         }
         if (self.call != nil) {

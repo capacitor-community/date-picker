@@ -133,6 +133,14 @@ export interface DatePickerOptions {
    * @note Only IOS
    */
   buttonFontColor?: string;
+  /**
+   * @type {boolean}
+   * @default null
+   * 
+   * @description Format dateAndTime picker for ios
+   * @note Only IOS
+   */
+  mergedDateAndTime?: boolean;
 }
 
 export interface DatePickerPluginInterface {
