@@ -1,15 +1,21 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { Plugins } from "@capacitor/core";
-import { DatePickerPluginInterface, DatePickerOptions, DatePickerTheme, DatePickerMode } from "@capacitor-community/date-picker/src";
+import {
+  DatePickerPluginInterface,
+  DatePickerOptions,
+  DatePickerTheme,
+  DatePickerMode,
+} from "@capacitor-community/date-picker/src";
 
 const DatePicker: DatePickerPluginInterface = Plugins.DatePickerPlugin as any;
+const { Device } = Plugins;
 
 @Component({
   selector: "app-home",
   templateUrl: "home.page.html",
   styleUrls: ["home.page.scss"],
 })
-export class HomePage {
+export class HomePage implements OnInit {
   max: Date;
   min: Date;
   theme: DatePickerTheme;
@@ -18,11 +24,13 @@ export class HomePage {
   doneText: string;
   cancelText: string;
   timeMode = false;
+  mergedDateAndTime = false;
+  isIos = false;
 
   themeList: Array<{ value: DatePickerTheme; label: string }> = [
     {
-      value: '',
-      label: 'Default Theme'
+      value: "",
+      label: "Default Theme",
     },
     {
       value: "dark",
@@ -48,52 +56,58 @@ export class HomePage {
 
   modesList: Array<{ value: DatePickerMode; label: string }> = [
     {
-      value: 'date',
-      label: 'Date'
+      value: "date",
+      label: "Date",
     },
     {
-      value: 'time',
-      label: 'Time'
+      value: "time",
+      label: "Time",
     },
     {
-      value: 'dateAndTime',
-      label: 'Date and Time'
-    }
-  ]
+      value: "dateAndTime",
+      label: "Date and Time",
+    },
+  ];
   constructor() {}
 
+  async ngOnInit() {
+    const info = await Device.getInfo();
+
+    this.isIos = info.operatingSystem === 'ios';
+  }
+
   async maxFocus() {
-    document.body.focus()
+    document.body.focus();
     this.max = null;
-    const pickerResult = await this.openPicker()
+    const pickerResult = await this.openPicker();
     if (pickerResult?.value) {
       this.max = new Date(pickerResult.value);
     }
   }
 
   async minFocus() {
-    document.body.focus()
+    document.body.focus();
     this.min = null;
-    const pickerResult = await this.openPicker()
+    const pickerResult = await this.openPicker();
     if (pickerResult?.value) {
       this.min = new Date(pickerResult.value);
     }
   }
 
   async openPicker() {
-    const options: DatePickerOptions = {}
+    const options: DatePickerOptions = {};
     if (this.max) {
-      if (this.mode === 'date') {
-        this.max.setHours(23,59,59,999);
+      if (this.mode === "date") {
+        this.max.setHours(23, 59, 59, 999);
       }
       options.max = this.max.toISOString();
     }
     if (this.timeMode) {
-      options.is24h = true
+      options.is24h = true;
     }
     if (this.min) {
-      if (this.mode === 'date') {
-        this.min.setHours(0,0,0,0);
+      if (this.mode === "date") {
+        this.min.setHours(0, 0, 0, 0);
       }
       options.min = this.min.toISOString();
     }
@@ -112,6 +126,13 @@ export class HomePage {
     if (this.cancelText) {
       options.cancelText = this.cancelText;
     }
-    return DatePicker.present(options)
+    if (this.mergedDateAndTime) {
+      options.mergedDateAndTime = this.mergedDateAndTime;
+    }
+    return DatePicker.present(options);
+  }
+
+  async platformIs(platform: 'ios' | 'android' | 'electron' | 'web') {
+    return (await Device.getInfo()).platform === platform;
   }
 }

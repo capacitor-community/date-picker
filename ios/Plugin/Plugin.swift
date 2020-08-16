@@ -29,6 +29,7 @@ public class DatePickerPlugin: CAPPlugin {
     private var defaultPickerFontColor: String = "#000000"
     private var defaultPickerButtonBgColor: String = "#ffffff"
     private var defaultPickerButtonFontColor: String = "#000000"
+    private var defaultPickerMergedDateAndTime: Bool = false;
     
     private var pickerTheme: String = "light"
     private var pickerMode: String = "dateAndTime"
@@ -42,11 +43,13 @@ public class DatePickerPlugin: CAPPlugin {
     private var pickerMinDate: String? = nil
     private var pickerMaxDate: String? = nil
     private var pickerTitle: String? = nil
+    private var pickerMergedDateAndTime: Bool = false;
     
     private var call: CAPPluginCall?
     private var picker: UIDatePicker?
     private var titleView: UILabel?
     private var alertView: UIView?
+    private var backgroundView: UIView?
     private var doneButton: UIButton?
     private var cancelButton: UIButton?
     
@@ -84,6 +87,7 @@ public class DatePickerPlugin: CAPPlugin {
         self.defaultPickerFontColor = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "fontColor") ?? self.defaultPickerFontColor
         self.defaultPickerButtonBgColor = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "buttonBgColor") ?? self.defaultPickerButtonBgColor
         self.defaultPickerButtonFontColor = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "buttonFontColor") ?? self.defaultPickerButtonFontColor
+        self.defaultPickerMergedDateAndTime = self.bridge.config.getValue(self.CONFIG_KEY_PREFIX + "mergedDateAndTime") as? Bool ?? self.defaultPickerMergedDateAndTime
     }
     
     private func loadCallOptions() {
@@ -105,6 +109,7 @@ public class DatePickerPlugin: CAPPlugin {
         self.pickerFontColor = self.call?.getString("fontColor") ?? self.defaultPickerFontColor
         self.pickerButtonBgColor = self.call?.getString("buttonBgColor") ?? self.defaultPickerButtonBgColor
         self.pickerButtonFontColor = self.call?.getString("buttonFontColor") ?? self.defaultPickerButtonFontColor
+        self.pickerMergedDateAndTime = self.call?.getBool("mergedDateAndTime") ?? self.defaultPickerMergedDateAndTime
         
         
         self.alertSize = CGSize(width: self.bridge.viewController.view.bounds.size.width, height: 250 + self.defaultButtonHeight)
@@ -218,6 +223,10 @@ public class DatePickerPlugin: CAPPlugin {
         
         if (self.pickerMode == "time") {
             self.setTimeMode()
+        } else if (self.pickerMergedDateAndTime) {
+            self.picker?.datePickerMode = UIDatePicker.Mode.dateAndTime
+            let xPosition = (self.alertSize.width - (self.picker?.frame.width)!) / 2
+            self.picker?.frame.origin.x = xPosition
         } else {
             self.picker?.datePickerMode = UIDatePicker.Mode.date
             let xPosition = (self.alertSize.width - (self.picker?.frame.width)!) / 2
@@ -274,9 +283,9 @@ public class DatePickerPlugin: CAPPlugin {
     
     @objc func titleChange(_ date: Date) -> String{
         if (self.pickerTitle == nil) {
-            var format: String = "E, MMM d, yyyy HH:MM"
+            var format: String = "E, MMM d, yyyy HH:mm"
             if (self.pickerMode == "time") {
-                format = "HH:MM a"
+                format = "HH:mm a"
             } else if (self.pickerMode == "date") {
                 format = "E, MMM d, yyyy"
             }
@@ -286,19 +295,33 @@ public class DatePickerPlugin: CAPPlugin {
     }
     
     @objc func datePickerChanged(picker: UIDatePicker) {
-        self.titleView?.text = self.titleChange(picker.date)
+        DispatchQueue.main.async {
+            self.titleView?.text = self.titleChange(picker.date)
+        }
     }
     
     private func dismiss() {
         DispatchQueue.main.async {
-            self.alertView?.removeFromSuperview()
+            let height = self.alertView!.frame.size.height
+            UIView.animate(withDuration: 0.2, delay: 0, options: [.curveEaseInOut], animations: {
+                self.alertView!.center.y += height
+            }, completion: nil)
+            UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseInOut], animations: {
+                self.backgroundView!.backgroundColor = UIColor(hexString: "#00000000")
+            }, completion: { (finished: Bool) in
+                self.backgroundView!.removeFromSuperview()
+            })
+            UIView.transition(with: self.bridge.viewController.view, duration: 0.25, options: [.curveEaseIn], animations: {
+            }, completion: nil)
         }
     }
     
     @objc func cancel(sender: UIButton) {
         if (self.pickerMode == "dateAndTime") {
-            DispatchQueue.main.async {
-                self.picker?.datePickerMode = UIDatePicker.Mode.time
+            if (!self.pickerMergedDateAndTime) {
+                DispatchQueue.main.async {
+                    self.picker?.datePickerMode = UIDatePicker.Mode.time
+                }
             }
         }
         if (self.call != nil) {
@@ -384,10 +407,32 @@ public class DatePickerPlugin: CAPPlugin {
             
             self.createPickerView()
             
+            if (self.backgroundView == nil) {
+                self.backgroundView = UIView()
+            }
+            self.backgroundView!.backgroundColor = UIColor(hexString: "#00000000")
+
+            let x = self.bridge.viewController.view.bounds.size.width
+            let y = self.bridge.viewController.view.bounds.size.height
+            
+            self.backgroundView!.frame.size.width = x
+            self.backgroundView!.frame.size.height = y
+            self.backgroundView!.addSubview(self.alertView!)
+            
             self.alertView?.addSubview(self.titleView!);
             self.alertView?.addSubview(self.picker!)
+            let height = self.alertView!.frame.size.height
+            self.alertView!.center.y += height
             
-            self.bridge.viewController.view.addSubview(self.alertView!)
+            self.bridge.viewController.view.addSubview(self.backgroundView!)
+            
+            UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseInOut], animations: {
+                self.backgroundView!.backgroundColor = UIColor(hexString: "#00000088")
+            }, completion: nil)
+            
+            UIView.animate(withDuration: 0.2, delay: 0, options: [.curveEaseInOut], animations: {
+                self.alertView!.center.y -= height
+            }, completion: nil)
         }
     }
 }
