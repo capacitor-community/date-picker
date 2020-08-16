@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { Plugins } from "@capacitor/core";
 import {
   DatePickerPluginInterface,
@@ -8,13 +8,14 @@ import {
 } from "@capacitor-community/date-picker/src";
 
 const DatePicker: DatePickerPluginInterface = Plugins.DatePickerPlugin as any;
+const { Device } = Plugins;
 
 @Component({
   selector: "app-home",
   templateUrl: "home.page.html",
   styleUrls: ["home.page.scss"],
 })
-export class HomePage {
+export class HomePage implements OnInit {
   max: Date;
   min: Date;
   theme: DatePickerTheme;
@@ -24,6 +25,7 @@ export class HomePage {
   cancelText: string;
   timeMode = false;
   mergedDateAndTime = false;
+  isIos = false;
 
   themeList: Array<{ value: DatePickerTheme; label: string }> = [
     {
@@ -67,6 +69,12 @@ export class HomePage {
     },
   ];
   constructor() {}
+
+  async ngOnInit() {
+    const info = await Device.getInfo();
+
+    this.isIos = info.operatingSystem === 'ios';
+  }
 
   async maxFocus() {
     document.body.focus();
@@ -122,5 +130,9 @@ export class HomePage {
       options.mergedDateAndTime = this.mergedDateAndTime;
     }
     return DatePicker.present(options);
+  }
+
+  async platformIs(platform: 'ios' | 'android' | 'electron' | 'web') {
+    return (await Device.getInfo()).platform === platform;
   }
 }

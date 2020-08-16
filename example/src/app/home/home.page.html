@@ -26,7 +26,7 @@
       <ion-select-option [value]="true">24 h</ion-select-option>
     </ion-select>
   </ion-item>
-  <ion-item class="ion-no-padding">
+  <ion-item class="ion-no-padding" *ngIf="isIos">
     <ion-label>Merged Date and Time</ion-label>
     <ion-checkbox slot="start" [(ngModel)]="mergedDateAndTime"></ion-checkbox>
   </ion-item>
