@@ -106,7 +106,7 @@ npx cap sync
 
 ## API
 
-p- `present(DatePickerOptions): Promise<{ value:string }>`
+- `present(DatePickerOptions): Promise<{ value:string }>`
 
 ### Config for iOS (`DatePickerOptions`)
 
