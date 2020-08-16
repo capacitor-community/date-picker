@@ -407,8 +407,9 @@ public class DatePickerPlugin: CAPPlugin {
             
             self.createPickerView()
             
-
-            self.backgroundView = UIView()
+            if (self.backgroundView == nil) {
+                self.backgroundView = UIView()
+            }
             self.backgroundView!.backgroundColor = UIColor(hexString: "#00000000")
 
             let x = self.bridge.viewController.view.bounds.size.width
