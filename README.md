@@ -70,6 +70,7 @@ npx cap sync
   - [x] fontColor
   - [x] buttonBgColor
   - [x] buttonFontColor
+  - [x] mergedDateAndTime
 
 ### android
 
@@ -105,9 +106,9 @@ npx cap sync
 
 ## API
 
-- `present(DatepickOptions): Promise<{ value:string }>`
+p- `present(DatePickerOptions): Promise<{ value:string }>`
 
-### Config for iOS (`DatepickOptions`)
+### Config for iOS (`DatePickerOptions`)
 
 These options can be used through the `present` method and/or within `capacitor.config.json`
 
@@ -131,7 +132,7 @@ These options can be used through the `present` method and/or within `capacitor.
 | buttonBgColor   | `string`          | `null`                           |
 | buttonFontColor | `string`          | `null`                           |
 
-### Config for Android (`DatepickOptions`)
+### Config for Android (`DatePickerOptions`)
 
 These options can be used through the `present` method and/or within `capacitor.config.json`
 
@@ -150,6 +151,11 @@ These options can be used through the `present` method and/or within `capacitor.
 | is24h      | `boolean`         | `false`                          |
 
 > For more information check the [`definitions`](/src/definitions.ts) file
+
+## Demo
+![](demo-android.gif)
+![](demo-ios.gif)
+
 
 ## Usage
 
