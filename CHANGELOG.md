@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.2.0](https://github.com/capacitor-community/date-picker/compare/v0.1.0...v0.2.0) (2020-08-17)
+
+
+### Features
+
+* **ios:** add merged date and time option for ios ([7c736e0](https://github.com/capacitor-community/date-picker/commit/7c736e0c350aba64575595965aa3f66c104d4f6c))
+
+
+### Bug Fixes
+
+* **android:** force timepicker change pm hour ([3ca9299](https://github.com/capacitor-community/date-picker/commit/3ca9299a78e54da2f1dd02255d1d57b3f6f0f78d))
+* **ios:** background and slide animation ([25f2ea1](https://github.com/capacitor-community/date-picker/commit/25f2ea147ae7db5b9bed90d98cb58785562f6084))
+* **ios:** open two or more instances background ([82d7d39](https://github.com/capacitor-community/date-picker/commit/82d7d39b502ac6d1daf9268f2fdd3a70f668386d))
+* **ios:** update minutes on title picker ([a5e365a](https://github.com/capacitor-community/date-picker/commit/a5e365a3039d4912171425cec85c9f0a6a958f18))
+
 ## [0.1.0](https://github.com/capacitor-community/date-picker/compare/v0.0.1...v0.1.0) (2020-07-11)
 
 
