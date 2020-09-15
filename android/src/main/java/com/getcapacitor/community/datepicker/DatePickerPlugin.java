@@ -12,6 +12,7 @@ import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.res.Configuration;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -99,6 +100,9 @@ public class DatePickerPlugin extends Plugin {
         if (pickerLocale != null) {
             Locale locale = new Locale(pickerLocale);
             Locale.setDefault(locale);
+            Configuration config = new Configuration();
+            config.locale = locale;
+            getContext().getResources().updateConfiguration(config, getContext().getResources().getDisplayMetrics());
         }
     }
 
