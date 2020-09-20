@@ -67,7 +67,7 @@ public class DatePickerPlugin extends Plugin {
         // Default values plugin
         pickerTheme = config.getString(CONFIG_KEY_PREFIX + "theme", "light");
         pickerMode = config.getString(CONFIG_KEY_PREFIX + "mode", "dateAndTime");
-        pickerFormat = config.getString(CONFIG_KEY_PREFIX + "format", "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        pickerFormat = config.getString(CONFIG_KEY_PREFIX + "format", "yyyy-MM-dd'T'HH:mm:ss.sss'Z'");
         pickerTimezone = config.getString(CONFIG_KEY_PREFIX + "timezone", null);
         pickerLocale = config.getString(CONFIG_KEY_PREFIX + "locale",null);
         pickerCancelText = config.getString(CONFIG_KEY_PREFIX + "cancelText", null);

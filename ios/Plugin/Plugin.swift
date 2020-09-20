@@ -13,7 +13,7 @@ public class DatePickerPlugin: CAPPlugin {
     
     private var defaultPickerTheme: String = "light"
     private var defaultPickerMode: String = "dateAndTime"
-    private var defaultPickerFormat: String = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+    private var defaultPickerFormat: String = "yyyy-MM-dd'T'HH:mm:ss.sss'Z'"
     private var defaultPickerTimezone: String? = nil
     private var defaultPickerLocale: String? = nil
     private var defaultPickerCancelText: String = "Cancel"
@@ -33,7 +33,7 @@ public class DatePickerPlugin: CAPPlugin {
     
     private var pickerTheme: String = "light"
     private var pickerMode: String = "dateAndTime"
-    private var pickerFormat: String = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+    private var pickerFormat: String = "yyyy-MM-dd'T'HH:mm:ss.sss'Z'"
     private var pickerTimezone: String? = nil
     private var pickerLocale: String? = nil
     private var pickerCancelText: String = "Cancel"
