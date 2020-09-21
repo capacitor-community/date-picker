@@ -146,7 +146,12 @@ public class DatePickerPlugin: CAPPlugin {
             let tz = TimeZone(identifier: pickerTimezone ?? "UTC")
             dateFormatter.timeZone = tz;
         }
-        return dateFormatter.date(from: date)!
+        guard let dt = dateFormatter.date(from: date) else {
+            self.call?.reject("Failed to parse date")
+            self.dismiss()
+            return Date()
+        }
+        return dt
     }
     
     private func createTitleView() {
