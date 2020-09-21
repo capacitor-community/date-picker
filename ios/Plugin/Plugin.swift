@@ -149,7 +149,7 @@ public class DatePickerPlugin: CAPPlugin {
         return dateFormatter.date(from: date)!
     }
     
-    private func createTitleView() -> UILabel {
+    private func createTitleView() {
         if (self.titleView == nil) {
             self.titleView = UILabel(frame: CGRect(x: 0, y: 0, width: self.alertSize.width, height: self.defaultTitleHeight))
         }
@@ -157,11 +157,9 @@ public class DatePickerPlugin: CAPPlugin {
         self.titleView!.text = self.titleChange(self.parseDateFromString(date: self.pickerDate!))
         self.titleView!.textColor = UIColor(hexString: self.pickerTitleFontColor)
         self.titleView!.backgroundColor = UIColor(hexString: self.pickerTitleBgColor)
-        
-        return self.titleView!
     }
     
-    private func createOkButton() -> UIButton {
+    private func createOkButton() {
         let buttonWidth =  self.alertSize.width / 2
         if (self.doneButton == nil) {
             self.doneButton = UIButton(type: .custom)
@@ -172,11 +170,9 @@ public class DatePickerPlugin: CAPPlugin {
         self.doneButton?.backgroundColor = UIColor(hexString: self.pickerButtonBgColor)
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.ok))
         self.doneButton?.addGestureRecognizer(tap)
-        
-        return self.doneButton!
     }
     
-    private func createCancelButton() -> UIButton {
+    private func createCancelButton() {
         let buttonWidth =  self.alertSize.width / 2
         if (self.cancelButton == nil) {
             self.cancelButton = UIButton(frame: CGRect(x: 0, y: self.alertSize.height - self.defaultButtonHeight, width: buttonWidth, height: self.defaultButtonHeight))
@@ -186,20 +182,22 @@ public class DatePickerPlugin: CAPPlugin {
         self.cancelButton?.backgroundColor = UIColor(hexString: self.pickerButtonBgColor)
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.cancel))
         self.cancelButton?.addGestureRecognizer(tap)
-        
-        return self.cancelButton!
     }
     
-    private func createDatePicker() -> UIDatePicker {
+    private func createDatePicker() {
         if (self.picker == nil) {
             self.picker = UIDatePicker(frame: CGRect(x: 0, y: self.defaultTitleHeight, width: 0, height: 0))
+            if #available(iOS 14.0, *) {
+                self.picker?.preferredDatePickerStyle = UIDatePickerStyle.wheels
+            } else {
+                self.picker?.setValue(false, forKey: "highlightsToday")
+            }
         }
         
         let xPosition = (self.alertSize.width - (self.picker?.frame.width)!) / 2
         self.picker?.frame.origin.x = xPosition
         
         self.picker?.setValue(UIColor(hexString: self.pickerFontColor), forKey: "textColor")
-        self.picker?.setValue(false, forKey: "highlightsToday")
         self.picker?.addTarget(self, action: #selector(self.datePickerChanged(picker:)), for: .valueChanged)
         self.picker?.setDate(self.parseDateFromString(date: self.pickerDate!), animated: false)
         if (self.pickerDate != nil) {
@@ -232,8 +230,6 @@ public class DatePickerPlugin: CAPPlugin {
             let xPosition = (self.alertSize.width - (self.picker?.frame.width)!) / 2
             self.picker?.frame.origin.x = xPosition
         }
-        
-        return self.picker!
     }
     
     private func setTimeMode() {
@@ -251,7 +247,7 @@ public class DatePickerPlugin: CAPPlugin {
         }
     }
     
-    private func createPickerView() -> UIView {
+    private func createPickerView() {
         self.createOkButton()
         self.createCancelButton()
         
@@ -269,16 +265,14 @@ public class DatePickerPlugin: CAPPlugin {
         
         lineView.backgroundColor = UIColor(red: 198/255, green: 198/255, blue: 198/255, alpha: 1)
         
-        self.alertView?.frame.origin.y = height - 300
+        self.alertView?.frame.origin.y = height - self.alertSize.height
         self.alertView?.frame.size.width = width
-        self.alertView?.frame.size.height = 300
+        self.alertView?.frame.size.height = self.alertSize.height
         self.alertView?.backgroundColor = UIColor(hexString: self.pickerBgColor)
         
         self.alertView?.addSubview(self.doneButton!)
         self.alertView?.addSubview(self.cancelButton!)
         self.alertView?.addSubview(lineView)
-        
-        return self.alertView!
     }
     
     @objc func titleChange(_ date: Date) -> String{
@@ -401,12 +395,12 @@ public class DatePickerPlugin: CAPPlugin {
         DispatchQueue.main.async {
             self.call = call
             self.loadCallOptions()
-            
+
             self.createTitleView()
             self.createDatePicker()
-            
+
             self.createPickerView()
-            
+
             if (self.backgroundView == nil) {
                 self.backgroundView = UIView()
             }
@@ -414,11 +408,11 @@ public class DatePickerPlugin: CAPPlugin {
 
             let x = self.bridge.viewController.view.bounds.size.width
             let y = self.bridge.viewController.view.bounds.size.height
-            
+
             self.backgroundView!.frame.size.width = x
             self.backgroundView!.frame.size.height = y
             self.backgroundView!.addSubview(self.alertView!)
-            
+
             self.alertView?.addSubview(self.titleView!);
             self.alertView?.addSubview(self.picker!)
             let height = self.alertView!.frame.size.height
