@@ -207,7 +207,13 @@ public class DatePickerPlugin extends Plugin {
         final JSObject response = new JSObject();
 
         if (pickerDate != null) {
-            calendar.setTime(parseDateFromString(pickerDate));
+            try {
+                Date dt = parseDateFromString(pickerDate);
+                calendar.setTime(dt);
+            } catch (Exception e) {
+                call.error("Failed to parse date");
+                return;
+            }
         }
 
         final DatePickerDialog datePicker = new DatePickerDialog(getContext(), getTheme(), new DatePickerDialog.OnDateSetListener() {
