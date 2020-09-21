@@ -31,6 +31,15 @@
         "doc",
         "maintenance"
       ]
+    },
+    {
+      "login": "carolineoliva",
+      "name": "Caroline Oliva",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/4886893?v=4",
+      "profile": "https://github.com/carolineoliva",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7
