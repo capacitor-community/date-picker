@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.1](https://github.com/capacitor-community/date-picker/compare/v0.2.0...v0.2.1) (2020-09-22)
+
+
+### Bug Fixes
+
+* craches app when date format and date invalid ([cb2e247](https://github.com/capacitor-community/date-picker/commit/cb2e247c6d6d67a1927e943c815fdc50e3176063))
+* default date format ([7768c0e](https://github.com/capacitor-community/date-picker/commit/7768c0e1886aa7542c8ebb0066287de887682a99))
+
 ### [0.2.1](https://github.com/capacitor-community/date-picker/compare/v0.2.0...v0.2.1) (2020-09-21)
 
 
