@@ -56,6 +56,7 @@ public class DatePickerPlugin: CAPPlugin {
     //
     // sizes
     private var defaultButtonHeight: CGFloat = 50
+    private var defaultPaddingHeight: CGFloat = 0
     private var defaultTitleHeight: CGFloat = 50
     private var defaultSpacerHeight: CGFloat = 1
     
@@ -111,8 +112,9 @@ public class DatePickerPlugin: CAPPlugin {
         self.pickerButtonFontColor = self.call?.getString("buttonFontColor") ?? self.defaultPickerButtonFontColor
         self.pickerMergedDateAndTime = self.call?.getBool("mergedDateAndTime") ?? self.defaultPickerMergedDateAndTime
         
+        self.defaultPaddingHeight = (UIDevice.current.hasNotch ? 15 : 0)
         
-        self.alertSize = CGSize(width: self.bridge.viewController.view.bounds.size.width, height: 250 + self.defaultButtonHeight)
+        self.alertSize = CGSize(width: self.bridge.viewController.view.bounds.size.width, height: 250 + self.defaultButtonHeight + self.defaultPaddingHeight)
         
         if (self.pickerTheme == "dark" || self.pickerTheme == "legacyDark") {
             self.defaultDark()
@@ -169,7 +171,7 @@ public class DatePickerPlugin: CAPPlugin {
         if (self.doneButton == nil) {
             self.doneButton = UIButton(type: .custom)
         }
-        self.doneButton?.frame = CGRect(x: buttonWidth, y: self.alertSize.height - self.defaultButtonHeight, width: buttonWidth, height: self.defaultButtonHeight)
+        self.doneButton?.frame = CGRect(x: buttonWidth, y: self.alertSize.height - self.defaultButtonHeight - self.defaultPaddingHeight, width: buttonWidth, height: self.defaultButtonHeight)
         self.doneButton?.setTitle(self.pickerDoneText, for: .normal)
         self.doneButton?.setTitleColor(UIColor(hexString: self.pickerButtonFontColor), for: .normal)
         self.doneButton?.backgroundColor = UIColor(hexString: self.pickerButtonBgColor)
@@ -180,7 +182,7 @@ public class DatePickerPlugin: CAPPlugin {
     private func createCancelButton() {
         let buttonWidth =  self.alertSize.width / 2
         if (self.cancelButton == nil) {
-            self.cancelButton = UIButton(frame: CGRect(x: 0, y: self.alertSize.height - self.defaultButtonHeight, width: buttonWidth, height: self.defaultButtonHeight))
+            self.cancelButton = UIButton(frame: CGRect(x: 0, y: self.alertSize.height - self.defaultButtonHeight - self.defaultPaddingHeight, width: buttonWidth, height: self.defaultButtonHeight))
         }
         self.cancelButton?.setTitle(self.pickerCancelText, for: .normal)
         self.cancelButton?.setTitleColor(UIColor(hexString: self.pickerButtonFontColor), for: .normal)
@@ -265,7 +267,7 @@ public class DatePickerPlugin: CAPPlugin {
         
         self.alertView?.frame = CGRect(x: 0, y: 0, width: self.alertSize.width, height: self.alertSize.height)
         
-        let yPosition = (self.alertView?.bounds.size.height)! - self.defaultButtonHeight - self.defaultSpacerHeight
+        let yPosition = (self.alertView?.bounds.size.height)! - self.defaultButtonHeight - self.defaultSpacerHeight - self.defaultPaddingHeight
         let lineView = UIView(frame: CGRect(x: 0, y: yPosition, width: alertView!.bounds.size.width, height: self.defaultSpacerHeight))
         
         lineView.backgroundColor = UIColor(red: 198/255, green: 198/255, blue: 198/255, alpha: 1)
@@ -368,6 +370,7 @@ public class DatePickerPlugin: CAPPlugin {
     
     @objc func darkMode(_ call: CAPPluginCall) {
         DispatchQueue.main.async {
+            
             let black = UIColor(hexString: "#121212")
             let white = UIColor(hexString: "#fafafa")
             self.alertView?.backgroundColor = black
@@ -432,6 +435,17 @@ public class DatePickerPlugin: CAPPlugin {
             UIView.animate(withDuration: 0.2, delay: 0, options: [.curveEaseInOut], animations: {
                 self.alertView!.center.y -= height
             }, completion: nil)
+        }
+    }
+}
+
+extension UIDevice {
+    var hasNotch: Bool {
+        guard #available(iOS 11.0, *), let window = UIApplication.shared.windows.filter({$0.isKeyWindow}).first else { return false }
+        if UIDevice.current.orientation.isPortrait {
+            return window.safeAreaInsets.top >= 44
+        } else {
+            return window.safeAreaInsets.left > 0 || window.safeAreaInsets.right > 0
         }
     }
 }
