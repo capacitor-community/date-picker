@@ -138,6 +138,9 @@ public class DatePickerPlugin: CAPPlugin {
             let tz = TimeZone(identifier: pickerTimezone ?? "UTC")
             dateFormatter.timeZone = tz;
         }
+        if ((self.pickerLocale) != nil) {
+            dateFormatter.locale = Locale(identifier: self.pickerLocale!)
+        }
         return dateFormatter.string(from: date)
     }
     
@@ -147,6 +150,9 @@ public class DatePickerPlugin: CAPPlugin {
         if (pickerTimezone != nil) {
             let tz = TimeZone(identifier: pickerTimezone ?? "UTC")
             dateFormatter.timeZone = tz;
+        }
+        if ((self.pickerLocale) != nil) {
+            dateFormatter.locale = Locale(identifier: self.pickerLocale!)
         }
         guard let dt = dateFormatter.date(from: date) else {
             self.call?.reject("Failed to parse date")
@@ -284,9 +290,9 @@ public class DatePickerPlugin: CAPPlugin {
     
     @objc func titleChange(_ date: Date) -> String{
         if (self.pickerTitle == nil) {
-            var format: String = "E, MMM d, yyyy HH:mm"
+            var format: String = self.picker24h ? "E, MMM d, yyyy HH:mm" : "E, MMM d, yyyy hh:mm a"
             if (self.pickerMode == "time") {
-                format = "HH:mm a"
+                format = self.picker24h ? "HH:mm" : "hh:mm a"
             } else if (self.pickerMode == "date") {
                 format = "E, MMM d, yyyy"
             }
