@@ -8,7 +8,7 @@
     "build": "npm run clean && tsc",
     "clean": "rimraf ./dist",
     "watch": "tsc --watch",
-    "prepublishOnly": "npm run build",
+    "prepare": "npm run build",
     "release:patch": "standard-version release --release-as patch",
     "release:minor": "standard-version release --release-as minor",
     "release:major": "standard-version release --release-as major",
