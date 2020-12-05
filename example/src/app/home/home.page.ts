@@ -1,19 +1,19 @@
-import { Component, OnInit } from "@angular/core";
-import { Plugins } from "@capacitor/core";
+import { Component, OnInit } from '@angular/core';
+import { Plugins } from '@capacitor/core';
 import {
   DatePickerPluginInterface,
   DatePickerOptions,
   DatePickerTheme,
   DatePickerMode,
-} from "@capacitor-community/date-picker/src";
+} from '@capacitor-community/date-picker/src';
 
 const DatePicker: DatePickerPluginInterface = Plugins.DatePickerPlugin as any;
 const { Device } = Plugins;
 
 @Component({
-  selector: "app-home",
-  templateUrl: "home.page.html",
-  styleUrls: ["home.page.scss"],
+  selector: 'app-home',
+  templateUrl: 'home.page.html',
+  styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit {
   max: Date;
@@ -29,43 +29,43 @@ export class HomePage implements OnInit {
 
   themeList: Array<{ value: DatePickerTheme; label: string }> = [
     {
-      value: "",
-      label: "Default Theme",
+      value: '',
+      label: 'Default Theme',
     },
     {
-      value: "dark",
-      label: "Material Dark Theme",
+      value: 'dark',
+      label: 'Material Dark Theme',
     },
     {
-      value: "light",
-      label: "Material Light Theme",
+      value: 'light',
+      label: 'Material Light Theme',
     },
     {
-      value: "legacyDark",
-      label: "Legacy Dark Theme",
+      value: 'legacyDark',
+      label: 'Legacy Dark Theme',
     },
     {
-      value: "legacyLight",
-      label: "Legacy Light Theme",
+      value: 'legacyLight',
+      label: 'Legacy Light Theme',
     },
     {
-      value: "MyCustomLightDatePicker",
-      label: "My Custom Theme",
+      value: 'MyCustomLightDatePicker',
+      label: 'My Custom Theme',
     },
   ];
 
   modesList: Array<{ value: DatePickerMode; label: string }> = [
     {
-      value: "date",
-      label: "Date",
+      value: 'date',
+      label: 'Date',
     },
     {
-      value: "time",
-      label: "Time",
+      value: 'time',
+      label: 'Time',
     },
     {
-      value: "dateAndTime",
-      label: "Date and Time",
+      value: 'dateAndTime',
+      label: 'Date and Time',
     },
   ];
   constructor() {}
@@ -97,7 +97,7 @@ export class HomePage implements OnInit {
   async openPicker() {
     const options: DatePickerOptions = {};
     if (this.max) {
-      if (this.mode === "date") {
+      if (this.mode === 'date') {
         this.max.setHours(23, 59, 59, 999);
       }
       options.max = this.max.toISOString();
@@ -106,7 +106,7 @@ export class HomePage implements OnInit {
       options.is24h = true;
     }
     if (this.min) {
-      if (this.mode === "date") {
+      if (this.mode === 'date') {
         this.min.setHours(0, 0, 0, 0);
       }
       options.min = this.min.toISOString();
