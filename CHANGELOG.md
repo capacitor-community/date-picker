@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.2](https://github.com/capacitor-community/date-picker/compare/v0.2.1...v0.2.2) (2020-12-05)
+
+
+### Bug Fixes
+
+* **ios:** time format in title when is24 true ([7daa04c](https://github.com/capacitor-community/date-picker/commit/7daa04cd4d6ff84b93b4a5bb065363242e4504f6))
+* add safe area in iphones with notch ([0453ec9](https://github.com/capacitor-community/date-picker/commit/0453ec9d00e07faa9d31f10a3d46cfd6224cc93d))
+
 ### [0.2.1](https://github.com/capacitor-community/date-picker/compare/v0.2.0...v0.2.1) (2020-09-22)
 
 
