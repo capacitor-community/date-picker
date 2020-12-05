@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.3](https://github.com/capacitor-community/date-picker/compare/v0.2.2...v0.2.3) (2020-12-05)
+
+
+### Bug Fixes
+
+* **android:** date format with wrong timezone ([31e5d3f](https://github.com/capacitor-community/date-picker/commit/31e5d3fdda1f8ed6dd0062004ec73399aa02eb9b))
+
 ### [0.2.2](https://github.com/capacitor-community/date-picker/compare/v0.2.1...v0.2.2) (2020-12-05)
 
 

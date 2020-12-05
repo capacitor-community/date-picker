@@ -69,7 +69,7 @@ public class DatePickerPlugin extends Plugin {
         pickerTheme = config.getString(CONFIG_KEY_PREFIX + "theme", "light");
         pickerMode = config.getString(CONFIG_KEY_PREFIX + "mode", "dateAndTime");
         pickerFormat = config.getString(CONFIG_KEY_PREFIX + "format", "yyyy-MM-dd'T'HH:mm:ss.sss'Z'");
-        pickerTimezone = config.getString(CONFIG_KEY_PREFIX + "timezone", null);
+        pickerTimezone = config.getString(CONFIG_KEY_PREFIX + "timezone", "UTC");
         pickerLocale = config.getString(CONFIG_KEY_PREFIX + "locale",null);
         pickerCancelText = config.getString(CONFIG_KEY_PREFIX + "cancelText", null);
         pickerDoneText = config.getString(CONFIG_KEY_PREFIX + "doneText",null);
@@ -79,7 +79,7 @@ public class DatePickerPlugin extends Plugin {
         pickerMaxDate = null;
         pickerTitle = null;
 
-        calendar = Calendar.getInstance();
+            calendar = Calendar.getInstance();
         calendar.setTime(new Date());
 
         if (call != null) {
@@ -108,10 +108,6 @@ public class DatePickerPlugin extends Plugin {
 
     private String parseDateFromObject(Date date) {
         @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat(pickerFormat);
-        if (pickerTimezone != null) {
-            TimeZone tz = TimeZone.getTimeZone(pickerTimezone);
-            dateFormat.setTimeZone(tz);
-        }
         return dateFormat.format(date);
     }
 
