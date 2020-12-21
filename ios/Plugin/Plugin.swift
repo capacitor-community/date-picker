@@ -151,9 +151,7 @@ public class DatePickerPlugin: CAPPlugin {
             let tz = TimeZone(identifier: pickerTimezone ?? "UTC")
             dateFormatter.timeZone = tz;
         }
-        if ((self.pickerLocale) != nil) {
-            dateFormatter.locale = Locale(identifier: self.pickerLocale!)
-        }
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
         guard let dt = dateFormatter.date(from: date) else {
             self.call?.reject("Failed to parse date")
             self.dismiss()
