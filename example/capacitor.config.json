@@ -1,12 +1,15 @@
 {
   "appId": "io.ionic.starter",
-  "appName": "demo",
+  "appName": "example",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "www",
   "plugins": {
     "SplashScreen": {
       "launchShowDuration": 0
+    },
+    "DatePickerPlugin": {
+      "theme": "dark"
     }
   },
   "cordova": {}

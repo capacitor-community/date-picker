@@ -1,14 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { Plugins } from '@capacitor/core';
-import {
-  DatePickerPluginInterface,
+import type { OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import type {
   DatePickerOptions,
   DatePickerTheme,
   DatePickerMode,
 } from '@capacitor-community/date-picker/src';
-
-const DatePicker: DatePickerPluginInterface = Plugins.DatePickerPlugin as any;
-const { Device } = Plugins;
+import { DatePicker } from '@capacitor-community/date-picker/src';
+import { Device } from '@capacitor/device';
 
 @Component({
   selector: 'app-home',
@@ -27,7 +25,7 @@ export class HomePage implements OnInit {
   mergedDateAndTime = false;
   isIos = false;
 
-  themeList: Array<{ value: DatePickerTheme; label: string }> = [
+  themeList: { value: DatePickerTheme; label: string }[] = [
     {
       value: '',
       label: 'Default Theme',
@@ -54,7 +52,7 @@ export class HomePage implements OnInit {
     },
   ];
 
-  modesList: Array<{ value: DatePickerMode; label: string }> = [
+  modesList: { value: DatePickerMode; label: string }[] = [
     {
       value: 'date',
       label: 'Date',
@@ -68,15 +66,14 @@ export class HomePage implements OnInit {
       label: 'Date and Time',
     },
   ];
-  constructor() {}
 
-  async ngOnInit() {
+  async ngOnInit(): Promise<void> {
     const info = await Device.getInfo();
 
     this.isIos = info.operatingSystem === 'ios';
   }
 
-  async maxFocus() {
+  async maxFocus(): Promise<void> {
     document.body.focus();
     this.max = null;
     const pickerResult = await this.openPicker();
@@ -85,7 +82,7 @@ export class HomePage implements OnInit {
     }
   }
 
-  async minFocus() {
+  async minFocus(): Promise<void> {
     document.body.focus();
     this.min = null;
     const pickerResult = await this.openPicker();
@@ -94,7 +91,7 @@ export class HomePage implements OnInit {
     }
   }
 
-  async openPicker() {
+  async openPicker(): Promise<{ value: string }> {
     const options: DatePickerOptions = {};
     if (this.max) {
       if (this.mode === 'date') {
@@ -129,10 +126,15 @@ export class HomePage implements OnInit {
     if (this.mergedDateAndTime) {
       options.mergedDateAndTime = this.mergedDateAndTime;
     }
+
+    console.log(options);
+
     return DatePicker.present(options);
   }
 
-  async platformIs(platform: 'ios' | 'android' | 'electron' | 'web') {
+  async platformIs(
+    platform: 'ios' | 'android' | 'electron' | 'web',
+  ): Promise<boolean> {
     return (await Device.getInfo()).platform === platform;
   }
 }
