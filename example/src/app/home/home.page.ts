@@ -127,8 +127,6 @@ export class HomePage implements OnInit {
       options.mergedDateAndTime = this.mergedDateAndTime;
     }
 
-    console.log(options);
-
     return DatePicker.present(options);
   }
 
