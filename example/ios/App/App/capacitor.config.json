@@ -7,6 +7,9 @@
 	"plugins": {
 		"SplashScreen": {
 			"launchShowDuration": 0
+		},
+		"DatePicker": {
+			"theme": "dark"
 		}
 	},
 	"cordova": {}

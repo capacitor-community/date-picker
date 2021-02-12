@@ -8,7 +8,7 @@
     "SplashScreen": {
       "launchShowDuration": 0
     },
-    "DatePickerPlugin": {
+    "DatePicker": {
       "theme": "dark"
     }
   },
