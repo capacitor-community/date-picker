@@ -46,11 +46,12 @@ public class DatePickerOptions: NSObject, NSCopying {
     public var min: Date? = nil
     public var max: Date? = nil
     public var title: String? = nil
-    public var titleFontColor: String = "#000000"
-    public var titleBgColor: String = "#ffffff"
-    public var bgColor: String = "#ffffff"
-    public var fontColor: String = "#000000"
-    public var buttonBgColor: String = "#ffffff"
-    public var buttonFontColor: String = "#000000"
+    public var titleFontColor: String? = nil
+    public var titleBgColor: String? = nil
+    public var bgColor: String? = nil
+    public var fontColor: String? = nil
+    public var buttonBgColor: String? = nil
+    public var buttonFontColor: String? = nil
     public var mergedDateAndTime: Bool = false
+    public var style: String? = nil
 }

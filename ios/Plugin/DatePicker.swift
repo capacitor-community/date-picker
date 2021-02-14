@@ -28,18 +28,6 @@ public class DatePicker {
     }
     
     public func createElements() {
-        
-        NSLog(self.options.theme)
-        
-        if (self.options.theme == "dark") {
-            self.options.titleFontColor = "#fafafa"
-            self.options.titleBgColor = "#121212"
-            self.options.bgColor = "#121212"
-            self.options.fontColor = "#fafafa"
-            self.options.buttonBgColor = "#121212"
-            self.options.buttonFontColor =  "#fafafa"
-        }
-        
         self.paddingHeight = UIDevice.current.hasNotch ? 35 : 0
         self.createBackground()
         self.createAlert()
@@ -48,6 +36,7 @@ public class DatePicker {
         self.createCancelButton()
         self.createButtonDivider()
         self.createTitle()
+        self.setPickerTheme()
     }
     
     public func open() {
@@ -76,7 +65,7 @@ public class DatePicker {
     private func createBackground() -> Void {
         self.background = UIView()
         self.background.backgroundColor = UIColor(fromHex: "#00000000")
-        
+
         let x = viewCtrl.view.bounds.size.width
         let y = viewCtrl.view.bounds.size.height
         
@@ -93,7 +82,6 @@ public class DatePicker {
         self.alert.frame.origin.y = height - self.alertSize.height
         self.alert.frame.size.width = width
         self.alert.frame.size.height = self.alertSize.height
-        self.alert.backgroundColor = UIColor(fromHex: self.options.bgColor)
     }
     
     private func createTitle() -> Void {
@@ -106,14 +94,12 @@ public class DatePicker {
         )
         self.title.textAlignment = .center
         self.title.text = self.titleChange(self.picker.date)
-        self.title.textColor = UIColor(fromHex: self.options.titleFontColor)
-        self.title.backgroundColor = UIColor(fromHex: self.options.titleBgColor)
     }
     
     private func createPicker() -> Void {
         self.picker = UIDatePicker(frame: CGRect(x: 0, y: titleHeight, width: 0, height: 0))
         if #available(iOS 14.0, *) {
-            self.picker.preferredDatePickerStyle = UIDatePickerStyle.wheels
+                self.picker.preferredDatePickerStyle = UIDatePickerStyle.wheels
         } else {
             self.picker.setValue(false, forKey: "highlightsToday")
         }
@@ -121,7 +107,6 @@ public class DatePicker {
         let xPosition = (alertSize.width - self.picker.frame.width) / 2
         self.picker.frame.origin.x = xPosition
         self.picker.addTarget(self, action: #selector(self.datePickerChanged(picker:)), for: .valueChanged)
-        self.picker.setValue(UIColor(fromHex: options.fontColor), forKey: "textColor")
         
         if (options.date != nil) {
             self.picker.setDate(options.date!, animated: false)
@@ -161,8 +146,6 @@ public class DatePicker {
             height: self.buttonHeight
         )
         self.doneButton.setTitle(options.doneText, for: .normal)
-        self.doneButton.setTitleColor(UIColor(fromHex: options.buttonFontColor), for: .normal)
-        self.doneButton.backgroundColor = UIColor(fromHex: options.buttonBgColor)
     }
     
     private func createCancelButton() -> Void {
@@ -174,8 +157,6 @@ public class DatePicker {
             height: buttonHeight
         )
         self.cancelButton.setTitle(self.options.cancelText, for: .normal)
-        self.cancelButton.setTitleColor(UIColor(fromHex: self.options.buttonFontColor), for: .normal)
-        self.cancelButton.backgroundColor = UIColor(fromHex: self.options.buttonBgColor)
     }
     
     private func createButtonDivider() -> Void {
@@ -232,5 +213,42 @@ public class DatePicker {
         DispatchQueue.main.async {
             self.title.text = self.titleChange(picker.date)
         }
+    }
+    
+    
+    public func setPickerTheme() {
+        var titleFontColor = "#000000"
+        var titleBgColor = "#ffffff"
+        var bgColor = "#ffffff"
+        var fontColor = "#000000"
+        var buttonBgColor = "#ffffff"
+        var buttonFontColor = "#000000"
+        if self.options.theme == "dark" {
+            titleFontColor = "#fafafa"
+            titleBgColor = "#121212"
+            bgColor = "#121212"
+            fontColor = "#fafafa"
+            buttonBgColor = "#121212"
+            buttonFontColor =  "#fafafa"
+        }
+        
+        let btFontColor = UIColor(fromHex: self.options.buttonFontColor ?? buttonFontColor)
+        let btBgColor = UIColor(fromHex: self.options.buttonBgColor ?? buttonBgColor)
+        let pickerFontColor = UIColor(fromHex: options.fontColor ?? fontColor)
+        let tltFontColor = UIColor(fromHex: self.options.titleFontColor ?? titleFontColor)
+        let tltBgColor = UIColor(fromHex: self.options.titleBgColor ?? titleBgColor)
+        let alertBgColor = UIColor(fromHex: self.options.bgColor ?? bgColor)
+        
+        self.cancelButton.setTitleColor(btFontColor, for: .normal)
+        self.cancelButton.backgroundColor = btBgColor
+        self.doneButton.setTitleColor(btFontColor, for: .normal)
+        self.doneButton.backgroundColor = btBgColor
+        
+        self.picker.setValue(pickerFontColor, forKey: "textColor")
+        
+        self.title.textColor = tltFontColor
+        self.title.backgroundColor = tltBgColor
+        
+        self.alert.backgroundColor = alertBgColor
     }
 }
