@@ -4,9 +4,11 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.widget.Button;
 
 import java.util.Calendar;
+import java.util.Locale;
 
 public class DatePicker {
     private Calendar calendar;
@@ -19,6 +21,14 @@ public class DatePicker {
         this.options = options;
         this.context = context;
         theme = DatePickerTheme.get(this.options.theme, context);
+
+        if (this.options.locale != null) {
+            Locale locale = new Locale(this.options.locale);
+            Locale.setDefault(locale);
+            Configuration config = new Configuration();
+            config.locale = locale;
+            context.getResources().updateConfiguration(config, context.getResources().getDisplayMetrics());
+        }
     }
 
     public void launchTime(DatePickerResolve callback) {
@@ -67,7 +77,7 @@ public class DatePicker {
 
         final DatePickerDialog datePicker = new DatePickerDialog(context, theme, (view, year, month, dayOfMonth) -> {
             calendar.set(year, month, dayOfMonth);
-            if (options.theme.equals("dateAndTime")) {
+            if (options.mode.equals("dateAndTime")) {
                 options.date = calendar.getTime();
                 launchTime(callback);
             } else {
