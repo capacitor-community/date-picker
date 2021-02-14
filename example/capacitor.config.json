@@ -8,9 +8,7 @@
     "SplashScreen": {
       "launchShowDuration": 0
     },
-    "DatePicker": {
-      "theme": "dark"
-    }
+    "DatePicker": {}
   },
   "cordova": {}
 }
