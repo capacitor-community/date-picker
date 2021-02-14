@@ -45,7 +45,7 @@ public class DatePickerPlugin: CAPPlugin {
     @objc func done(sender: UIButton) {
         if (
             self.instance.options.mode == "dateAndTime" &&
-            self.instance.picker.datePickerMode == UIDatePicker.Mode.date
+                self.instance.picker.datePickerMode == UIDatePicker.Mode.date
         ) {
             self.instance.setTimeMode()
             return
@@ -59,7 +59,7 @@ public class DatePickerPlugin: CAPPlugin {
         if (self.instance.options.mode == "dateAndTime") {
             if (
                 !self.instance.options.mergedDateAndTime &&
-                self.instance.picker.datePickerMode == UIDatePicker.Mode.time
+                    self.instance.picker.datePickerMode == UIDatePicker.Mode.time
             ) {
                 DispatchQueue.main.async {
                     self.instance.picker.datePickerMode = UIDatePicker.Mode.date
@@ -81,62 +81,56 @@ public class DatePickerPlugin: CAPPlugin {
     private func datePickerOptions() -> DatePickerOptions {
         let options = DatePickerOptions()
         
-        if let theme = getConfigValue("theme") as? String {
-            NSLog(theme)
+        if #available(iOS 13.0, *), UITraitCollection.current.userInterfaceStyle == .dark {
+            options.theme = "dark"
+        }
+        
+        if let theme = getConfigValue("ios.theme") as? String ?? getConfigValue("theme") as? String {
             options.theme = theme
         }
-        if let mode = getConfigValue("mode") as? String {
+        if let mode = getConfigValue("ios.mode") as? String ?? getConfigValue("mode") as? String {
             options.mode = mode
         }
-        if let format = getConfigValue("format") as? String {
+        if let format = getConfigValue("ios.format") as? String ?? getConfigValue("format") as? String {
             options.format = format
         }
-        if let timezone = getConfigValue("timezone") as? String {
+        if let timezone = getConfigValue("ios.timezone") as? String ?? getConfigValue("timezone") as? String {
             options.timezone = timezone
         }
-        if let locale = getConfigValue("locale") as? String {
+        if let locale = getConfigValue("ios.locale") as? String ?? getConfigValue("locale") as? String {
             options.locale = locale
         }
-        if let cancelText = getConfigValue("cancelText") as? String {
+        if let cancelText = getConfigValue("ios.cancelText") as? String ?? getConfigValue("cancelText") as? String {
             options.cancelText = cancelText
         }
-        if let doneText = getConfigValue("doneText") as? String {
+        if let doneText = getConfigValue("ios.doneText") as? String ?? getConfigValue("doneText") as? String {
             options.doneText = doneText
         }
-        if let is24h = getConfigValue("is24h") as? Bool {
+        if let is24h = getConfigValue("ios.is24h") as? Bool ?? getConfigValue("is24h") as? Bool {
             options.is24h = is24h
         }
-        if let date = getConfigValue("date") as? String {
-            options.date = Parse.dateFromString(date: date, format: options.format)
-        }
-        if let min = getConfigValue("min") as? String {
-            options.min = Parse.dateFromString(date: min, format: options.format)
-        }
-        if let max = getConfigValue("max") as? String {
-            options.max = Parse.dateFromString(date: max, format: options.format)
-        }
-        if let title = getConfigValue("title") as? String {
+        if let title = getConfigValue("ios.title") as? String ?? getConfigValue("title") as? String {
             options.title = title
         }
-        if let titleFontColor = getConfigValue("titleFontColor") as? String {
+        if let titleFontColor = getConfigValue("ios.titleFontColor") as? String {
             options.titleFontColor = titleFontColor
         }
-        if let titleBgColor = getConfigValue("titleBgColor") as? String {
+        if let titleBgColor = getConfigValue("ios.titleBgColor") as? String {
             options.titleBgColor = titleBgColor
         }
-        if let bgColor = getConfigValue("bgColor") as? String {
+        if let bgColor = getConfigValue("ios.bgColor") as? String {
             options.bgColor = bgColor
         }
-        if let fontColor = getConfigValue("fontColor") as? String {
+        if let fontColor = getConfigValue("ios.fontColor") as? String {
             options.fontColor = fontColor
         }
-        if let buttonBgColor = getConfigValue("buttonBgColor") as? String {
+        if let buttonBgColor = getConfigValue("ios.buttonBgColor") as? String {
             options.buttonBgColor = buttonBgColor
         }
-        if let buttonFontColor = getConfigValue("buttonFontColor") as? String {
+        if let buttonFontColor = getConfigValue("ios.buttonFontColor") as? String {
             options.buttonFontColor = buttonFontColor
         }
-        if let mergedDateAndTime = getConfigValue("mergedDateAndTime") as? Bool {
+        if let mergedDateAndTime = getConfigValue("ios.mergedDateAndTime") as? Bool {
             options.mergedDateAndTime = mergedDateAndTime
         }
         
@@ -145,29 +139,53 @@ public class DatePickerPlugin: CAPPlugin {
     
     private func datePickerOptions(from call: CAPPluginCall, original options: DatePickerOptions) -> DatePickerOptions {
         
-        if let theme = call.getString("theme") {
+        if let theme = call.getString("ios.theme") ?? call.getString("theme") {
             options.theme = theme
         }
-        if let mode = call.getString("mode") {
+        if let mode = call.getString("ios.mode") ?? call.getString("mode") {
             options.mode = mode
         }
-        if let format = call.getString("format") {
+        if let format = call.getString("ios.format") ?? call.getString("format") {
             options.format = format
         }
-        if let timezone = call.getString("timezone") {
+        if let timezone = call.getString("ios.timezone") ?? call.getString("timezone") {
             options.timezone = timezone
         }
-        if let locale = call.getString("locale") {
+        if let locale = call.getString("ios.locale") ?? call.getString("locale") {
             options.locale = locale
         }
-        if let cancelText = call.getString("cancelText") {
+        if let cancelText = call.getString("ios.cancelText") ?? call.getString("cancelText") {
             options.cancelText = cancelText
         }
-        if let doneText = call.getString("doneText") {
+        if let doneText = call.getString("ios.doneText") ?? call.getString("doneText") {
             options.doneText = doneText
         }
-        if let is24h = call.getBool("is24h") {
+        if let is24h = call.getBool("ios.is24h") ?? call.getBool("is24h") {
             options.is24h = is24h
+        }
+        if let title = call.getString("ios.title") ?? call.getString("title") {
+            options.title = title
+        }
+        if let titleFontColor = call.getString("ios.titleFontColor") {
+            options.titleFontColor = titleFontColor
+        }
+        if let titleBgColor = call.getString("ios.titleBgColor") {
+            options.titleBgColor = titleBgColor
+        }
+        if let bgColor = call.getString("ios.bgColor") {
+            options.bgColor = bgColor
+        }
+        if let fontColor = call.getString("ios.fontColor") {
+            options.fontColor = fontColor
+        }
+        if let buttonBgColor = call.getString("ios.buttonBgColor") {
+            options.buttonBgColor = buttonBgColor
+        }
+        if let buttonFontColor = call.getString("ios.buttonFontColor") {
+            options.buttonFontColor = buttonFontColor
+        }
+        if let mergedDateAndTime = call.getBool("ios.mergedDateAndTime") {
+            options.mergedDateAndTime = mergedDateAndTime
         }
         if let date = call.getString("date") {
             options.date = Parse.dateFromString(date: date, format: options.format)
@@ -177,30 +195,6 @@ public class DatePickerPlugin: CAPPlugin {
         }
         if let max = call.getString("max") {
             options.max = Parse.dateFromString(date: max, format: options.format)
-        }
-        if let title = call.getString("title") {
-            options.title = title
-        }
-        if let titleFontColor = call.getString("titleFontColor") {
-            options.titleFontColor = titleFontColor
-        }
-        if let titleBgColor = call.getString("titleBgColor") {
-            options.titleBgColor = titleBgColor
-        }
-        if let bgColor = call.getString("bgColor") {
-            options.bgColor = bgColor
-        }
-        if let fontColor = call.getString("fontColor") {
-            options.fontColor = fontColor
-        }
-        if let buttonBgColor = call.getString("buttonBgColor") {
-            options.buttonBgColor = buttonBgColor
-        }
-        if let buttonFontColor = call.getString("buttonFontColor") {
-            options.buttonFontColor = buttonFontColor
-        }
-        if let mergedDateAndTime = call.getBool("mergedDateAndTime") {
-            options.mergedDateAndTime = mergedDateAndTime
         }
         
         return options
