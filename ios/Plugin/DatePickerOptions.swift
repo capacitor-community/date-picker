@@ -31,6 +31,7 @@ public class DatePickerOptions: NSObject, NSCopying {
         copy.buttonBgColor = buttonBgColor
         copy.buttonFontColor = buttonFontColor
         copy.mergedDateAndTime = mergedDateAndTime
+        copy.style = style
         return copy;
     }
     
@@ -53,5 +54,5 @@ public class DatePickerOptions: NSObject, NSCopying {
     public var buttonBgColor: String? = nil
     public var buttonFontColor: String? = nil
     public var mergedDateAndTime: Bool = false
-    public var style: String? = nil
+    public var style: String = "wheels"
 }
