@@ -25,20 +25,30 @@ public class DatePickerPlugin: CAPPlugin {
             call.reject("Unable to access viewController!")
             return
         }
-        self.instance = DatePicker(options: options, viewCtrl: viewController)
         DispatchQueue.main.async {
-            self.instance.createElements()
-            self.instance.doneButton.addTarget(
+            self.instance = DatePicker(options: options, view: viewController.view)
+            
+            self.instance.done.addTarget(
                 self,
                 action: #selector(self.done(sender:)),
                 for: .touchUpInside
             )
-            self.instance.cancelButton.addTarget(
+            self.instance.cancel.addTarget(
                 self,
                 action: #selector(self.cancel(sender:)),
                 for: .touchUpInside
             )
-            self.instance.open()
+            let tap = UITapGestureRecognizer(target: self, action: #selector(self.cancel(sender:)))
+            self.instance.background.addGestureRecognizer(tap)
+            
+//            self.instance.background.addTarget(
+//                self,
+//                action: #selector(self.cancel(sender:)),
+//                for: .touchUpInside
+//            )
+            
+            viewController.view.addSubview(self.instance.background)
+            // self.instance.open()
         }
     }
     
@@ -47,7 +57,7 @@ public class DatePickerPlugin: CAPPlugin {
             self.instance.options.mode == "dateAndTime" &&
                 self.instance.picker.datePickerMode == UIDatePicker.Mode.date
         ) {
-            self.instance.setTimeMode()
+            // self.instance.setTimeMode()
             return
         }
         var obj:[String:Any] = [:]
@@ -80,6 +90,12 @@ public class DatePickerPlugin: CAPPlugin {
     
     private func datePickerOptions() -> DatePickerOptions {
         let options = DatePickerOptions()
+        if #available(iOS 14.0, *) {
+            options.style = "inline"
+            if let style = getConfigValue("ios.style") as? String {
+                options.style = style
+            }
+        }
         
         if #available(iOS 13.0, *), UITraitCollection.current.userInterfaceStyle == .dark {
             options.theme = "dark"
@@ -138,53 +154,57 @@ public class DatePickerPlugin: CAPPlugin {
     }
     
     private func datePickerOptions(from call: CAPPluginCall, original options: DatePickerOptions) -> DatePickerOptions {
-        
-        if let theme = call.getString("ios.theme") ?? call.getString("theme") {
+        if #available(iOS 14.0, *) {
+            if let style = call.getObject("ios")?["style"] as? String {
+                options.style = style
+            }
+        }
+        if let theme = call.getObject("ios")?["theme"] as? String ?? call.getString("theme") {
             options.theme = theme
         }
-        if let mode = call.getString("ios.mode") ?? call.getString("mode") {
+        if let mode = call.getObject("ios")?["mode"] as? String ?? call.getString("mode") {
             options.mode = mode
         }
-        if let format = call.getString("ios.format") ?? call.getString("format") {
+        if let format = call.getObject("ios")?["format"] as? String ?? call.getString("format") {
             options.format = format
         }
-        if let timezone = call.getString("ios.timezone") ?? call.getString("timezone") {
+        if let timezone = call.getObject("ios")?["timezone"] as? String ?? call.getString("timezone") {
             options.timezone = timezone
         }
-        if let locale = call.getString("ios.locale") ?? call.getString("locale") {
+        if let locale = call.getObject("ios")?["locale"] as? String ?? call.getString("locale") {
             options.locale = locale
         }
-        if let cancelText = call.getString("ios.cancelText") ?? call.getString("cancelText") {
+        if let cancelText = call.getObject("ios")?["cancelText"] as? String ?? call.getString("cancelText") {
             options.cancelText = cancelText
         }
-        if let doneText = call.getString("ios.doneText") ?? call.getString("doneText") {
+        if let doneText = call.getObject("ios")?["doneText"] as? String ?? call.getString("doneText") {
             options.doneText = doneText
         }
-        if let is24h = call.getBool("ios.is24h") ?? call.getBool("is24h") {
+        if let is24h = call.getObject("ios")?["is24h"] as? Bool ?? call.getBool("is24h") {
             options.is24h = is24h
         }
-        if let title = call.getString("ios.title") ?? call.getString("title") {
+        if let title = call.getObject("ios")?["title"] as? String ?? call.getString("title") {
             options.title = title
         }
-        if let titleFontColor = call.getString("ios.titleFontColor") {
+        if let titleFontColor = call.getObject("ios")?["titleFontColor"] as? String {
             options.titleFontColor = titleFontColor
         }
-        if let titleBgColor = call.getString("ios.titleBgColor") {
+        if let titleBgColor = call.getObject("ios")?["titleBgColor"] as? String {
             options.titleBgColor = titleBgColor
         }
-        if let bgColor = call.getString("ios.bgColor") {
+        if let bgColor = call.getObject("ios")?["bgColor"] as? String {
             options.bgColor = bgColor
         }
-        if let fontColor = call.getString("ios.fontColor") {
+        if let fontColor = call.getObject("ios")?["fontColor"] as? String {
             options.fontColor = fontColor
         }
-        if let buttonBgColor = call.getString("ios.buttonBgColor") {
+        if let buttonBgColor = call.getObject("ios")?["buttonBgColor"] as? String {
             options.buttonBgColor = buttonBgColor
         }
-        if let buttonFontColor = call.getString("ios.buttonFontColor") {
+        if let buttonFontColor = call.getObject("ios")?["buttonFontColor"] as? String {
             options.buttonFontColor = buttonFontColor
         }
-        if let mergedDateAndTime = call.getBool("ios.mergedDateAndTime") {
+        if let mergedDateAndTime = call.getObject("ios")?["mergedDateAndTime"] as? Bool {
             options.mergedDateAndTime = mergedDateAndTime
         }
         if let date = call.getString("date") {
