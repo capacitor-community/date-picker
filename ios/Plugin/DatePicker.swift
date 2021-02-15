@@ -2,220 +2,165 @@ import Foundation
 import Capacitor
 
 public class DatePicker {
+    public var title: UILabel
+    public var picker: UIDatePicker
+    public var done: UIButton
+    public var cancel: UIButton
+    public var line: UIView
+    public var alert: UIView
+    public var background: UIView
+    public var effect: UIVisualEffectView
+    public var options: DatePickerOptions
     
-    public var options: DatePickerOptions!
-    private var viewCtrl: UIViewController!
+    private var buttonHeight: CGFloat = 40
+    private var padding: CGFloat = 0
     
-    private var buttonHeight: CGFloat = 50
-    private var paddingHeight: CGFloat = 0
-    private var titleHeight: CGFloat = 50
-    private var spacerHeight: CGFloat = 1
-    private var pickerHeight: CGFloat = 250
+    private var view: UIView
     
-    private var alertSize: CGSize!
-    
-    public var background: UIView!
-    public var alert: UIView!
-    public var picker: UIDatePicker!
-    public var doneButton: UIButton!
-    public var cancelButton: UIButton!
-    public var title: UILabel!
-    public var buttonDivider: UIView!
-    
-    init(options: DatePickerOptions, viewCtrl: UIViewController) {
+    init(options: DatePickerOptions, view: UIView) {
+        self.view = view
         self.options = options
-        self.viewCtrl = viewCtrl
-    }
-    
-    public func createElements() {
-        self.paddingHeight = UIDevice.current.hasNotch ? 35 : 0
-        self.createBackground()
-        self.createAlert()
-        self.createPicker()
-        self.createDoneButton()
-        self.createCancelButton()
-        self.createButtonDivider()
-        self.createTitle()
-        self.setPickerTheme()
-    }
-    
-    public func open() {
-        self.alert.addSubview(self.doneButton)
-        self.alert.addSubview(self.cancelButton)
-        self.alert.addSubview(self.buttonDivider)
-        self.alert.addSubview(self.picker)
-        self.alert.addSubview(self.title)
+        title = UILabel()
+        picker = UIDatePicker()
+        alert = UIView()
+        done = UIButton()
+        cancel = UIButton()
+        line = UIView()
+        background = UIView()
+        effect = UIVisualEffectView()
         
-        self.background.addSubview(self.alert)
+        if #available(iOS 11.0, *), let window = UIApplication.shared.windows.filter({$0.isKeyWindow}).first {
+            padding = window.safeAreaInsets.bottom
+        }
         
-        self.viewCtrl.view.addSubview(self.background)
+        prepareTitle()
+        preparePicker()
+        prepareAlert()
+        prepareLine()
+        prepareButtons()
+        prepareBackground()
         
-        let height = self.alert.frame.size.height
-        self.alert.center.y += height
+        if (options.style != "inline") {
+            alert.addSubview(title)
+        }
+        alert.addSubview(picker)
+        alert.addSubview(line)
+        alert.addSubview(cancel)
+        alert.addSubview(done)
+        background.addSubview(alert)
+        setPickerTheme()
         
+        if (options.style == "inline") {
+            alert.transform = CGAffineTransform(scaleX: 0.90, y: 0.90)
+            self.alert.alpha = 0
+            UIView.animate(withDuration: 0.2, delay: 0, options: [.curveEaseInOut], animations: {
+                self.alert.transform = CGAffineTransform(scaleX: 1, y: 1)
+                self.alert.alpha = 1
+            }, completion: nil)
+        } else {
+            alert.frame.origin.y = view.frame.height
+            UIView.animate(withDuration: 0.2, delay: 0, options: [.curveEaseInOut], animations: {
+                self.alert.frame.origin.y = view.frame.height - self.alert.frame.height
+            }, completion: nil)
+        }
         UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseInOut], animations: {
-            self.background.backgroundColor = UIColor(fromHex: "#00000088")
-        }, completion: nil)
-        
-        UIView.animate(withDuration: 0.2, delay: 0, options: [.curveEaseInOut], animations: {
-            self.alert.center.y -= height
+            self.effect.effect = UIBlurEffect(style: UIBlurEffect.Style.dark)
         }, completion: nil)
     }
-    
-    private func createBackground() -> Void {
-        self.background = UIView()
-        self.background.backgroundColor = UIColor(fromHex: "#00000000")
-
-        let x = viewCtrl.view.bounds.size.width
-        let y = viewCtrl.view.bounds.size.height
-        
-        self.background.frame.size.width = x
-        self.background.frame.size.height = y
-    }
-    
-    private func createAlert() -> Void {
-        self.alertSize = CGSize(width: self.viewCtrl.view.bounds.size.width, height: self.pickerHeight + self.buttonHeight + self.paddingHeight)
-        let width = self.viewCtrl.view.bounds.size.width
-        let height = self.viewCtrl.view.bounds.size.height
-        self.alert = UIView()
-        self.alert.frame = CGRect(x: 0, y: 0, width: self.alertSize.width, height: self.alertSize.height)
-        self.alert.frame.origin.y = height - self.alertSize.height
-        self.alert.frame.size.width = width
-        self.alert.frame.size.height = self.alertSize.height
-    }
-    
-    private func createTitle() -> Void {
-        self.title = UILabel()
-        self.title.frame = CGRect(
-            x: 0,
-            y: 0,
-            width: self.alertSize.width,
-            height: self.titleHeight
-        )
-        self.title.textAlignment = .center
-        self.title.text = self.titleChange(self.picker.date)
-    }
-    
-    private func createPicker() -> Void {
-        self.picker = UIDatePicker(frame: CGRect(x: 0, y: titleHeight, width: 0, height: 0))
-        if #available(iOS 14.0, *) {
-                self.picker.preferredDatePickerStyle = UIDatePickerStyle.wheels
+    public func dismiss() {
+        if (options.style == "inline") {
+            UIView.animate(withDuration: 0.2, delay: 0, options: [.curveEaseInOut], animations: {
+                self.alert.transform = CGAffineTransform(scaleX: 0.4, y: 0.4)
+                self.alert.alpha = 0
+            }, completion: nil)
         } else {
-            self.picker.setValue(false, forKey: "highlightsToday")
+            UIView.animate(withDuration: 0.2, delay: 0, options: [.curveEaseInOut], animations: {
+                self.alert.frame.origin.y = self.view.frame.height
+            }, completion: {(finished: Bool) in
+                self.alert.removeFromSuperview()
+            })
         }
-        
-        let xPosition = (alertSize.width - self.picker.frame.width) / 2
-        self.picker.frame.origin.x = xPosition
-        self.picker.addTarget(self, action: #selector(self.datePickerChanged(picker:)), for: .valueChanged)
-        
-        if (options.date != nil) {
-            self.picker.setDate(options.date!, animated: false)
-        }
-        if (options.max != nil) {
-            self.picker.maximumDate = options.max!
-        }
-        if (options.min != nil) {
-            self.picker.minimumDate = options.min!
-        }
-        if (options.locale != nil) {
-            self.picker.locale = Locale(identifier: options.locale!)
-        } else {
-            self.picker.locale = Locale(identifier: Locale.preferredLanguages.first ?? "en")
-        }
-        
-        if (options.mode == "time") {
-            self.setTimeMode()
-        } else if (options.mergedDateAndTime) {
-            self.picker.datePickerMode = UIDatePicker.Mode.dateAndTime
-            let xPosition = (alertSize.width - self.picker.frame.width) / 2
-            self.picker.frame.origin.x = xPosition
-        } else {
-            self.picker.datePickerMode = UIDatePicker.Mode.date
-            let xPosition = (alertSize.width - self.picker.frame.width) / 2
-            self.picker.frame.origin.x = xPosition
-        }
-    }
-    
-    private func createDoneButton() -> Void {
-        self.doneButton = UIButton(type: .custom)
-        
-        self.doneButton.frame = CGRect(
-            x: self.alertSize.width / 2,
-            y: self.alertSize.height - self.buttonHeight - self.paddingHeight,
-            width: self.alertSize.width / 2,
-            height: self.buttonHeight
-        )
-        self.doneButton.setTitle(options.doneText, for: .normal)
-    }
-    
-    private func createCancelButton() -> Void {
-        self.cancelButton = UIButton()
-        self.cancelButton.frame = CGRect(
-            x: 0,
-            y: alertSize.height - buttonHeight - paddingHeight,
-            width: self.alertSize.width / 2,
-            height: buttonHeight
-        )
-        self.cancelButton.setTitle(self.options.cancelText, for: .normal)
-    }
-    
-    private func createButtonDivider() -> Void {
-        self.buttonDivider = UIView()
-        self.buttonDivider.frame = CGRect(
-            x: 0,
-            y: self.alertSize.height - self.buttonHeight - self.spacerHeight - self.paddingHeight,
-            width: self.viewCtrl.view.bounds.size.width,
-            height: self.spacerHeight
-        )
-        self.buttonDivider.backgroundColor = UIColor(red: 198/255, green: 198/255, blue: 198/255, alpha: 1)
-    }
-    
-    public func setTimeMode() {
-        let date = self.picker.date
-        if (options.is24h) {
-            self.picker.datePickerMode = UIDatePicker.Mode.countDownTimer
-        } else {
-            self.picker.datePickerMode = UIDatePicker.Mode.time
-        }
-        let xPosition = (alertSize.width - self.picker.frame.width) / 2
-        self.picker.frame.origin.x = xPosition
-        self.picker.setDate(date, animated: true)
-    }
-    
-    @objc public func dismiss() {
-        let height = self.alert.frame.size.height
-        UIView.animate(withDuration: 0.2, delay: 0, options: [.curveEaseInOut], animations: {
-            self.alert.center.y += height
-        }, completion: nil)
-        UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseInOut], animations: {
-            self.background.backgroundColor = UIColor(fromHex: "#00000000")
-        }, completion: { (finished: Bool) in
+        UIView.animate(withDuration: 0.3, delay: 0.1, options: [.curveEaseInOut], animations: {
+            self.effect.alpha = 0
+        }, completion: {(finished: Bool) in
             self.background.removeFromSuperview()
         })
-        UIView.transition(with: self.viewCtrl.view, duration: 0.25, options: [.curveEaseIn], animations: {
-        }, completion: nil)
     }
-    
-    @objc func titleChange(_ date: Date) -> String {
-        if (self.options.title == nil) {
-            var format: String = self.options.is24h ? "E, MMM d, yyyy HH:mm" : "E, MMM d, yyyy hh:mm a"
-            if (self.options.mode == "time") {
-                format = self.options.is24h ? "HH:mm" : "hh:mm a"
-            } else if (self.options.mode == "date") {
-                format = "E, MMM d, yyyy"
+    private func prepareTitle() {
+        title.frame.size.width = view.frame.width
+        title.frame.size.height = 40
+        title.textAlignment = .center
+        title.text = titleChange(picker.date)
+    }
+    private func preparePicker() {
+        if #available(iOS 14.0, *), (options.style == "inline") {
+            picker.preferredDatePickerStyle = UIDatePickerStyle.inline
+            picker.frame.origin.x = 10
+            picker.frame.origin.y = 10
+        } else {
+            if #available(iOS 14.0, *) {
+                picker.preferredDatePickerStyle = UIDatePickerStyle.wheels
             }
-            return Parse.dateToString(date: date, format: format)
+            picker.frame.origin.x = (view.frame.width - picker.frame.width) / 2
+            picker.frame.origin.y = title.frame.height
         }
-        return self.options.title!
+        self.picker.addTarget(self, action: #selector(self.datePickerChanged(picker:)), for: .valueChanged)
     }
-    
-    @objc func datePickerChanged(picker: UIDatePicker) {
-        DispatchQueue.main.async {
-            self.title.text = self.titleChange(picker.date)
+    private func prepareAlert() {
+        if (options.style == "inline") {
+            alert.frame.size = CGSize(
+                width: picker.frame.width + 20,
+                height: picker.frame.height + buttonHeight + 11
+            )
+            alert.center = CGPoint(
+                x: view.frame.width / 2,
+                y: view.frame.height / 2
+            )
+            alert.backgroundColor = UIColor.init(fromHex: "#121212")
+            alert.layer.cornerRadius = 10
+        } else {
+            alert.frame.size = CGSize(
+                width: view.frame.width,
+                height: picker.frame.height + title.frame.height + buttonHeight + padding
+            )
+            alert.frame.origin.x = 0
+            alert.frame.origin.y = view.frame.height - alert.frame.height
+        }
+        
+    }
+    private func prepareBackground() {
+        effect = UIVisualEffectView()
+        effect.frame.size = view.frame.size
+        effect.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        background.addSubview(effect)
+        background.frame.size = view.frame.size
+    }
+    private func prepareLine() {
+        line.frame.size = CGSize(width: alert.frame.width, height: 1)
+        line.backgroundColor = UIColor(red: 198/255, green: 198/255, blue: 198/255, alpha: 1)
+        if (options.style == "inline") {
+            line.frame.origin.y = picker.frame.height
+        } else {
+            line.frame.origin.y = picker.frame.height + title.frame.height
         }
     }
-    
-    
+    private func prepareButtons() {
+        let size = CGSize(width: alert.frame.width / 2, height: buttonHeight)
+        done.frame.size = size;
+        cancel.frame.size = size;
+        done.setTitle(options.doneText, for: .normal)
+        cancel.setTitle(options.cancelText, for: .normal)
+        done.contentVerticalAlignment = .center
+        cancel.contentVerticalAlignment = .center
+        
+        if (options.style == "inline") {
+            done.frame.origin = CGPoint(x: size.width, y: picker.frame.height + 1)
+            cancel.frame.origin = CGPoint(x: 0, y: picker.frame.height + 1)
+        } else {
+            done.frame.origin = CGPoint(x: size.width, y: picker.frame.height + title.frame.height + 1)
+            cancel.frame.origin = CGPoint(x: 0, y: picker.frame.height + title.frame.height + 1)
+        }
+    }
     public func setPickerTheme() {
         var titleFontColor = "#000000"
         var titleBgColor = "#ffffff"
@@ -232,23 +177,40 @@ public class DatePicker {
             buttonFontColor =  "#fafafa"
         }
         
-        let btFontColor = UIColor(fromHex: self.options.buttonFontColor ?? buttonFontColor)
-        let btBgColor = UIColor(fromHex: self.options.buttonBgColor ?? buttonBgColor)
+        let btFontColor = UIColor(fromHex: options.buttonFontColor ?? buttonFontColor)
+        let btBgColor = UIColor(fromHex: options.buttonBgColor ?? buttonBgColor)
         let pickerFontColor = UIColor(fromHex: options.fontColor ?? fontColor)
-        let tltFontColor = UIColor(fromHex: self.options.titleFontColor ?? titleFontColor)
-        let tltBgColor = UIColor(fromHex: self.options.titleBgColor ?? titleBgColor)
-        let alertBgColor = UIColor(fromHex: self.options.bgColor ?? bgColor)
+        let tltFontColor = UIColor(fromHex: options.titleFontColor ?? titleFontColor)
+        let tltBgColor = UIColor(fromHex: options.titleBgColor ?? titleBgColor)
+        let alertBgColor = UIColor(fromHex: options.bgColor ?? bgColor)
         
-        self.cancelButton.setTitleColor(btFontColor, for: .normal)
-        self.cancelButton.backgroundColor = btBgColor
-        self.doneButton.setTitleColor(btFontColor, for: .normal)
-        self.doneButton.backgroundColor = btBgColor
+        cancel.setTitleColor(btFontColor, for: .normal)
+        cancel.backgroundColor = btBgColor
+        done.setTitleColor(btFontColor, for: .normal)
+        done.backgroundColor = btBgColor
         
-        self.picker.setValue(pickerFontColor, forKey: "textColor")
+        picker.setValue(pickerFontColor, forKey: "textColor")
         
-        self.title.textColor = tltFontColor
-        self.title.backgroundColor = tltBgColor
-        
-        self.alert.backgroundColor = alertBgColor
+        title.textColor = tltFontColor
+        title.backgroundColor = tltBgColor
+        alert.backgroundColor = alertBgColor
     }
+    @objc func datePickerChanged(picker: UIDatePicker) {
+        DispatchQueue.main.async {
+            self.title.text = self.titleChange(picker.date)
+        }
+    }
+    @objc func titleChange(_ date: Date) -> String {
+        if (self.options.title == nil) {
+            var format: String = self.options.is24h ? "E, MMM d, yyyy HH:mm" : "E, MMM d, yyyy hh:mm a"
+            if (self.options.mode == "time") {
+                format = self.options.is24h ? "HH:mm" : "hh:mm a"
+            } else if (self.options.mode == "date") {
+                format = "E, MMM d, yyyy"
+            }
+            return Parse.dateToString(date: date, format: format)
+        }
+        return self.options.title!
+    }
+    
 }
