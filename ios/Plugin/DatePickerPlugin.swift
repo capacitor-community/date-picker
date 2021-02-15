@@ -41,14 +41,8 @@ public class DatePickerPlugin: CAPPlugin {
             let tap = UITapGestureRecognizer(target: self, action: #selector(self.cancel(sender:)))
             self.instance.background.addGestureRecognizer(tap)
             
-//            self.instance.background.addTarget(
-//                self,
-//                action: #selector(self.cancel(sender:)),
-//                for: .touchUpInside
-//            )
             
             viewController.view.addSubview(self.instance.background)
-            // self.instance.open()
         }
     }
     
