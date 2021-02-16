@@ -19,10 +19,13 @@ public class Parse {
         }
         return formatter.date(from: date)!;
     }
-    public static func dateToString(date: Date, format: String? = nil) -> String {
+    public static func dateToString(date: Date, format: String? = nil, locale: Locale? = nil) -> String {
         let formatter = DateFormatter()
         if (format != nil) {
             formatter.dateFormat = format
+        }
+        if (locale != nil) {
+            formatter.locale = locale
         }
         return formatter.string(from: date)
     }
