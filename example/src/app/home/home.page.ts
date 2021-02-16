@@ -1,11 +1,11 @@
 import type { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
+import { DatePicker } from '@capacitor-community/date-picker/src';
 import type {
   DatePickerOptions,
   DatePickerTheme,
   DatePickerMode,
 } from '@capacitor-community/date-picker/src';
-import { DatePicker } from '@capacitor-community/date-picker/src';
 import { Device } from '@capacitor/device';
 
 @Component({
@@ -23,6 +23,7 @@ export class HomePage implements OnInit {
   cancelText: string;
   timeMode = false;
   mergedDateAndTime = false;
+  wheels = true;
   isIos = false;
 
   themeList: { value: DatePickerTheme; label: string }[] = [
@@ -92,7 +93,7 @@ export class HomePage implements OnInit {
   }
 
   async openPicker(): Promise<{ value: string }> {
-    const options: DatePickerOptions = {};
+    const options: DatePickerOptions = { ios: {} };
     if (this.max) {
       if (this.mode === 'date') {
         this.max.setHours(23, 59, 59, 999);
@@ -124,9 +125,12 @@ export class HomePage implements OnInit {
       options.cancelText = this.cancelText;
     }
     if (this.mergedDateAndTime) {
-      options.mergedDateAndTime = this.mergedDateAndTime;
+      options.ios.mergedDateAndTime = this.mergedDateAndTime;
     }
-
+    if (this.wheels) {
+      options.ios.style = this.wheels ? 'wheels' : null;
+    }
+    console.log(options);
     return DatePicker.present(options);
   }
 
