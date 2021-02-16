@@ -200,7 +200,7 @@ For format in Android, you need to follow this [documentation](https://docs.orac
 
 ## Android Theme
 
-You can define your personalized themes in android via resources styles check [example app](/example/android/app/src/main/res/values/styles.xml:27)
+You can define your personalized themes in android via resources styles check [example app](/example/android/app/src/main/res/values/styles.xml#L27)
 
 How you see in example, just define your picker theme in global assets your app and send via `android.theme` prop in your capacitor.config file or your `options.android.theme` in present call.
 
