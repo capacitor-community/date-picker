@@ -38,10 +38,10 @@ public class DatePickerPlugin: CAPPlugin {
                 action: #selector(self.cancel(sender:)),
                 for: .touchUpInside
             )
-            let tap = UITapGestureRecognizer(target: self, action: #selector(self.cancel(sender:)))
-            self.instance.background.addGestureRecognizer(tap)
-            
-            
+            if self.instance.options.style != "inline" {
+                let tap = UITapGestureRecognizer(target: self, action: #selector(self.cancel(sender:)))
+                self.instance.background.addGestureRecognizer(tap)
+            }
             viewController.view.addSubview(self.instance.background)
         }
     }
@@ -49,9 +49,9 @@ public class DatePickerPlugin: CAPPlugin {
     @objc func done(sender: UIButton) {
         if (
             self.instance.options.mode == "dateAndTime" &&
-                self.instance.picker.datePickerMode == UIDatePicker.Mode.date
+            self.instance.picker.datePickerMode == UIDatePicker.Mode.date
         ) {
-            // self.instance.setTimeMode()
+            self.instance.setTimeMode()
             return
         }
         var obj:[String:Any] = [:]
@@ -62,8 +62,9 @@ public class DatePickerPlugin: CAPPlugin {
     @objc func cancel(sender: UIButton) {
         if (self.instance.options.mode == "dateAndTime") {
             if (
+                self.instance.options.style != "inline" &&
                 !self.instance.options.mergedDateAndTime &&
-                    self.instance.picker.datePickerMode == UIDatePicker.Mode.time
+                self.instance.picker.datePickerMode == UIDatePicker.Mode.time
             ) {
                 DispatchQueue.main.async {
                     self.instance.picker.datePickerMode = UIDatePicker.Mode.date
