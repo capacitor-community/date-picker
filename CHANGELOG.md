@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.3.0](https://github.com/capacitor-community/date-picker/compare/v0.2.3...v0.3.0) (2021-02-17)
+
+
+### Bug Fixes
+
+* **ios:** default 24 hours in title wheels by default locale ([58a0dff](https://github.com/capacitor-community/date-picker/commit/58a0dffce727e999d47d936932717d92c3717afa))
+
 ### [0.2.3](https://github.com/capacitor-community/date-picker/compare/v0.2.2...v0.2.3) (2020-12-05)
 
 
