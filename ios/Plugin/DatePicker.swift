@@ -113,6 +113,9 @@ public class DatePicker {
         if (options.min != nil) {
             picker.minimumDate = options.min!
         }
+        if (options.timezone != nil) {
+            picker.timeZone = TimeZone(identifier: options.timezone!)
+        }
         if (options.locale != nil) {
             picker.locale = Locale(identifier: options.locale!)
         } else {
