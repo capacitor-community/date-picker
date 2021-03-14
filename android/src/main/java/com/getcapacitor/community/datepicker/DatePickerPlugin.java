@@ -153,9 +153,6 @@ public class DatePickerPlugin extends Plugin {
 
     private void launchTime() throws ParseException {
         final JSObject response = new JSObject();
-        if (pickerDate != null) {
-            calendar.setTime(parseDateFromString(pickerDate));
-        }
 
         final TimePickerDialog timePicker = new TimePickerDialog(getContext(), getTheme(), new TimePickerDialog.OnTimeSetListener() {
             @Override
