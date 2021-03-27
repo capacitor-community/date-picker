@@ -79,7 +79,7 @@ public class DatePickerPlugin extends Plugin {
         pickerMaxDate = null;
         pickerTitle = null;
 
-            calendar = Calendar.getInstance();
+        calendar = Calendar.getInstance();
         calendar.setTime(new Date());
 
         if (call != null) {
@@ -95,6 +95,18 @@ public class DatePickerPlugin extends Plugin {
             pickerCancelText = call.getString("cancelText", pickerCancelText);
             pickerDoneText = call.getString("doneText", pickerDoneText);
             picker24h = call.getBoolean("is24h", picker24h);
+
+            if (pickerMinDate != null) {
+                parseDateFromString(pickerMinDate);
+            }
+
+            if (pickerMaxDate != null) {
+                parseDateFromString(pickerMaxDate);
+            }
+
+            if (pickerDate != null) {
+                calendar.setTime(parseDateFromString(pickerDate));
+            }
         }
 
         if (pickerLocale != null) {
@@ -153,9 +165,6 @@ public class DatePickerPlugin extends Plugin {
 
     private void launchTime() throws ParseException {
         final JSObject response = new JSObject();
-        if (pickerDate != null) {
-            calendar.setTime(parseDateFromString(pickerDate));
-        }
 
         final TimePickerDialog timePicker = new TimePickerDialog(getContext(), getTheme(), new TimePickerDialog.OnTimeSetListener() {
             @Override
@@ -171,11 +180,6 @@ public class DatePickerPlugin extends Plugin {
 
         Button doneButton = timePicker.getButton(Dialog.BUTTON_POSITIVE);
         Button cancelButton = timePicker.getButton(Dialog.BUTTON_NEGATIVE);
-
-
-        if (pickerDate != null) {
-            calendar.setTime(parseDateFromString(pickerDate));
-        }
 
         if (pickerTitle != null) {
             timePicker.setTitle(pickerTitle);
@@ -205,16 +209,6 @@ public class DatePickerPlugin extends Plugin {
 
     private void launchDate() throws ParseException {
         final JSObject response = new JSObject();
-
-        if (pickerDate != null) {
-            try {
-                Date dt = parseDateFromString(pickerDate);
-                calendar.setTime(dt);
-            } catch (Exception e) {
-                call.error("Failed to parse date");
-                return;
-            }
-        }
 
         final DatePickerDialog datePicker = new DatePickerDialog(getContext(), getTheme(), new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -278,7 +272,13 @@ public class DatePickerPlugin extends Plugin {
     public void present(final PluginCall call_) throws ParseException {
         call = call_;
 
-        loadOptions();
+        try {
+            loadOptions();
+        } catch (Exception e) {
+            call.error("Failed to parse options");
+            return;
+        }
+
         if (pickerMode.equals("time")) {
             launchTime();
         } else {
