@@ -203,7 +203,11 @@ public class DatePickerPlugin: CAPPlugin {
             options.mergedDateAndTime = mergedDateAndTime
         }
         if let date = call.getString("date") {
-            options.date = Parse.dateFromString(date: date, format: options.format)
+            if let parsedDate = Parse.dateFromString(date: date, format: options.format) {
+                options.date = parsedDate
+            } else {
+                print("Failed to parse date")
+            }
         }
         if let min = call.getString("min") {
             options.min = Parse.dateFromString(date: min, format: options.format)
