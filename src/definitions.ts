@@ -5,12 +5,12 @@ export type DatePickerIosStyle = 'wheels' | 'inline';
 export interface DatePickerBaseOptions {
   /**
    * @type {string}
-   * @default "yyyy-MM-dd'T'HH:mm:ss.sssZ"
+   * @default "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
    *
    * @description ISO String format
-   * @deprecated please, migrate this to ios and android props because the api is a little bit differen
-   * @note For ios read (https://developer.apple.com/documentation/foundation/dateformatter)
-   * @note For android read (https://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html)
+   * @deprecated please, migrate this to ios and android props because the api is a little bit different
+   * @note For ios read (https://www.unicode.org/reports/tr35/tr35-31/tr35-dates.html#Date_Field_Symbol_Table)
+   * @note For android read (https://developer.android.com/reference/java/time/format/DateTimeFormatter#patterns)
    */
   format?: string;
   /**
@@ -18,8 +18,8 @@ export interface DatePickerBaseOptions {
    * @default null
    *
    * @description If null, empty or undefined, use the device locale
-   * @note for ios you can read abouth locale here (https://developer.apple.com/documentation/foundation/locale)
-   * @note for android you can read abouth locale here (https://docs.oracle.com/javase/7/docs/api/java/util/Locale.html)
+   * @note for ios you can read about locale here (https://developer.apple.com/documentation/foundation/locale)
+   * @note for android you can read about locale here (https://docs.oracle.com/javase/7/docs/api/java/util/Locale.html)
    */
   locale?: string;
   /**
@@ -69,10 +69,10 @@ export interface DatePickerBaseOptions {
 export interface DatePickerAndroidptions extends DatePickerBaseOptions {
   /**
    * @type {string}
-   * @default "yyyy-MM-dd'T'HH:mm:ss.sss"
+   * @default "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
    *
    * @description ISO String format
-   * @note For android read (https://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html)
+   * @note For android read (https://developer.android.com/reference/java/time/format/DateTimeFormatter#patterns)
    */
   format?: string;
 }
@@ -82,15 +82,15 @@ export interface DatePickerIosOptions extends DatePickerBaseOptions {
    * @type {DatePickerIosStyle}
    * @default "inline"
    * @note works only iOS 14.0 or heiger
-   * @description Modal style for ios, for mor information, access: https://developer.apple.com/documentation/uikit/uidatepicker
+   * @description Modal style for ios, for more information, access: https://developer.apple.com/documentation/uikit/uidatepicker
    */
   style?: DatePickerIosStyle;
   /**
    * @type {string}
-   * @default "yyyy-MM-dd'T'HH:mm:ss.sssZ"
+   * @default "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
    *
    * @description ISO String format
-   * @note Read (https://developer.apple.com/documentation/foundation/dateformatter)
+   * @note Read (https://www.unicode.org/reports/tr35/tr35-31/tr35-dates.html#Date_Field_Symbol_Table)
    */
   format?: string;
   /**
@@ -119,14 +119,14 @@ export interface DatePickerIosOptions extends DatePickerBaseOptions {
    * @default null
    *
    * @description hex string for picker font color
-   * @note not work in inline style
+   * @note does not work in inline style
    */
   fontColor?: string;
   /**
    * @type {string}
    * @default null
    *
-   * @description hex string for buttons background color
+   * @description hex string for button background color
    */
   buttonBgColor?: string;
   /**

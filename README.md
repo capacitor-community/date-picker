@@ -145,7 +145,7 @@ These options can be used through the `present` method and/or within `capacitor.
 
 | name            | type              | default                                   |
 | --------------- | ----------------- | ----------------------------------------- |
-| format          | `string`          | `"yyyy-MM-dd'T'HH:mm:ss.sssZ"`            |
+| format          | `string`          | `"yyyy-MM-dd'T'HH:mm:ss.SSSZ"`            |
 | style           | `string`          | if iOS 14 `"inline"` else only `"wheels"` |
 | locale          | `string`          | **_`current device`_**                    |
 | date            | `string`          | **_`current date`_**                      |
@@ -170,7 +170,7 @@ These options can be used through the `present` method and/or within `capacitor.
 
 | name       | type              | default                          |
 | ---------- | ----------------- | -------------------------------- |
-| format     | `string`          | `"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"` |
+| format     | `string`          | `"yyyy-MM-dd'T'HH:mm:ss.SSSZ"` |
 | locale     | `string`          | **_`current device`_**           |
 | date       | `string`          | **_`current date`_**             |
 | mode       | `DatePickerMode`  | `"dateAndTime"`                  |
@@ -186,9 +186,9 @@ These options can be used through the `present` method and/or within `capacitor.
 
 ## Date Format
 
-For format, we defined the old config deprecated because we have a inconsistence between Android and iOS platforms
+For format, we defined the old config deprecated because we have a inconsistence between Android and iOS platforms.
 
-now you need define your forma config in `android.format` and `ios.format`
+Now you need to define your format config in `android.format` and `ios.format`.
 
 ### iOS
 
