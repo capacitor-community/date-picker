@@ -41,7 +41,7 @@ public class DatePickerOptions: NSObject, NSCopying {
     public var timezone: String? = nil
     public var locale: String? = nil
     public var cancelText: String = "Cancel"
-    public var doneText: String = "Ok"
+    public var doneText: String = "OK"
     public var is24h: Bool =  false
     public var date: Date? = nil
     public var min: Date? = nil

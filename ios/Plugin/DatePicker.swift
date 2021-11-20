@@ -135,7 +135,7 @@ public class DatePicker {
         if (options.style == "inline") {
             alert.frame.size = CGSize(
                 width: picker.frame.width + 20,
-                height: picker.frame.height + buttonHeight + 11
+                height: picker.frame.height + buttonHeight + 21
             )
             alert.frame.origin.x = (view.frame.width - alert.frame.width) / 2
             alert.frame.origin.y = (view.frame.height - alert.frame.height) / 2
@@ -161,9 +161,9 @@ public class DatePicker {
         line.frame.size = CGSize(width: alert.frame.width, height: 1)
         line.backgroundColor = UIColor(red: 198/255, green: 198/255, blue: 198/255, alpha: 1)
         if (options.style == "inline") {
-            line.frame.origin.y = picker.frame.height
+            line.frame.origin.y = picker.frame.height + 10
         } else {
-            line.frame.origin.y = picker.frame.height + title.frame.height
+            line.frame.origin.y = picker.frame.height + title.frame.height + 10
         }
     }
     private func prepareButtons() {
@@ -176,11 +176,11 @@ public class DatePicker {
         cancel.contentVerticalAlignment = .center
         
         if (options.style == "inline") {
-            done.frame.origin = CGPoint(x: size.width, y: picker.frame.height + 1)
-            cancel.frame.origin = CGPoint(x: 0, y: picker.frame.height + 1)
+            done.frame.origin = CGPoint(x: size.width, y: picker.frame.height + 11)
+            cancel.frame.origin = CGPoint(x: 0, y: picker.frame.height + 11)
         } else {
-            done.frame.origin = CGPoint(x: size.width, y: picker.frame.height + title.frame.height + 1)
-            cancel.frame.origin = CGPoint(x: 0, y: picker.frame.height + title.frame.height + 1)
+            done.frame.origin = CGPoint(x: size.width, y: picker.frame.height + title.frame.height + 11)
+            cancel.frame.origin = CGPoint(x: 0, y: picker.frame.height + title.frame.height + 11)
         }
     }
     public func setTimeMode() {
