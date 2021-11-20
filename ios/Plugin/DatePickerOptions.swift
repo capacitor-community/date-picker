@@ -37,7 +37,7 @@ public class DatePickerOptions: NSObject, NSCopying {
     
     public var theme: String = "light"
     public var mode: String = "dateAndTime"
-    public var format: String = "yyyy-MM-dd'T'HH:mm:ss.sssZ"
+    public var format: String = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
     public var timezone: String? = nil
     public var locale: String? = nil
     public var cancelText: String = "Cancel"

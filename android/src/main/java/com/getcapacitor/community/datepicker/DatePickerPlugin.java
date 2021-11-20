@@ -43,7 +43,7 @@ public class DatePickerPlugin extends Plugin {
         DatePickerOptions options = new DatePickerOptions();
         options.theme = getConfig().getString("android.theme", getConfig().getString("theme", "light"));
         options.mode = getConfig().getString("android.mode", getConfig().getString("mode", "dateAndTime"));
-        options.format = getConfig().getString("android.format", getConfig().getString("format", "yyyy-MM-dd'T'HH:mm:ss.sss"));
+        options.format = getConfig().getString("android.format", getConfig().getString("format", "yyyy-MM-dd'T'HH:mm:ss.SSSZ"));
         options.timezone = getConfig().getString("android.timezone", getConfig().getString("timezone", "UTC"));
         options.locale = getConfig().getString("android.locale", getConfig().getString("locale",null));
         options.cancelText = getConfig().getString("android.cancelText", getConfig().getString("cancelText", null));
