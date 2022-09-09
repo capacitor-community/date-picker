@@ -1,11 +1,11 @@
 import type { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
-import { DatePicker } from '@capacitor-community/date-picker/src';
+import { DatePicker } from '@pantrist/capacitor-date-picker/src';
 import type {
   DatePickerOptions,
   DatePickerTheme,
   DatePickerMode,
-} from '@capacitor-community/date-picker/src';
+} from '@pantrist/capacitor-date-picker/src';
 import { Device } from '@capacitor/device';
 
 @Component({

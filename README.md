@@ -1,16 +1,16 @@
 <p align="center"><br><img src="https://user-images.githubusercontent.com/236501/85893648-1c92e880-b7a8-11ea-926d-95355b8175c7.png" width="128" height="128" /></p>
 <h3 align="center">Capacitor Date Picker</h3>
-<p align="center"><strong><code>@capacitor-community/date-picker</code></strong></p>
+<p align="center"><strong><code>@pantrist/capacitor-date-picker</code></strong></p>
 <p align="center">
   Capacitor community plugin for native Date Picker
 </p>
 
 <p align="center">
   <img src="https://img.shields.io/maintenance/yes/2020?style=flat-square" />
-  <a href="https://www.npmjs.com/package/@capacitor-community/date-picker"><img src="https://img.shields.io/npm/l/@capacitor-community/date-picker?style=flat-square" /></a>
+  <a href="https://www.npmjs.com/package/@pantrist/capacitor-date-picker"><img src="https://img.shields.io/npm/l/@pantrist/capacitor-date-picker?style=flat-square" /></a>
 <br>
-  <a href="https://www.npmjs.com/package/@capacitor-community/date-picker"><img src="https://img.shields.io/npm/dw/@capacitor-community/date-picker?style=flat-square" /></a>
-  <a href="https://www.npmjs.com/package/@capacitor-community/date-picker"><img src="https://img.shields.io/npm/v/@capacitor-community/date-picker?style=flat-square" /></a>
+  <a href="https://www.npmjs.com/package/@pantrist/capacitor-date-picker"><img src="https://img.shields.io/npm/dw/@pantrist/capacitor-date-picker?style=flat-square" /></a>
+  <a href="https://www.npmjs.com/package/@pantrist/capacitor-date-picker"><img src="https://img.shields.io/npm/v/@pantrist/capacitor-date-picker?style=flat-square" /></a>
   <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 <a href="#contributors"><img src="https://img.shields.io/badge/all%20contributors-3-orange?style=flat-square" /></a>
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
@@ -25,20 +25,20 @@
 
 ## Notice 🚀
 
-We're starting fresh under an official org. If you were using the previous npm package `capacitor-datepick`, please update your package.json to `@capacitor-community/date-picker`. Check out [changelog](/CHANGELOG.md) for more info.
+We're starting fresh under an official org. If you were using the previous npm package `capacitor-datepick`, please update your package.json to `@pantrist/capacitor-date-picker`. Check out [changelog](/CHANGELOG.md) for more info.
 
 ## Installation
 
 Using npm:
 
 ```bash
-npm install @capacitor-community/date-picker
+npm install @pantrist/capacitor-date-picker
 ```
 
 Using yarn:
 
 ```bash
-yarn add @capacitor-community/date-picker
+yarn add @pantrist/capacitor-date-picker
 ```
 
 Sync native files:
@@ -59,7 +59,7 @@ To maintain the consistency of the community plugins, we changed the name of the
 Before, to use the plugin, you needed to import like this
 
 ```ts
-import '@capacitor-community/date-picker';
+import '@pantrist/capacitor-date-picker';
 import { Plugins } from '@capacitor/core';
 const { DatePickerPlugin } = Plugins;
 ```
@@ -70,7 +70,7 @@ To use this plugin.
 Now, to use this plugin, you need to do this
 
 ```ts
-import { DatePicker } from '@capacitor-community/date-picker';
+import { DatePicker } from '@pantrist/capacitor-date-picker';
 ```
 
 You need to replace all of your code
@@ -212,8 +212,8 @@ How you see in example, just define your picker theme in global assets your app 
 ## Usage
 
 ```js
-import { DatePicker } from '@capacitor-community/date-picker';
-import type { DatePickerTheme } from '@capacitor-community/date-picker/src';
+import { DatePicker } from '@pantrist/capacitor-date-picker';
+import type { DatePickerTheme } from '@pantrist/capacitor-date-picker/src';
 const selectedTheme: DatePickerTheme = 'light';
 
 DatePicker.present({
@@ -256,7 +256,7 @@ DatePicker.present({
 
 - `ionic start my-cap-app --capacitor`
 - `cd my-cap-app`
-- `npm install --save @capacitor-community/date-picker`
+- `npm install --save @pantrist/capacitor-date-picker`
 - `mkdir www && touch www/index.html`
 - `sudo gem install cocoapods` (only once)
 - `npx cap add ios`
@@ -269,7 +269,7 @@ DatePicker.present({
 
 - `ionic start my-cap-app --capacitor`
 - `cd my-cap-app`
-- `npm install --save @capacitor-community/date-picker`
+- `npm install --save @pantrist/capacitor-date-picker`
 - `mkdir www && touch www/index.html`
 - `npx cap add android`
 - `npx cap sync android` (every time you run `npm install`)
