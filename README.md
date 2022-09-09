@@ -47,12 +47,43 @@ Sync native files:
 npx cap sync
 ```
 
+## Upgrade guide
+
+from `2.*` to `3.*` we have some new settings.
+You can see in [definitions](/src/definitions.ts) file, we hava the sections `ios` and `android`. You must change your format configs to `ios` and `android` configs.
+
+# Very important!!
+
+To maintain the consistency of the community plugins, we changed the name of the variable the plugin is in. As we are experiencing a change across the capacitor plugins import ecosystem, we think this is a good opportunity to do that
+
+Before, to use the plugin, you needed to import like this
+
+```ts
+import '@capacitor-community/date-picker';
+import { Plugins } from '@capacitor/core';
+const { DatePickerPlugin } = Plugins;
+```
+
+Now, we not have the `Plugins` variable and we not register the `DatePickerPlugin` in `Capacitor.Plugins`
+To use this plugin.
+
+Now, to use this plugin, you need to do this
+
+```ts
+import { DatePicker } from '@capacitor-community/date-picker';
+```
+
+You need to replace all of your code
+
+You must also follow the guide for android.
+
 ## Roadmap
 
 ### ios
 
 - [x] present
 - [x] config
+  - [x] style
   - [x] format
   - [x] locale
   - [x] date
@@ -112,25 +143,26 @@ npx cap sync
 
 These options can be used through the `present` method and/or within `capacitor.config.json`
 
-| name            | type              | default                          |
-| --------------- | ----------------- | -------------------------------- |
-| format          | `string`          | `"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"` |
-| locale          | `string`          | **_`current device`_**           |
-| date            | `string`          | **_`current date`_**             |
-| mode            | `DatePickerMode`  | `"dateAndTime"`                  |
-| theme           | `DatePickerTheme` | `"light"`                        |
-| timezone        | `string`          | **_`current device`_**           |
-| min             | `string`          | `null`                           |
-| max             | `string`          | `null`                           |
-| doneText        | `string`          | `"OK"`                           |
-| cancelText      | `string`          | `"Cancel"`                       |
-| is24h           | `boolean`         | `false`                          |
-| titleFontColor  | `string`          | `null`                           |
-| titleBgColor    | `string`          | `null`                           |
-| bgColor         | `string`          | `null`                           |
-| fontColor       | `string`          | `null`                           |
-| buttonBgColor   | `string`          | `null`                           |
-| buttonFontColor | `string`          | `null`                           |
+| name            | type              | default                                   |
+| --------------- | ----------------- | ----------------------------------------- |
+| format          | `string`          | `"yyyy-MM-dd'T'HH:mm:ss.sssZ"`            |
+| style           | `string`          | if iOS 14 `"inline"` else only `"wheels"` |
+| locale          | `string`          | **_`current device`_**                    |
+| date            | `string`          | **_`current date`_**                      |
+| mode            | `DatePickerMode`  | `"dateAndTime"`                           |
+| theme           | `DatePickerTheme` | **_`current device`_**                    |
+| timezone        | `string`          | **_`current device`_**                    |
+| min             | `string`          | `null`                                    |
+| max             | `string`          | `null`                                    |
+| doneText        | `string`          | `"OK"`                                    |
+| cancelText      | `string`          | `"Cancel"`                                |
+| is24h           | `boolean`         | `false`                                   |
+| titleFontColor  | `string`          | `null`                                    |
+| titleBgColor    | `string`          | `null`                                    |
+| bgColor         | `string`          | `null`                                    |
+| fontColor       | `string`          | `null`                                    |
+| buttonBgColor   | `string`          | `null`                                    |
+| buttonFontColor | `string`          | `null`                                    |
 
 ### Config for Android (`DatePickerOptions`)
 
@@ -152,29 +184,50 @@ These options can be used through the `present` method and/or within `capacitor.
 
 > For more information check the [`definitions`](/src/definitions.ts) file
 
+## Date Format
+
+For format, we defined the old config deprecated because we have a inconsistence between Android and iOS platforms
+
+now you need define your forma config in `android.format` and `ios.format`
+
+### iOS
+
+For format in iOS, you need to follow this [documentation](https://developer.apple.com/documentation/foundation/dateformatter)
+
+### Android
+
+For format in Android, you need to follow this [documentation](https://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html)
+
+## Android Theme
+
+You can define your personalized themes in android via resources styles check [example app](/example/android/app/src/main/res/values/styles.xml#L27)
+
+How you see in example, just define your picker theme in global assets your app and send via `android.theme` prop in your capacitor.config file or your `options.android.theme` in present call.
+
 ## Demo
+
 ![](demo-android.gif)
 ![](demo-ios.gif)
-
 
 ## Usage
 
 ```js
-import { Plugins } from "@capacitor/core";
-import { DatePickerPluginInterface } from "@capacitor-community/date-picker";
+import { DatePicker } from '@capacitor-community/date-picker';
+import type { DatePickerTheme } from '@capacitor-community/date-picker/src';
+const selectedTheme: DatePickerTheme = 'light';
 
-const DatePicker: DatePickerPluginInterface = Plugins.DatePickerPlugin as any;
-const selectedTheme = "light";
-
-DatePicker
-  .present({
-    mode: "date",
-    locale: "pt_BR",
-    format: "dd/MM/yyyy",
-    date: "13/07/2019",
-    theme: selectedTheme,
-  })
-  .then((date) => alert(date.value));
+DatePicker.present({
+  mode: 'date',
+  locale: 'pt_BR',
+  date: '13/07/2019',
+  theme: selectedTheme,
+  ios: {
+    format: 'dd/MM/yyyy',
+  },
+  android: {
+    format: 'dd/MM/yyyy',
+  },
+}).then(date => alert(date.value));
 ```
 
 ### Capacitor Config
@@ -187,7 +240,13 @@ DatePicker
       "mode": "date",
       "locale": "pt_BR",
       "current": "13/07/2019",
-      "format": "dd/MM/yyyy"
+      "format": "dd/MM/yyyy",
+      "android": {
+        "theme": "MyCustomeTheme"
+      },
+      "ios": {
+        "style": "wheels"
+      }
     }
   }
 }
@@ -215,9 +274,9 @@ DatePicker
 - `npx cap add android`
 - `npx cap sync android` (every time you run `npm install`)
 - `npx cap open android`
-- `[extra step]` in android case we need to tell Capacitor to initialise the plugin:
+- `[extra step]` **OPTIONAL** in android case we need to tell Capacitor to initialise the plugin:
 
-> on your `MainActivity.java` file add `com.getcapacitor.community.datepicker.DatePickerPlugin;` and then inside the init callback `add(DatePickerPlugin.class);`
+> on your `MainActivity.java` file add `com.getcapacitor.community.datepicker.DatePicker;` and then inside the init callback `add(DatePicker.class);`
 
 Now you should be set to go. Try to run your client using `ionic cap run android --livereload --address=0.0.0.0`.
 
@@ -254,6 +313,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
+
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!

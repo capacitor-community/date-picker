@@ -1,31 +1,9 @@
 import { WebPlugin } from '@capacitor/core';
-import { DatePickerPluginInterface, DatePickerOptions } from './definitions';
 
-export class DatePickerPluginWeb extends WebPlugin implements DatePickerPluginInterface {
-  constructor() {
-    super({
-      name: 'DatePickerPlugin',
-      platforms: ['web']
-    });
-  }
+import type { DatePickerOptions, DatePickerPlugin } from './definitions';
 
-  async present(options: DatePickerOptions): Promise<{ value: string }> {
-    console.warn('Not Yet Implemented', options);
-    return { value: 'Not Yet Implemented' };
-  }
-
-  async darkMode(): Promise<void> {
-    console.warn('Not Yet Implemented');
-  }
-
-  async lightMode(): Promise<void> {
-    console.warn('Not Yet Implemented');
+export class DatePickerWeb extends WebPlugin implements DatePickerPlugin {
+  present(options: DatePickerOptions): Promise<{ value: string }> {
+    throw new Error('Method not implemented.');
   }
 }
-
-const DatePickerPlugin = new DatePickerPluginWeb();
-
-export { DatePickerPlugin };
-
-import { registerWebPlugin } from '@capacitor/core';
-registerWebPlugin(DatePickerPlugin);
