@@ -17,10 +17,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/capacitor-community/date-picker.git"
+    "url": "git+https://github.com/Pantrist-dev/capacitor-date-picker.git"
   },
   "bugs": {
-    "url": "https://github.com/capacitor-community/date-picker/issues"
+    "url": "https://github.com/Pantrist-dev/capacitor-date-picker/issues"
   },
   "keywords": [
     "capacitor",
