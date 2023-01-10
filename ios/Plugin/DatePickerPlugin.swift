@@ -21,13 +21,17 @@ public class DatePickerPlugin: CAPPlugin {
         }
         self.call = call
         let options = self.datePickerOptions(from: self.call, original: self.options.copy() as! DatePickerOptions)
+        if options == nil {
+            return;
+        }
+
         guard let viewController = self.bridge?.viewController else {
             call.reject("Unable to access viewController!")
             return
         }
         DispatchQueue.main.async {
-            self.instance = DatePicker(options: options, view: viewController.view)
-            
+            self.instance = DatePicker(options: options!, view: viewController.view)
+
             self.instance.done.addTarget(
                 self,
                 action: #selector(self.done(sender:)),
@@ -45,7 +49,7 @@ public class DatePickerPlugin: CAPPlugin {
             viewController.view.addSubview(self.instance.background)
         }
     }
-    
+
     @objc func done(sender: UIButton) {
         if (
             self.instance.options.mode == "dateAndTime" &&
@@ -77,12 +81,14 @@ public class DatePickerPlugin: CAPPlugin {
         self.call.resolve(obj)
         self.dismissInstance()
     }
-    
+
     private func dismissInstance() -> Void {
-        self.instance.dismiss()
-        self.instance = nil
+        if self.instance != nil {
+            self.instance.dismiss()
+            self.instance = nil
+        }
     }
-    
+
     private func datePickerOptions() -> DatePickerOptions {
         let options = DatePickerOptions()
         if #available(iOS 14.0, *) {
@@ -91,11 +97,11 @@ public class DatePickerPlugin: CAPPlugin {
                 options.style = style
             }
         }
-        
+
         if #available(iOS 13.0, *), UITraitCollection.current.userInterfaceStyle == .dark {
             options.theme = "dark"
         }
-        
+
         if let theme = getConfigValue("ios.theme") as? String ?? getConfigValue("theme") as? String {
             options.theme = theme
         }
@@ -144,11 +150,11 @@ public class DatePickerPlugin: CAPPlugin {
         if let mergedDateAndTime = getConfigValue("ios.mergedDateAndTime") as? Bool {
             options.mergedDateAndTime = mergedDateAndTime
         }
-        
+
         return options
     }
-    
-    private func datePickerOptions(from call: CAPPluginCall, original options: DatePickerOptions) -> DatePickerOptions {
+
+    private func datePickerOptions(from call: CAPPluginCall, original options: DatePickerOptions) -> DatePickerOptions? {
         if #available(iOS 14.0, *) {
             if let style = call.getObject("ios")?["style"] as? String {
                 options.style = style
@@ -204,12 +210,27 @@ public class DatePickerPlugin: CAPPlugin {
         }
         if let date = call.getString("date") {
             options.date = Parse.dateFromString(date: date, format: options.format)
+            if options.date == nil {
+                call.reject("Failed to parse date \(date) with format \(options.format)")
+                self.dismissInstance()
+                return nil
+            }
         }
         if let min = call.getString("min") {
             options.min = Parse.dateFromString(date: min, format: options.format)
+            if options.min == nil {
+                call.reject("Failed to parse min \(min) with format \(options.format)")
+                self.dismissInstance()
+                return nil
+            }
         }
         if let max = call.getString("max") {
             options.max = Parse.dateFromString(date: max, format: options.format)
+            if options.max == nil {
+                call.reject("Failed to parse max \(max) with format \(options.format)")
+                self.dismissInstance()
+                return nil
+            }
         }
         
         return options
