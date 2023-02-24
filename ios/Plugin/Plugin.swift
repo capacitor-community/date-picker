@@ -71,24 +71,32 @@ public class DatePickerPlugin: CAPPlugin {
     private var pickerButtonBgColor: String = "#ffffff"
     private var pickerButtonFontColor: String =  "#000000"
     
+    private var vc = UIViewController()
+    
+    override public func load() {
+        if let viewController = self.bridge?.viewController {
+            vc = viewController
+        }
+        loadOptions()
+    }
     
     private func loadOptions() {
-        self.defaultPickerTheme = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "theme") ?? self.defaultPickerTheme
-        self.defaultPickerMode = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "mode") ?? self.defaultPickerMode
-        self.defaultPickerFormat = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "format") ?? self.defaultPickerFormat
-        self.defaultPickerTimezone = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "timezone") ?? self.defaultPickerTimezone
-        self.defaultPickerLocale = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "locale") ?? self.defaultPickerLocale
-        self.defaultPickerCancelText = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "cancelText") ?? self.defaultPickerCancelText
-        self.defaultPickerDoneText = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "doneText") ?? self.defaultPickerDoneText
-        self.defaultPicker24h = self.bridge.config.getValue(self.CONFIG_KEY_PREFIX + "is24h") as? Bool ?? self.defaultPicker24h
-        self.defaultPickerTitle = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "title") ?? self.defaultPickerTitle
-        self.defaultPickerTitleFontColor = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "titleFontColor") ?? self.defaultPickerTitleFontColor
-        self.defaultPickerTitleBgColor = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "titleBgColor") ?? self.defaultPickerTitleBgColor
-        self.defaultPickerBgColor = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "bgColor") ?? self.defaultPickerBgColor
-        self.defaultPickerFontColor = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "fontColor") ?? self.defaultPickerFontColor
-        self.defaultPickerButtonBgColor = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "buttonBgColor") ?? self.defaultPickerButtonBgColor
-        self.defaultPickerButtonFontColor = self.bridge.config.getString(self.CONFIG_KEY_PREFIX + "buttonFontColor") ?? self.defaultPickerButtonFontColor
-        self.defaultPickerMergedDateAndTime = self.bridge.config.getValue(self.CONFIG_KEY_PREFIX + "mergedDateAndTime") as? Bool ?? self.defaultPickerMergedDateAndTime
+        self.defaultPickerTheme = self.bridge?.config.getString(self.CONFIG_KEY_PREFIX + "theme") ?? self.defaultPickerTheme
+        self.defaultPickerMode = self.bridge?.config.getString(self.CONFIG_KEY_PREFIX + "mode") ?? self.defaultPickerMode
+        self.defaultPickerFormat = self.bridge?.config.getString(self.CONFIG_KEY_PREFIX + "format") ?? self.defaultPickerFormat
+        self.defaultPickerTimezone = self.bridge?.config.getString(self.CONFIG_KEY_PREFIX + "timezone") ?? self.defaultPickerTimezone
+        self.defaultPickerLocale = self.bridge?.config.getString(self.CONFIG_KEY_PREFIX + "locale") ?? self.defaultPickerLocale
+        self.defaultPickerCancelText = self.bridge?.config.getString(self.CONFIG_KEY_PREFIX + "cancelText") ?? self.defaultPickerCancelText
+        self.defaultPickerDoneText = self.bridge?.config.getString(self.CONFIG_KEY_PREFIX + "doneText") ?? self.defaultPickerDoneText
+        self.defaultPicker24h = self.bridge?.config.getValue(self.CONFIG_KEY_PREFIX + "is24h") as? Bool ?? self.defaultPicker24h
+        self.defaultPickerTitle = self.bridge?.config.getString(self.CONFIG_KEY_PREFIX + "title") ?? self.defaultPickerTitle
+        self.defaultPickerTitleFontColor = self.bridge?.config.getString(self.CONFIG_KEY_PREFIX + "titleFontColor") ?? self.defaultPickerTitleFontColor
+        self.defaultPickerTitleBgColor = self.bridge?.config.getString(self.CONFIG_KEY_PREFIX + "titleBgColor") ?? self.defaultPickerTitleBgColor
+        self.defaultPickerBgColor = self.bridge?.config.getString(self.CONFIG_KEY_PREFIX + "bgColor") ?? self.defaultPickerBgColor
+        self.defaultPickerFontColor = self.bridge?.config.getString(self.CONFIG_KEY_PREFIX + "fontColor") ?? self.defaultPickerFontColor
+        self.defaultPickerButtonBgColor = self.bridge?.config.getString(self.CONFIG_KEY_PREFIX + "buttonBgColor") ?? self.defaultPickerButtonBgColor
+        self.defaultPickerButtonFontColor = self.bridge?.config.getString(self.CONFIG_KEY_PREFIX + "buttonFontColor") ?? self.defaultPickerButtonFontColor
+        self.defaultPickerMergedDateAndTime = self.bridge?.config.getValue(self.CONFIG_KEY_PREFIX + "mergedDateAndTime") as? Bool ?? self.defaultPickerMergedDateAndTime
     }
     
     private func loadCallOptions() {
@@ -114,17 +122,13 @@ public class DatePickerPlugin: CAPPlugin {
         
         self.defaultPaddingHeight = (UIDevice.current.hasNotch ? 15 : 0)
         
-        self.alertSize = CGSize(width: self.bridge.viewController.view.bounds.size.width, height: 250 + self.defaultButtonHeight + self.defaultPaddingHeight)
+        self.alertSize = CGSize(width: vc.view.bounds.size.width, height: 250 + self.defaultButtonHeight + self.defaultPaddingHeight)
         
         if (self.pickerTheme == "dark" || self.pickerTheme == "legacyDark") {
             self.defaultDark()
         } else {
             self.defaultLight()
         }
-    }
-    
-    public override func load() {
-        loadOptions()
     }
     
     private func parseDateFromObject(date: Date, format: String? = nil) -> String {
@@ -264,8 +268,8 @@ public class DatePickerPlugin: CAPPlugin {
         self.createOkButton()
         self.createCancelButton()
         
-        let width = self.bridge.viewController.view.bounds.size.width
-        let height = self.bridge.viewController.view.bounds.size.height
+        let width = vc.view.bounds.size.width
+        let height = vc.view.bounds.size.height
         
         if (self.alertView == nil) {
             self.alertView = UIView()
@@ -318,7 +322,7 @@ public class DatePickerPlugin: CAPPlugin {
             }, completion: { (finished: Bool) in
                 self.backgroundView!.removeFromSuperview()
             })
-            UIView.transition(with: self.bridge.viewController.view, duration: 0.25, options: [.curveEaseIn], animations: {
+            UIView.transition(with: self.vc.view, duration: 0.25, options: [.curveEaseIn], animations: {
             }, completion: nil)
         }
     }
@@ -420,8 +424,8 @@ public class DatePickerPlugin: CAPPlugin {
             }
             self.backgroundView!.backgroundColor = UIColor(hexString: "#00000000")
 
-            let x = self.bridge.viewController.view.bounds.size.width
-            let y = self.bridge.viewController.view.bounds.size.height
+            let x = self.vc.view.bounds.size.width
+            let y = self.vc.view.bounds.size.height
 
             self.backgroundView!.frame.size.width = x
             self.backgroundView!.frame.size.height = y
@@ -432,7 +436,7 @@ public class DatePickerPlugin: CAPPlugin {
             let height = self.alertView!.frame.size.height
             self.alertView!.center.y += height
             
-            self.bridge.viewController.view.addSubview(self.backgroundView!)
+            self.vc.view.addSubview(self.backgroundView!)
             
             UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseInOut], animations: {
                 self.backgroundView!.backgroundColor = UIColor(hexString: "#00000088")

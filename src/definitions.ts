@@ -1,9 +1,3 @@
-declare module "@capacitor/core" {
-  interface PluginRegistry {
-    DatePickerPlugin: DatePickerPluginInterface;
-  }
-}
-
 export type DatePickerMode = 'time' | 'date' | 'dateAndTime' | 'countDownTimer';
 export type DatePickerTheme = 'light' | 'dark' | 'legacyLight' | 'legacyDark' | string;
 
@@ -143,7 +137,7 @@ export interface DatePickerOptions {
   mergedDateAndTime?: boolean;
 }
 
-export interface DatePickerPluginInterface {
+export interface DatePickerPlugin {
   present(options: DatePickerOptions): Promise<{ value: string }>;
   darkMode(): Promise<void>;
   lightMode(): Promise<void>;

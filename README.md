@@ -160,10 +160,8 @@ These options can be used through the `present` method and/or within `capacitor.
 ## Usage
 
 ```js
-import { Plugins } from "@capacitor/core";
-import { DatePickerPluginInterface } from "@capacitor-community/date-picker";
+import { DatePicker } from "@capacitor-community/date-picker";
 
-const DatePicker: DatePickerPluginInterface = Plugins.DatePickerPlugin as any;
 const selectedTheme = "light";
 
 DatePicker
@@ -199,7 +197,6 @@ DatePicker
 - `cd my-cap-app`
 - `npm install --save @capacitor-community/date-picker`
 - `mkdir www && touch www/index.html`
-- `sudo gem install cocoapods` (only once)
 - `npx cap add ios`
 - `npx cap sync ios` (every time you run `npm install`)
 - `npx cap open ios`
@@ -216,8 +213,6 @@ DatePicker
 - `npx cap sync android` (every time you run `npm install`)
 - `npx cap open android`
 - `[extra step]` in android case we need to tell Capacitor to initialise the plugin:
-
-> on your `MainActivity.java` file add `com.getcapacitor.community.datepicker.DatePickerPlugin;` and then inside the init callback `add(DatePickerPlugin.class);`
 
 Now you should be set to go. Try to run your client using `ionic cap run android --livereload --address=0.0.0.0`.
 

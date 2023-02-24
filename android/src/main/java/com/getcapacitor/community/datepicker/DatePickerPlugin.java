@@ -2,10 +2,10 @@ package com.getcapacitor.community.datepicker;
 
 import com.getcapacitor.CapConfig;
 import com.getcapacitor.JSObject;
-import com.getcapacitor.NativePlugin;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
+import com.getcapacitor.annotation.CapacitorPlugin;
 import com.getcapacitor.community.datepicker.datepicker.R;
 
 import android.annotation.SuppressLint;
@@ -25,7 +25,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
-@NativePlugin()
+@CapacitorPlugin(name = "DatePicker")
 public class DatePickerPlugin extends Plugin {
     public static final String CONFIG_KEY_PREFIX = "plugins.DatePickerPlugin.android-";
     public CapConfig config;
