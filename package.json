@@ -1,6 +1,6 @@
 {
   "name": "@capacitor-community/date-picker",
-  "version": "3.0.0-0",
+  "version": "3.0.0",
   "description": "Native DateTime Picker Plugin for Capacitor Apps",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
