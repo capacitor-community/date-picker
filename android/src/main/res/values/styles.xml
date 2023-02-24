@@ -1,5 +1,5 @@
 <resources>
-    <style name="MateriaDarklTheme" parent="android:Theme.Material.Dialog.Alert"></style>
+    <style name="MateriaDarkTheme" parent="android:Theme.Material.Dialog.Alert"></style>
     <style name="MaterialLightTheme" parent="android:Theme.Material.Light.Dialog.Alert"></style>
     <style name="SpinnerDarkTheme" parent="android:Theme.Holo.Dialog"></style>
     <style name="SpinnerLightTheme" parent="android:Theme.Holo.Light.Dialog"></style>
