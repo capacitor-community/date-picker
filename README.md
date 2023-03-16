@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/maintenance/yes/2020?style=flat-square" />
+  <img src="https://img.shields.io/maintenance/yes/2023?style=flat-square" />
   <a href="https://www.npmjs.com/package/@capacitor-community/date-picker"><img src="https://img.shields.io/npm/l/@capacitor-community/date-picker?style=flat-square" /></a>
 <br>
   <a href="https://www.npmjs.com/package/@capacitor-community/date-picker"><img src="https://img.shields.io/npm/dw/@capacitor-community/date-picker?style=flat-square" /></a>
@@ -274,9 +274,6 @@ DatePicker.present({
 - `npx cap add android`
 - `npx cap sync android` (every time you run `npm install`)
 - `npx cap open android`
-- `[extra step]` **OPTIONAL** in android case we need to tell Capacitor to initialise the plugin:
-
-> on your `MainActivity.java` file add `com.getcapacitor.community.datepicker.DatePicker;` and then inside the init callback `add(DatePicker.class);`
 
 Now you should be set to go. Try to run your client using `ionic cap run android --livereload --address=0.0.0.0`.
 
