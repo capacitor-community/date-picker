@@ -1,0 +1,10 @@
+[
+	{
+		"pkg": "@capacitor-community/date-picker",
+		"classpath": "com.getcapacitor.community.datepicker.DatePickerPlugin"
+	},
+	{
+		"pkg": "@capacitor/device",
+		"classpath": "com.capacitorjs.plugins.device.DevicePlugin"
+	}
+]

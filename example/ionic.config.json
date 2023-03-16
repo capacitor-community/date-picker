@@ -1,5 +1,5 @@
 {
-  "name": "demo",
+  "name": "example",
   "integrations": {
     "capacitor": {}
   },
