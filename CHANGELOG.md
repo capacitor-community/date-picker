@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.0.0](https://github.com/capacitor-community/date-picker/compare/v3.0.0...v4.0.0) (2023-03-16)
+
+
+### ⚠ BREAKING CHANGES
+
+* Update to Capacitor 4 (#68)
+
+### Features
+
+* Update to Capacitor 4 ([#68](https://github.com/capacitor-community/date-picker/issues/68)) ([76d95cb](https://github.com/capacitor-community/date-picker/commit/76d95cb033de0c1cb45aec2bd80e334d4f90acaf))
+
+
+### Bug Fixes
+
+* **web:** ignore unused options ([83aec9c](https://github.com/capacitor-community/date-picker/commit/83aec9c5a1453f921ca9770df1003aaf753e7748))
+
 ## [3.0.0](https://github.com/capacitor-community/date-picker/compare/v0.2.3...v3.0.0) (2023-02-24)
 
 
