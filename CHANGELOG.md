@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0](https://github.com/capacitor-community/date-picker/compare/v0.2.3...v3.0.0) (2023-02-24)
+
+
+### ⚠ BREAKING CHANGES
+
+* Capacitor 3.0.0 support (#67)
+
+### Features
+
+* Capacitor 3.0.0 support ([#67](https://github.com/capacitor-community/date-picker/issues/67)) ([61e1a5d](https://github.com/capacitor-community/date-picker/commit/61e1a5d8146dc247031b52b5bea11923f2166020))
+
+
+### Bug Fixes
+
+* Android: Do not overwrite selected date when using dateAndTime mode ([cb12207](https://github.com/capacitor-community/date-picker/commit/cb1220715ed61e9d4ac138820a4deb24e8a71a90))
+
+## [0.3.0](https://github.com/capacitor-community/date-picker/compare/v0.2.3...v0.3.0) (2021-02-17)
+
+
+### Bug Fixes
+
+* **ios:** default 24 hours in title wheels by default locale ([58a0dff](https://github.com/capacitor-community/date-picker/commit/58a0dffce727e999d47d936932717d92c3717afa))
+
 ### [0.2.3](https://github.com/capacitor-community/date-picker/compare/v0.2.2...v0.2.3) (2020-12-05)
 
 

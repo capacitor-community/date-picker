@@ -1,22 +1,28 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
+    <ion-title> Blank </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
   <ion-item class="ion-no-padding">
+    <ion-label position="floating">Native Picker</ion-label>
+    <ion-input type="datetime-local"></ion-input>
+  </ion-item>
+  <ion-item class="ion-no-padding">
     <ion-label position="floating">Theme</ion-label>
     <ion-select [(ngModel)]="theme">
-      <ion-select-option *ngFor="let option of themeList" [value]="option.value">{{ option.label }}</ion-select-option>
+      <ion-select-option *ngFor="let option of themeList" [value]="option.value"
+        >{{ option.label }}</ion-select-option
+      >
     </ion-select>
   </ion-item>
   <ion-item class="ion-no-padding">
     <ion-label position="floating">Mode</ion-label>
     <ion-select [(ngModel)]="mode">
-      <ion-select-option *ngFor="let option of modesList" [value]="option.value">{{ option.label }}</ion-select-option>
+      <ion-select-option *ngFor="let option of modesList" [value]="option.value"
+        >{{ option.label }}</ion-select-option
+      >
     </ion-select>
   </ion-item>
   <ion-item class="ion-no-padding">
@@ -29,6 +35,10 @@
   <ion-item class="ion-no-padding" *ngIf="isIos">
     <ion-label>Merged Date and Time</ion-label>
     <ion-checkbox slot="start" [(ngModel)]="mergedDateAndTime"></ion-checkbox>
+  </ion-item>
+  <ion-item class="ion-no-padding" *ngIf="isIos">
+    <ion-label>Wheels mode</ion-label>
+    <ion-checkbox slot="start" [(ngModel)]="wheels"></ion-checkbox>
   </ion-item>
   <ion-item class="ion-no-padding">
     <ion-label position="floating">Min</ion-label>
