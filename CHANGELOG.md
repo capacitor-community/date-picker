@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.0.0](https://github.com/capacitor-community/date-picker/compare/v4.0.0...v5.0.0) (2023-05-18)
+
+
+### ⚠ BREAKING CHANGES
+
+* Update to Capacitor 5 (#75)
+
+### Features
+
+* Update to Capacitor 5 ([#75](https://github.com/capacitor-community/date-picker/issues/75)) ([2857c3d](https://github.com/capacitor-community/date-picker/commit/2857c3df0f20cba89c2e7140309aab9cfd05f245))
+
 ## [4.0.0](https://github.com/capacitor-community/date-picker/compare/v3.0.0...v4.0.0) (2023-03-16)
 
 
