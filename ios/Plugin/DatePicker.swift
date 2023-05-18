@@ -213,11 +213,11 @@ public class DatePicker {
             buttonFontColor =  "#fafafa"
         }
         
-        let btFontColor = UIColor(fromHex: options.buttonFontColor ?? buttonFontColor)
-        let btBgColor = UIColor(fromHex: options.buttonBgColor ?? buttonBgColor)
-        let tltFontColor = UIColor(fromHex: options.titleFontColor ?? titleFontColor)
-        let tltBgColor = UIColor(fromHex: options.titleBgColor ?? titleBgColor)
-        let alertBgColor = UIColor(fromHex: options.bgColor ?? bgColor)
+        let btFontColor = UIColor.capacitor.color(fromHex: options.buttonFontColor ?? buttonFontColor)
+        let btBgColor = UIColor.capacitor.color(fromHex: options.buttonBgColor ?? buttonBgColor)
+        let tltFontColor = UIColor.capacitor.color(fromHex: options.titleFontColor ?? titleFontColor)
+        let tltBgColor = UIColor.capacitor.color(fromHex: options.titleBgColor ?? titleBgColor)
+        let alertBgColor = UIColor.capacitor.color(fromHex: options.bgColor ?? bgColor)
         
         cancel.setTitleColor(btFontColor, for: .normal)
         cancel.backgroundColor = btBgColor
@@ -227,12 +227,12 @@ public class DatePicker {
         if #available(iOS 13.0, *) {
             picker.overrideUserInterfaceStyle = self.options.theme == "dark" ? .dark : .light
         } else {
-            let pickerFontColor = UIColor(fromHex: fontColor)
+            let pickerFontColor = UIColor.capacitor.color(fromHex: fontColor)
             picker.setValue(pickerFontColor, forKey: "textColor")
         }
         
         if let color = options.fontColor {
-            picker.setValue(UIColor(fromHex: color), forKey: "textColor")
+            picker.setValue(UIColor.capacitor.color(fromHex: color), forKey: "textColor")
         }
         
         title.textColor = tltFontColor
