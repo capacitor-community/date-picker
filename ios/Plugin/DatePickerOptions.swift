@@ -32,27 +32,27 @@ public class DatePickerOptions: NSObject, NSCopying {
         copy.buttonFontColor = buttonFontColor
         copy.mergedDateAndTime = mergedDateAndTime
         copy.style = style
-        return copy;
+        return copy
     }
-    
+
     public var theme: String = "light"
     public var mode: String = "dateAndTime"
     public var format: String = "yyyy-MM-dd'T'HH:mm:ss.sssZ"
-    public var timezone: String? = nil
-    public var locale: String? = nil
+    public var timezone: String?
+    public var locale: String?
     public var cancelText: String = "Cancel"
     public var doneText: String = "Ok"
     public var is24h: Bool =  false
-    public var date: Date? = nil
-    public var min: Date? = nil
-    public var max: Date? = nil
-    public var title: String? = nil
-    public var titleFontColor: String? = nil
-    public var titleBgColor: String? = nil
-    public var bgColor: String? = nil
-    public var fontColor: String? = nil
-    public var buttonBgColor: String? = nil
-    public var buttonFontColor: String? = nil
+    public var date: Date?
+    public var min: Date?
+    public var max: Date?
+    public var title: String?
+    public var titleFontColor: String?
+    public var titleBgColor: String?
+    public var bgColor: String?
+    public var fontColor: String?
+    public var buttonBgColor: String?
+    public var buttonFontColor: String?
     public var mergedDateAndTime: Bool = false
     public var style: String = "wheels"
 }

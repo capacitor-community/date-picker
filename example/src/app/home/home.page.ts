@@ -1,12 +1,12 @@
 import type { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
+import { Device } from '@capacitor/device';
 import { DatePicker } from '@capacitor-community/date-picker/src';
 import type {
   DatePickerOptions,
   DatePickerTheme,
   DatePickerMode,
 } from '@capacitor-community/date-picker/src';
-import { Device } from '@capacitor/device';
 
 @Component({
   selector: 'app-home',

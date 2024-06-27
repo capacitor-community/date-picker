@@ -1,13 +1,13 @@
 package com.getcapacitor.community.datepicker;
 
 import android.annotation.SuppressLint;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
 public class Parse {
+
     public static Date dateFromString(String date, String format, String timezone) throws ParseException {
         SimpleDateFormat dateFormat = new SimpleDateFormat(format);
         if (timezone != null) {
