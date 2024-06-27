@@ -10,13 +10,13 @@ public class DatePickerPlugin: CAPPlugin {
     private var options: DatePickerOptions!
     private var instance: DatePicker!
     private var call: CAPPluginCall!
-    
+
     override public func load() {
         options = datePickerOptions()
     }
-    
+
     @objc func present(_ call: CAPPluginCall) {
-        if (self.instance != nil) {
+        if self.instance != nil {
             return
         }
         self.call = call
@@ -27,7 +27,7 @@ public class DatePickerPlugin: CAPPlugin {
         }
         DispatchQueue.main.async {
             self.instance = DatePicker(options: options, view: viewController.view)
-            
+
             self.instance.done.addTarget(
                 self,
                 action: #selector(self.done(sender:)),
@@ -45,44 +45,40 @@ public class DatePickerPlugin: CAPPlugin {
             viewController.view.addSubview(self.instance.background)
         }
     }
-    
+
     @objc func done(sender: UIButton) {
-        if (
-            self.instance.options.mode == "dateAndTime" &&
-            self.instance.picker.datePickerMode == UIDatePicker.Mode.date
-        ) {
+        if self.instance.options.mode == "dateAndTime" &&
+                self.instance.picker.datePickerMode == UIDatePicker.Mode.date {
             self.instance.setTimeMode()
             return
         }
-        var obj:[String:Any] = [:]
+        var obj: [String: Any] = [:]
         obj["value"] = Parse.dateToString(date: self.instance.picker.date, format: self.instance.options.format)
         self.call.resolve(obj)
         self.dismissInstance()
     }
     @objc func cancel(sender: UIButton) {
-        if (self.instance.options.mode == "dateAndTime") {
-            if (
-                self.instance.options.style != "inline" &&
-                !self.instance.options.mergedDateAndTime &&
-                self.instance.picker.datePickerMode == UIDatePicker.Mode.time
-            ) {
+        if self.instance.options.mode == "dateAndTime" {
+            if self.instance.options.style != "inline" &&
+                    !self.instance.options.mergedDateAndTime &&
+                    self.instance.picker.datePickerMode == UIDatePicker.Mode.time {
                 DispatchQueue.main.async {
                     self.instance.picker.datePickerMode = UIDatePicker.Mode.date
                 }
                 return
             }
         }
-        var obj:[String:Any] = [:]
+        var obj: [String: Any] = [:]
         obj["value"] = nil
         self.call.resolve(obj)
         self.dismissInstance()
     }
-    
-    private func dismissInstance() -> Void {
+
+    private func dismissInstance() {
         self.instance.dismiss()
         self.instance = nil
     }
-    
+
     private func datePickerOptions() -> DatePickerOptions {
         let options = DatePickerOptions()
         if #available(iOS 14.0, *) {
@@ -91,11 +87,11 @@ public class DatePickerPlugin: CAPPlugin {
                 options.style = style
             }
         }
-        
+
         if #available(iOS 13.0, *), UITraitCollection.current.userInterfaceStyle == .dark {
             options.theme = "dark"
         }
-        
+
         if let theme = getConfigValue("ios.theme") as? String ?? getConfigValue("theme") as? String {
             options.theme = theme
         }
@@ -144,10 +140,10 @@ public class DatePickerPlugin: CAPPlugin {
         if let mergedDateAndTime = getConfigValue("ios.mergedDateAndTime") as? Bool {
             options.mergedDateAndTime = mergedDateAndTime
         }
-        
+
         return options
     }
-    
+
     private func datePickerOptions(from call: CAPPluginCall, original options: DatePickerOptions) -> DatePickerOptions {
         if #available(iOS 14.0, *) {
             if let style = call.getObject("ios")?["style"] as? String {
@@ -211,7 +207,7 @@ public class DatePickerPlugin: CAPPlugin {
         if let max = call.getString("max") {
             options.max = Parse.dateFromString(date: max, format: options.format)
         }
-        
+
         return options
     }
 }

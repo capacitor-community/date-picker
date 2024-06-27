@@ -5,7 +5,6 @@ import android.content.Context;
 public class DatePickerTheme {
 
     public static int get(String theme, Context context) {
-
         Integer result = context.getResources().getIdentifier(theme, "style", context.getPackageName());
 
         if (result != 0) return result;

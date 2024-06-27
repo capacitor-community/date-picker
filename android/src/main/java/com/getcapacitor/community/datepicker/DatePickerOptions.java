@@ -3,6 +3,7 @@ package com.getcapacitor.community.datepicker;
 import java.util.Date;
 
 public class DatePickerOptions implements Cloneable {
+
     public String format;
     public String locale;
     public Date date;
@@ -23,8 +24,7 @@ public class DatePickerOptions implements Cloneable {
         title = null;
     }
 
-    public Object clone() throws CloneNotSupportedException
-    {
+    public Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
 }
