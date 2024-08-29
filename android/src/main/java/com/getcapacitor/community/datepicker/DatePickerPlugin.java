@@ -5,12 +5,13 @@ import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
-
 import java.text.ParseException;
 
 @CapacitorPlugin(name = "DatePicker")
 public class DatePickerPlugin extends Plugin {
+
     public DatePickerPlugin() {}
+
     DatePickerOptions options;
 
     public void load() {
@@ -45,24 +46,23 @@ public class DatePickerPlugin extends Plugin {
         options.mode = getConfig().getString("android.mode", getConfig().getString("mode", "dateAndTime"));
         options.format = getConfig().getString("android.format", getConfig().getString("format", "yyyy-MM-dd'T'HH:mm:ss.sss"));
         options.timezone = getConfig().getString("android.timezone", getConfig().getString("timezone", "UTC"));
-        options.locale = getConfig().getString("android.locale", getConfig().getString("locale",null));
+        options.locale = getConfig().getString("android.locale", getConfig().getString("locale", null));
         options.cancelText = getConfig().getString("android.cancelText", getConfig().getString("cancelText", null));
-        options.doneText = getConfig().getString("android.doneText", getConfig().getString("doneText",null));
+        options.doneText = getConfig().getString("android.doneText", getConfig().getString("doneText", null));
         options.is24h = getConfig().getBoolean("android.is24h", getConfig().getBoolean("is24h", false));
         return options;
     }
 
     private DatePickerOptions getDatePickerConfigCall(PluginCall call) throws CloneNotSupportedException, ParseException {
-
-        DatePickerOptions options = (DatePickerOptions)this.options.clone();
+        DatePickerOptions options = (DatePickerOptions) this.options.clone();
 
         options.theme = call.getString("android.theme", call.getString("theme", this.options.theme));
         options.mode = call.getString("android.mode", call.getString("mode", this.options.mode));
         options.format = call.getString("android.format", call.getString("format", this.options.format));
         options.timezone = call.getString("android.timezone", call.getString("timezone", this.options.timezone));
-        options.locale = call.getString("android.locale", call.getString("locale",this.options.locale));
+        options.locale = call.getString("android.locale", call.getString("locale", this.options.locale));
         options.cancelText = call.getString("android.cancelText", call.getString("cancelText", this.options.cancelText));
-        options.doneText = call.getString("android.doneText", call.getString("doneText",this.options.doneText));
+        options.doneText = call.getString("android.doneText", call.getString("doneText", this.options.doneText));
         options.is24h = call.getBoolean("android.is24h", call.getBoolean("is24h", this.options.is24h));
         options.title = call.getString("android.title", call.getString("title", this.options.title));
 

@@ -6,11 +6,11 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.widget.Button;
-
 import java.util.Calendar;
 import java.util.Locale;
 
 public class DatePicker {
+
     private Calendar calendar;
     private DatePickerOptions options;
     private Context context;
@@ -32,17 +32,28 @@ public class DatePicker {
     }
 
     public void launchTime(DatePickerResolve callback) {
-        final TimePickerDialog timePicker = new TimePickerDialog(context, theme, (TimePickerDialog.OnTimeSetListener) (view, hourOfDay, minute) -> {
-            calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), hourOfDay, minute);
-            callback.resolve(Parse.dateToString(calendar.getTime(), options.format));
-        }, calendar.get(Calendar.HOUR), calendar.get(Calendar.MINUTE), options.is24h);
-
+        final TimePickerDialog timePicker = new TimePickerDialog(
+            context,
+            theme,
+            (TimePickerDialog.OnTimeSetListener) (view, hourOfDay, minute) -> {
+                calendar.set(
+                    calendar.get(Calendar.YEAR),
+                    calendar.get(Calendar.MONTH),
+                    calendar.get(Calendar.DAY_OF_MONTH),
+                    hourOfDay,
+                    minute
+                );
+                callback.resolve(Parse.dateToString(calendar.getTime(), options.format));
+            },
+            calendar.get(Calendar.HOUR),
+            calendar.get(Calendar.MINUTE),
+            options.is24h
+        );
 
         timePicker.create();
 
         Button doneButton = timePicker.getButton(Dialog.BUTTON_POSITIVE);
         Button cancelButton = timePicker.getButton(Dialog.BUTTON_NEGATIVE);
-
 
         if (options.date != null) {
             calendar.setTime(options.date);
@@ -60,10 +71,12 @@ public class DatePicker {
             cancelButton.setText(options.cancelText);
         }
 
-        cancelButton.setOnClickListener(v -> {
-            callback.resolve(null);
-            timePicker.dismiss();
-        });
+        cancelButton.setOnClickListener(
+            v -> {
+                callback.resolve(null);
+                timePicker.dismiss();
+            }
+        );
 
         timePicker.updateTime(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
 
@@ -75,16 +88,22 @@ public class DatePicker {
             calendar.setTime(options.date);
         }
 
-        final DatePickerDialog datePicker = new DatePickerDialog(context, theme, (view, year, month, dayOfMonth) -> {
-            calendar.set(year, month, dayOfMonth);
-            if (options.mode.equals("dateAndTime")) {
-                options.date = calendar.getTime();
-                launchTime(callback);
-            } else {
-                callback.resolve(Parse.dateToString(calendar.getTime(), options.format));
-            }
-        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-
+        final DatePickerDialog datePicker = new DatePickerDialog(
+            context,
+            theme,
+            (view, year, month, dayOfMonth) -> {
+                calendar.set(year, month, dayOfMonth);
+                if (options.mode.equals("dateAndTime")) {
+                    options.date = calendar.getTime();
+                    launchTime(callback);
+                } else {
+                    callback.resolve(Parse.dateToString(calendar.getTime(), options.format));
+                }
+            },
+            calendar.get(Calendar.YEAR),
+            calendar.get(Calendar.MONTH),
+            calendar.get(Calendar.DAY_OF_MONTH)
+        );
 
         datePicker.create();
         android.widget.DatePicker picker = datePicker.getDatePicker();
@@ -111,10 +130,12 @@ public class DatePicker {
             cancelButton.setText(options.cancelText);
         }
 
-        cancelButton.setOnClickListener(v -> {
-            callback.resolve(null);
-            datePicker.cancel();
-        });
+        cancelButton.setOnClickListener(
+            v -> {
+                callback.resolve(null);
+                datePicker.cancel();
+            }
+        );
 
         datePicker.show();
     }
