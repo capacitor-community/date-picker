@@ -1,4 +1,4 @@
-export type DatePickerMode = 'time' | 'date' | 'dateAndTime' | 'countDownTimer';
+export type DatePickerMode = 'time' | 'date' | 'dateAndTime' | 'countDownTimer' | 'yearAndMonth';
 export type DatePickerTheme = 'light' | 'dark' | string;
 export type DatePickerIosStyle = 'wheels' | 'inline';
 
@@ -26,7 +26,8 @@ export interface DatePickerBaseOptions {
    * @type {DatePickerMode}
    * @default "dateAndTime"
    *
-   * @description Datepicker mode
+   * @description Datepicker mode.
+   * `yearAndMonth` is only available for iOS.
    */
   mode?: DatePickerMode;
   /**

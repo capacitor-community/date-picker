@@ -66,6 +66,10 @@ export class HomePage implements OnInit {
       value: 'dateAndTime',
       label: 'Date and Time',
     },
+    {
+      value: 'yearAndMonth',
+      label: 'Year and Month',
+    },
   ];
 
   async ngOnInit(): Promise<void> {
@@ -131,7 +135,13 @@ export class HomePage implements OnInit {
       options.ios.style = this.wheels ? 'wheels' : null;
     }
     console.log(options);
-    return DatePicker.present(options);
+    const result = DatePicker.present(options);
+
+    result.then(({value: string}): void => {
+      alert(`Value: ${string}`);
+    });
+
+    return result;
   }
 
   async platformIs(
