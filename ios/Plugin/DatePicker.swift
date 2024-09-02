@@ -125,6 +125,13 @@ public class DatePicker {
             picker.datePickerMode = UIDatePicker.Mode.dateAndTime
         } else if options.mode == "date" || options.mode == "dateAndTime" {
             picker.datePickerMode = UIDatePicker.Mode.date
+        } else if options.mode == "yearAndMonth" {
+            if #available(iOS 17.4, *) {
+                picker.datePickerMode = UIDatePicker.Mode.yearAndMonth
+            } else {
+                picker.datePickerMode = UIDatePicker.Mode.date
+                picker.datePickerMode = UIDatePicker.Mode.init(rawValue: 4269) ?? UIDatePicker.Mode.date
+            }
         } else {
             picker.datePickerMode = UIDatePicker.Mode.time
         }
@@ -259,6 +266,8 @@ public class DatePicker {
                 format = options.is24h || is24h ? "HH:mm" : "hh:mm a"
             } else if self.options.mode == "date" {
                 format = "E, MMM d, yyyy"
+            } else if options.mode == "yearAndMonth" {
+                format = "MMM yyyy"
             }
             return Parse.dateToString(date: date, format: format, locale: locale)
         }
