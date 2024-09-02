@@ -3,9 +3,7 @@
   "projectOwner": "capacitor-community",
   "repoType": "github",
   "repoHost": "https://github.com",
-  "files": [
-    "README.md"
-  ],
+  "files": ["README.md"],
   "imageSize": 75,
   "commit": true,
   "commitConvention": "angular",
@@ -16,31 +14,30 @@
       "name": "Stew",
       "avatar_url": "https://avatars1.githubusercontent.com/u/719763?v=4",
       "profile": "https://twitter.com/StewanSilva",
-      "contributions": [
-        "code",
-        "doc"
-      ]
+      "contributions": ["code", "doc"]
     },
     {
       "login": "danielprrazevedo",
       "name": "Daniel Pereira",
       "avatar_url": "https://avatars2.githubusercontent.com/u/20153661?v=4",
       "profile": "https://github.com/danielprrazevedo",
-      "contributions": [
-        "code",
-        "doc",
-        "maintenance"
-      ]
+      "contributions": ["code", "doc", "maintenance"]
     },
     {
       "login": "carolineoliva",
       "name": "Caroline Oliva",
       "avatar_url": "https://avatars1.githubusercontent.com/u/4886893?v=4",
       "profile": "https://github.com/carolineoliva",
-      "contributions": [
-        "code"
-      ]
+      "contributions": ["code"]
+    },
+    {
+      "login": "oliveryasuna",
+      "name": "Oliver Yasuna",
+      "avatar_url": "https://avatars.githubusercontent.com/u/17092333?v=4",
+      "profile": "https://github.com/oliveryasuna",
+      "contributions": ["code"]
     }
   ],
   "contributorsPerLine": 7
 }
+
