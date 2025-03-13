@@ -12,7 +12,7 @@
   <a href="https://www.npmjs.com/package/@capacitor-community/date-picker"><img src="https://img.shields.io/npm/dw/@capacitor-community/date-picker?style=flat-square" /></a>
   <a href="https://www.npmjs.com/package/@capacitor-community/date-picker"><img src="https://img.shields.io/npm/v/@capacitor-community/date-picker?style=flat-square" /></a>
   <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-<a href="#contributors"><img src="https://img.shields.io/badge/all%20contributors-4-orange?style=flat-square" /></a>
+<a href="#contributors"><img src="https://img.shields.io/badge/all%20contributors-5-orange?style=flat-square" /></a>
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 </p>
 
@@ -307,6 +307,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/danielprrazevedo"><img src="https://avatars2.githubusercontent.com/u/20153661?v=4?s=75" width="75px;" alt="Daniel Pereira"/><br /><sub><b>Daniel Pereira</b></sub></a><br /><a href="https://github.com/capacitor-community/date-picker/commits?author=danielprrazevedo" title="Code">💻</a> <a href="https://github.com/capacitor-community/date-picker/commits?author=danielprrazevedo" title="Documentation">📖</a> <a href="#maintenance-danielprrazevedo" title="Maintenance">🚧</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/carolineoliva"><img src="https://avatars1.githubusercontent.com/u/4886893?v=4?s=75" width="75px;" alt="Caroline Oliva"/><br /><sub><b>Caroline Oliva</b></sub></a><br /><a href="https://github.com/capacitor-community/date-picker/commits?author=carolineoliva" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://www.jcesarmobile.com/"><img src="https://avatars.githubusercontent.com/u/1637892?v=4?s=75" width="75px;" alt="jcesarmobile"/><br /><sub><b>jcesarmobile</b></sub></a><br /><a href="https://github.com/capacitor-community/date-picker/commits?author=jcesarmobile" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://dlazzy.fr/"><img src="https://avatars.githubusercontent.com/u/161455746?v=4?s=75" width="75px;" alt="Valentin"/><br /><sub><b>Valentin</b></sub></a><br /><a href="https://github.com/capacitor-community/date-picker/commits?author=valentinbld45" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
