@@ -43,6 +43,13 @@
       "avatar_url": "https://avatars.githubusercontent.com/u/161455746?v=4",
       "profile": "https://dlazzy.fr/",
       "contributions": ["code"]
+    },
+    {
+      "login": "JordiDePau",
+      "name": "Jordi De Pau",
+      "avatar_url": "https://avatars.githubusercontent.com/u/34350465?v=4",
+      "profile": "https://github.com/JordiDePau",
+      "contributions": ["test"]
     }
   ],
   "contributorsPerLine": 7
