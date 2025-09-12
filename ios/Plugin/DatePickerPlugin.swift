@@ -48,7 +48,7 @@ public class DatePickerPlugin: CAPPlugin {
 
     @objc func done(sender: UIButton) {
         if self.instance.options.mode == "dateAndTime" &&
-                self.instance.picker.datePickerMode == UIDatePicker.Mode.date {
+            self.instance.picker.datePickerMode == UIDatePicker.Mode.date {
             self.instance.setTimeMode()
             return
         }
@@ -60,8 +60,8 @@ public class DatePickerPlugin: CAPPlugin {
     @objc func cancel(sender: UIButton) {
         if self.instance.options.mode == "dateAndTime" {
             if self.instance.options.style != "inline" &&
-                    !self.instance.options.mergedDateAndTime &&
-                    self.instance.picker.datePickerMode == UIDatePicker.Mode.time {
+                !self.instance.options.mergedDateAndTime &&
+                self.instance.picker.datePickerMode == UIDatePicker.Mode.time {
                 DispatchQueue.main.async {
                     self.instance.picker.datePickerMode = UIDatePicker.Mode.date
                 }
@@ -82,7 +82,7 @@ public class DatePickerPlugin: CAPPlugin {
     private func datePickerOptions() -> DatePickerOptions {
         let options = DatePickerOptions()
         options.style = "inline"
-        if let style = getConfigValue("ios.style") as? String {
+        if let style = getConfig().getString("ios.style") {
             options.style = style
         }
 
@@ -90,54 +90,52 @@ public class DatePickerPlugin: CAPPlugin {
             options.theme = "dark"
         }
 
-        if let theme = getConfigValue("ios.theme") as? String ?? getConfigValue("theme") as? String {
+        if let theme = getConfig().getString("ios.theme") ?? getConfig().getString("theme") {
             options.theme = theme
         }
-        if let mode = getConfigValue("ios.mode") as? String ?? getConfigValue("mode") as? String {
+        if let mode = getConfig().getString("ios.mode") ?? getConfig().getString("mode") {
             options.mode = mode
         }
-        if let format = getConfigValue("ios.format") as? String ?? getConfigValue("format") as? String {
+        if let format = getConfig().getString("ios.format") ?? getConfig().getString("format") {
             options.format = format
         }
-        if let timezone = getConfigValue("ios.timezone") as? String ?? getConfigValue("timezone") as? String {
+        if let timezone = getConfig().getString("ios.timezone") ?? getConfig().getString("timezone") {
             options.timezone = timezone
         }
-        if let locale = getConfigValue("ios.locale") as? String ?? getConfigValue("locale") as? String {
+        if let locale = getConfig().getString("ios.locale") ?? getConfig().getString("locale") {
             options.locale = locale
         }
-        if let cancelText = getConfigValue("ios.cancelText") as? String ?? getConfigValue("cancelText") as? String {
+        if let cancelText = getConfig().getString("ios.cancelText") ?? getConfig().getString("cancelText") {
             options.cancelText = cancelText
         }
-        if let doneText = getConfigValue("ios.doneText") as? String ?? getConfigValue("doneText") as? String {
+        if let doneText = getConfig().getString("ios.doneText") ?? getConfig().getString("doneText") {
             options.doneText = doneText
         }
-        if let is24h = getConfigValue("ios.is24h") as? Bool ?? getConfigValue("is24h") as? Bool {
-            options.is24h = is24h
-        }
-        if let title = getConfigValue("ios.title") as? String ?? getConfigValue("title") as? String {
+
+        options.is24h = getConfig().getBoolean("ios.is24h", getConfig().getBoolean("is24h", false))
+
+        if let title = getConfig().getString("ios.title") ?? getConfig().getString("title") {
             options.title = title
         }
-        if let titleFontColor = getConfigValue("ios.titleFontColor") as? String {
+        if let titleFontColor = getConfig().getString("ios.titleFontColor") {
             options.titleFontColor = titleFontColor
         }
-        if let titleBgColor = getConfigValue("ios.titleBgColor") as? String {
+        if let titleBgColor = getConfig().getString("ios.titleBgColor") {
             options.titleBgColor = titleBgColor
         }
-        if let bgColor = getConfigValue("ios.bgColor") as? String {
+        if let bgColor = getConfig().getString("ios.bgColor") {
             options.bgColor = bgColor
         }
-        if let fontColor = getConfigValue("ios.fontColor") as? String {
+        if let fontColor = getConfig().getString("ios.fontColor") {
             options.fontColor = fontColor
         }
-        if let buttonBgColor = getConfigValue("ios.buttonBgColor") as? String {
+        if let buttonBgColor = getConfig().getString("ios.buttonBgColor") {
             options.buttonBgColor = buttonBgColor
         }
-        if let buttonFontColor = getConfigValue("ios.buttonFontColor") as? String {
+        if let buttonFontColor = getConfig().getString("ios.buttonFontColor") {
             options.buttonFontColor = buttonFontColor
         }
-        if let mergedDateAndTime = getConfigValue("ios.mergedDateAndTime") as? Bool {
-            options.mergedDateAndTime = mergedDateAndTime
-        }
+        options.mergedDateAndTime = getConfig().getBoolean("ios.mergedDateAndTime", false)
 
         return options
     }
