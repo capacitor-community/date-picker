@@ -112,7 +112,7 @@ public class DatePickerPlugin: CAPPlugin {
             options.doneText = doneText
         }
 
-        options.is24h = getConfig().getBoolean("ios.is24h", getConfig().getBoolean("is24h", false))
+        options.is24h = getConfig().getBoolean("ios.is24h", getConfig().getBoolean("is24h", options.is24h))
 
         if let title = getConfig().getString("ios.title") ?? getConfig().getString("title") {
             options.title = title
@@ -135,7 +135,7 @@ public class DatePickerPlugin: CAPPlugin {
         if let buttonFontColor = getConfig().getString("ios.buttonFontColor") {
             options.buttonFontColor = buttonFontColor
         }
-        options.mergedDateAndTime = getConfig().getBoolean("ios.mergedDateAndTime", false)
+        options.mergedDateAndTime = getConfig().getBoolean("ios.mergedDateAndTime", options.mergedDateAndTime)
 
         return options
     }
