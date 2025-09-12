@@ -6,7 +6,12 @@ import Capacitor
  * here: https://capacitorjs.com/docs/plugins/ios
  */
 @objc(DatePickerPlugin)
-public class DatePickerPlugin: CAPPlugin {
+public class DatePickerPlugin: CAPPlugin, CAPBridgedPlugin {
+    public let identifier = "DatePickerPlugin" 
+    public let jsName = "DatePicker" 
+    public let pluginMethods: [CAPPluginMethod] = [
+        CAPPluginMethod(name: "present", returnType: CAPPluginReturnPromise),
+    ] 
     private var options: DatePickerOptions!
     private var instance: DatePicker!
     private var call: CAPPluginCall!
