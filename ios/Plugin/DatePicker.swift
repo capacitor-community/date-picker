@@ -29,7 +29,7 @@ public class DatePicker {
         background = UIView()
         effect = UIVisualEffectView()
 
-        if #available(iOS 11.0, *), let window = UIApplication.shared.windows.filter({$0.isKeyWindow}).first {
+        if let window = UIApplication.shared.windows.filter({$0.isKeyWindow}).first {
             padding = window.safeAreaInsets.bottom
         }
 
@@ -93,14 +93,12 @@ public class DatePicker {
         title.text = titleChange(picker.date)
     }
     private func preparePicker() {
-        if #available(iOS 14.0, *), options.style == "inline" {
+        if options.style == "inline" {
             picker.preferredDatePickerStyle = UIDatePickerStyle.inline
             picker.frame.origin.x = 10
             picker.frame.origin.y = 10
         } else {
-            if #available(iOS 14.0, *) {
-                picker.preferredDatePickerStyle = UIDatePickerStyle.wheels
-            }
+            picker.preferredDatePickerStyle = UIDatePickerStyle.wheels
             picker.frame.origin.x = (view.frame.width - picker.frame.width) / 2
             picker.frame.origin.y = title.frame.height
         }
@@ -185,7 +183,7 @@ public class DatePicker {
     }
     public func setTimeMode() {
         let date = self.picker.date
-        if #available(iOS 14.0, *), options.style == "inline" {
+        if options.style == "inline" {
             picker.preferredDatePickerStyle = .wheels
             picker.frame.origin.y = (alert.frame.height - buttonHeight - picker.frame.height) / 2
         }
@@ -224,12 +222,7 @@ public class DatePicker {
         done.setTitleColor(btFontColor, for: .normal)
         done.backgroundColor = btBgColor
 
-        if #available(iOS 13.0, *) {
-            picker.overrideUserInterfaceStyle = self.options.theme == "dark" ? .dark : .light
-        } else {
-            let pickerFontColor = UIColor.capacitor.color(fromHex: fontColor)
-            picker.setValue(pickerFontColor, forKey: "textColor")
-        }
+        picker.overrideUserInterfaceStyle = self.options.theme == "dark" ? .dark : .light
 
         if let color = options.fontColor {
             picker.setValue(UIColor.capacitor.color(fromHex: color), forKey: "textColor")

@@ -81,14 +81,12 @@ public class DatePickerPlugin: CAPPlugin {
 
     private func datePickerOptions() -> DatePickerOptions {
         let options = DatePickerOptions()
-        if #available(iOS 14.0, *) {
-            options.style = "inline"
-            if let style = getConfigValue("ios.style") as? String {
-                options.style = style
-            }
+        options.style = "inline"
+        if let style = getConfigValue("ios.style") as? String {
+            options.style = style
         }
 
-        if #available(iOS 13.0, *), UITraitCollection.current.userInterfaceStyle == .dark {
+        if UITraitCollection.current.userInterfaceStyle == .dark {
             options.theme = "dark"
         }
 
@@ -145,10 +143,8 @@ public class DatePickerPlugin: CAPPlugin {
     }
 
     private func datePickerOptions(from call: CAPPluginCall, original options: DatePickerOptions) -> DatePickerOptions {
-        if #available(iOS 14.0, *) {
-            if let style = call.getObject("ios")?["style"] as? String {
-                options.style = style
-            }
+        if let style = call.getObject("ios")?["style"] as? String {
+            options.style = style
         }
         if let theme = call.getObject("ios")?["theme"] as? String ?? call.getString("theme") {
             options.theme = theme
