@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/maintenance/yes/2024?style=flat-square" />
+  <img src="https://img.shields.io/maintenance/yes/2025?style=flat-square" />
   <a href="https://www.npmjs.com/package/@capacitor-community/date-picker"><img src="https://img.shields.io/npm/l/@capacitor-community/date-picker?style=flat-square" /></a>
 <br>
   <a href="https://www.npmjs.com/package/@capacitor-community/date-picker"><img src="https://img.shields.io/npm/dw/@capacitor-community/date-picker?style=flat-square" /></a>
