@@ -16,7 +16,7 @@ All notable changes to this project will be documented in this file. See [standa
 * **ios:** replace deprecated getConfigValue ([#96](https://github.com/capacitor-community/date-picker/issues/96)) ([ec75eb1](https://github.com/capacitor-community/date-picker/commit/ec75eb114de741182f8fb883b25c6523d7512dc3))
 * Remove unused files from res folder ([#93](https://github.com/capacitor-community/date-picker/issues/93)) ([e90d93a](https://github.com/capacitor-community/date-picker/commit/e90d93aab9909d87873d28367a1f5906d466f38a))
 
-## [7.1.0](https://github.com/capacitor-community/date-picker/compare/v6.0.0...v7.0.0) (2025-03-14)
+## [7.0.0](https://github.com/capacitor-community/date-picker/compare/v6.0.0...v7.0.0) (2025-03-14)
 
 ### ⚠ BREAKING CHANGES
 
