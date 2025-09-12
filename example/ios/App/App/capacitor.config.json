@@ -10,5 +10,9 @@
 		},
 		"DatePicker": {}
 	},
-	"cordova": {}
+	"cordova": {},
+	"packageClassList": [
+		"DatePickerPlugin",
+		"DevicePlugin"
+	]
 }
