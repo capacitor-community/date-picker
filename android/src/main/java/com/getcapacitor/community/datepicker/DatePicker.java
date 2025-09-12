@@ -71,12 +71,10 @@ public class DatePicker {
             cancelButton.setText(options.cancelText);
         }
 
-        cancelButton.setOnClickListener(
-            v -> {
-                callback.resolve(null);
-                timePicker.dismiss();
-            }
-        );
+        cancelButton.setOnClickListener(v -> {
+            callback.resolve(null);
+            timePicker.dismiss();
+        });
 
         timePicker.updateTime(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
 
@@ -130,12 +128,10 @@ public class DatePicker {
             cancelButton.setText(options.cancelText);
         }
 
-        cancelButton.setOnClickListener(
-            v -> {
-                callback.resolve(null);
-                datePicker.cancel();
-            }
-        );
+        cancelButton.setOnClickListener(v -> {
+            callback.resolve(null);
+            datePicker.cancel();
+        });
 
         datePicker.show();
     }
